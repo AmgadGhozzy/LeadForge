@@ -26,6 +26,7 @@ export class ImportService {
   ) {}
 
   async runImport(
+    ownerId: string,
     projectId: string,
     keyword: string,
     city?: string,
@@ -55,7 +56,7 @@ export class ImportService {
 
       for (const raw of searchResult.businesses) {
         try {
-          const result = await this.importer.process(raw, projectId, session.id, this.provider.name);
+          const result = await this.importer.process(raw, ownerId, projectId, session.id, this.provider.name);
           if (result.action === 'IMPORTED') imported++;
           if (result.action === 'UPDATED') updated++;
           if (result.action === 'SKIPPED') skipped++;

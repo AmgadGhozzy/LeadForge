@@ -19,7 +19,8 @@ export class AnalysisRepository {
       .select(`
         id,
         created_at,
-        lead_score
+        lead_score,
+        analysis_items(id)
       `)
       .eq('business_id', businessId)
       .eq('aggregate_hash', aggregateHash)
@@ -187,4 +188,22 @@ export class AnalysisRepository {
         .eq('id', data.id);
     }
   }
+
+  async saveUrgency(businessId: string, urgency: string): Promise<void> {
+    const { data } = await this.supabase
+      .from('website_analyses')
+      .select('id')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (data) {
+      await this.supabase
+        .from('website_analyses')
+        .update({ urgency })
+        .eq('id', data.id);
+    }
+  }
 }
+

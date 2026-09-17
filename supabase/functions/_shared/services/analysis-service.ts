@@ -40,13 +40,20 @@ export class AnalysisService {
       // 1. Build Canonical Profile
       const profile = await this.profileBuilder.build(businessId);
       
-      // 2. Check Cache
+      // 2. Check Cache — also verify items exist to catch ghost rows (header saved,
+      //    items failed) left by a previous constraint-violation rollback.
       const hasChanged = await this.analysisRepo.hasChanged(businessId, profile.aggregateHash);
       if (!hasChanged) {
-        this.logger.info('analysis.cached_hit', { businessId, hash: profile.aggregateHash });
-        await this.computeAndSavePriority(businessId, profile);
-        await this.businessRepo.update(businessId, { status: 'ANALYZED' });
-        return;
+        const cached = await this.analysisRepo.getCachedAnalysis(businessId, profile.aggregateHash);
+        const itemCount = cached?.analysis_items?.length ?? 0;
+        if (itemCount > 0) {
+          this.logger.info('analysis.cached_hit', { businessId, hash: profile.aggregateHash, items: itemCount });
+          await this.computeAndSavePriority(businessId, profile);
+          await this.businessRepo.update(businessId, { status: 'ANALYZED' });
+          return;
+        }
+        // Hash matches but no items — ghost row. Fall through and re-run Gemini.
+        this.logger.warn('analysis.ghost_row_detected', { businessId, hash: profile.aggregateHash });
       }
 
       // 3. Rate Limit Check

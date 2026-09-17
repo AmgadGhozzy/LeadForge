@@ -30,6 +30,7 @@ export class BusinessImporter {
    */
   async process(
     raw: RawBusinessData, 
+    ownerId: string,
     projectId: string, 
     sessionId: string,
     provider: ProviderType
@@ -42,7 +43,7 @@ export class BusinessImporter {
     }
 
     // 1. Deduplicate
-    const dedupe = await this.deduplicator.check(raw);
+    const dedupe = await this.deduplicator.check(raw, ownerId);
     
     if (dedupe.isDuplicate) {
       if (dedupe.matchType === 'place_id') {

@@ -77,6 +77,10 @@ serve(async (req) => {
             id,
             name,
             project_id
+          ),
+          offer_templates (
+            name,
+            slug
           )
         `)
         .eq("businesses.project_id", projectId!)

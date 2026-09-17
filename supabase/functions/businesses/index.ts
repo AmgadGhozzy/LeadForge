@@ -58,7 +58,7 @@ serve(async (req) => {
           next_action,
           next_action_reason,
           created_at,
-          analysis_items ( id, type, content )
+          analysis_items ( id, type, insight, severity )
         ),
         generated_messages ( id, email, whatsapp, proposal, cold_call_script, language, created_at )
       `)

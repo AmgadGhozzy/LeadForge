@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadForge — Architecture Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── Design System (from index.css dark theme) ─── */
+:root {
+  --bg:        #0a0e1a;
+  --bg-card:   #0d1221;
+  --bg-raised: #111827;
+  --bg-hover:  #161d2e;
+  --primary:   #0d9668;
+  --primary-d: #065f46;
+  --primary-l: #34d399;
+  --emerald:   #10b981;
+  --amber:     #f59e0b;
+  --purple:    #9333ea;
+  --blue:      #3b82f6;
+  --red:       #ef4444;
+  --red-dark:  #c72e2e;
+  --cyan:      #06b6d4;
+  --pink:      #ec4899;
+  --orange:    #f97316;
+  --fg:        #e2e8f0;
+  --fg-dim:    #7a849e;
+  --fg-muted:  #475569;
+  --border:    #1a2135;
+  --border-l:  #2d3a50;
+  --font:      'Inter', system-ui, sans-serif;
+  --mono:      'JetBrains Mono', 'Fira Code', monospace;
+  --radius:    12px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Header ─── */
+.hero {
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+  background: linear-gradient(180deg, #0d1628 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.hero h1 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--emerald), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.03em;
+}
+.hero .subtitle {
+  color: var(--fg-dim);
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+.hero .badges {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.hero .badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-l);
+  background: var(--bg-card);
+  color: var(--fg-dim);
+  font-family: var(--mono);
+}
+
+/* ─── Layout ─── */
+.container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* ─── Section Headers ─── */
+.section-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-title .icon {
+  width: 28px; height: 28px;
+  border-radius: var(--radius-xs);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+}
+.section-sub {
+  color: var(--fg-dim);
+  font-size: 0.82rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ─── Timeline ─── */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg,
+    var(--emerald) 0%,
+    var(--blue) 20%,
+    var(--purple) 40%,
+    var(--amber) 60%,
+    var(--cyan) 80%,
+    var(--red) 100%
+  );
+  border-radius: 2px;
+}
+
+.timeline-node {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.timeline-node::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 14px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: var(--bg);
+  z-index: 2;
+}
+
+.timeline-node[data-color="emerald"]::before { border-color: var(--emerald); box-shadow: 0 0 8px #10b98140; }
+.timeline-node[data-color="blue"]::before    { border-color: var(--blue); box-shadow: 0 0 8px #3b82f640; }
+.timeline-node[data-color="purple"]::before  { border-color: var(--purple); box-shadow: 0 0 8px #9333ea40; }
+.timeline-node[data-color="amber"]::before   { border-color: var(--amber); box-shadow: 0 0 8px #f59e0b40; }
+.timeline-node[data-color="cyan"]::before    { border-color: var(--cyan); box-shadow: 0 0 8px #06b6d440; }
+.timeline-node[data-color="red"]::before     { border-color: var(--red); box-shadow: 0 0 8px #ef444440; }
+.timeline-node[data-color="pink"]::before    { border-color: var(--pink); box-shadow: 0 0 8px #ec489940; }
+.timeline-node[data-color="primary"]::before { border-color: var(--primary); box-shadow: 0 0 8px #0d966840; }
+.timeline-node[data-color="orange"]::before  { border-color: var(--orange); box-shadow: 0 0 8px #f9731640; }
+
+.timeline-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  transition: border-color 0.2s;
+}
+.timeline-card:hover { border-color: var(--border-l); }
+
+.timeline-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.timeline-num {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-xs);
+  flex-shrink: 0;
+}
+.timeline-step-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.timeline-source {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--fg-muted);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.timeline-body { font-size: 0.82rem; color: var(--fg-dim); line-height: 1.65; }
+.timeline-body strong { color: var(--fg); font-weight: 600; }
+.timeline-body code {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  color: var(--primary-l);
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin: 0.15rem 0.2rem 0.15rem 0;
+  white-space: nowrap;
+}
+.tag-emerald   { background: #10b98118; color: var(--emerald); border: 1px solid #10b98130; }
+.tag-blue      { background: #3b82f618; color: var(--blue);    border: 1px solid #3b82f630; }
+.tag-purple    { background: #9333ea18; color: var(--purple);  border: 1px solid #9333ea30; }
+.tag-amber     { background: #f59e0b18; color: var(--amber);   border: 1px solid #f59e0b30; }
+.tag-red       { background: #ef444418; color: var(--red);     border: 1px solid #ef444430; }
+.tag-cyan      { background: #06b6d418; color: var(--cyan);    border: 1px solid #06b6d430; }
+.tag-pink      { background: #ec489918; color: var(--pink);    border: 1px solid #ec489930; }
+.tag-orange    { background: #f9731618; color: var(--orange);  border: 1px solid #f9731630; }
+
+.detail-list {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+}
+.detail-list li {
+  font-size: 0.78rem;
+  color: var(--fg-dim);
+  margin-bottom: 0.25rem;
+}
+.detail-list li strong { color: var(--fg); }
+
+/* ─── Prompt Layer ─── */
+.prompt-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.prompt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.prompt-name { font-weight: 700; font-size: 1rem; }
+.prompt-meta {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+}
+.prompt-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--fg-dim);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.prompt-block .k { color: var(--emerald); font-weight: 600; }
+.prompt-block .v { color: var(--amber); }
+.prompt-block .s { color: var(--purple); }
+.prompt-block .c { color: var(--cyan); }
+.prompt-block .r { color: var(--red); }
+.prompt-block .comment { color: var(--fg-muted); font-style: italic; }
+
+.prompt-json-schema {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.prompt-json-schema h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 0.5rem;
+}
+.json-field {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.2rem 0;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+.json-field .fname { color: var(--primary-l); font-weight: 600; min-width: 200px; }
+.json-field .ftype { color: var(--amber); }
+.json-field .fenum { color: var(--purple); font-size: 0.68rem; }
+
+/* ─── Settings Cards ─── */
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.setting-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+}
+.setting-card h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.setting-card h3 .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0;
+  font-size: 0.78rem;
+  border-bottom: 1px solid var(--border);
+}
+.setting-row:last-child { border-bottom: none; }
+.setting-row .label { color: var(--fg-dim); }
+.setting-row .value {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.74rem;
+}
+.setting-row .value.green  { color: var(--emerald); }
+.setting-row .value.amber  { color: var(--amber); }
+.setting-row .value.red    { color: var(--red); }
+.setting-row .value.blue   { color: var(--blue); }
+.setting-row .value.purple { color: var(--purple); }
+.setting-row .value.cyan   { color: var(--cyan); }
+
+/* ─── Error Table ─── */
+.error-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+.error-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.error-table thead th {
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-muted);
+  background: var(--bg-raised);
+  border-bottom: 2px solid var(--border-l);
+}
+.error-table tbody td {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.error-table tbody tr:hover { background: var(--bg-hover); }
+
+.status-badge {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 36px;
+  text-align: center;
+}
+.status-2xx { background: #10b98118; color: var(--emerald); border: 1px solid #10b98130; }
+.status-3xx { background: #3b82f618; color: var(--blue);    border: 1px solid #3b82f630; }
+.status-4xx { background: #f59e0b18; color: var(--amber);   border: 1px solid #f59e0b30; }
+.status-5xx { background: #ef444418; color: var(--red);     border: 1px solid #ef444430; }
+
+.code-badge {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  background: var(--bg-raised);
+  color: var(--cyan);
+  border: 1px solid var(--border);
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--fg-muted); border-radius: 3px; }
+
+/* ─── Footer ─── */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--fg-muted);
+  font-size: 0.72rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- HERO                                                                      -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <h1>LeadForge Architecture Flow</h1>
+  <p class="subtitle">Full request lifecycle: User Input → Pipeline → Gemini AI → Response → Display → Logging</p>
+  <div class="badges">
+    <span class="badge">React 19</span>
+    <span class="badge">Vite 8</span>
+    <span class="badge">TypeScript 6</span>
+    <span class="badge">Supabase Edge Fn</span>
+    <span class="badge">Gemini 2.5 Flash</span>
+    <span class="badge">Google Places API</span>
+    <span class="badge">Tailwind v4</span>
+    <span class="badge">TanStack Query</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- 1. TIMELINE: FULL REQUEST LIFECYCLE                                       -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<div style="margin-bottom: 3rem;">
+  <div class="section-title">
+    <span class="icon" style="background:#10b98118; color:var(--emerald);">⚡</span>
+    Request Lifecycle Timeline
+  </div>
+  <p class="section-sub">Traces a single request from browser to Gemini and back. Each node = one verifiable code reference.</p>
+
+  <div class="timeline">
+
+    <!-- 1 ─── User Input ─── -->
+    <div class="timeline-node" data-color="emerald">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#10b98118; color:var(--emerald);">01</span>
+          <span class="timeline-step-title">User Input</span>
+          <span class="timeline-source">SearchForm.tsx → use-import-businesses.ts</span>
+        </div>
+        <div class="timeline-body">
+          User fills the <strong>SearchForm</strong>: <code>keyword</code> (e.g. "Dentists"), <code>city</code>, <code>country</code>. Form calls <code>onSubmit({ keyword, city, country })</code> which triggers the React Query mutation <code>useImportBusinesses</code>. For analysis/enrichment/sales actions, the user clicks a button on a business card → <code>useAnalyzeBusiness</code> / <code>useEnrichBusiness</code> / <code>useGenerateSales</code>.
+          <ul class="detail-list">
+            <li><strong>Import input:</strong> keyword (required), city, country</li>
+            <li><strong>Analyze input:</strong> business_id only</li>
+            <li><strong>Sales input:</strong> business_id + language (default <code>'en'</code>, supports <code>ar</code>, <code>fr</code>)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 ─── API Client ─── -->
+    <div class="timeline-node" data-color="blue">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#3b82f618; color:var(--blue);">02</span>
+          <span class="timeline-step-title">API Client</span>
+          <span class="timeline-source">lib/api-client.ts → supabase.functions.invoke()</span>
+        </div>
+        <div class="timeline-body">
+          <code>api.post('import-businesses', body)</code> calls <code>invokeFunction()</code> which wraps <code>supabase.functions.invoke()</code>. The Supabase SDK injects the user's <strong>JWT</strong> in the <code>Authorization</code> header automatically.
+          <ul class="detail-list">
+            <li><strong>Format:</strong> <code>supabase.functions.invoke(path, { method, body })</code></li>
+            <li><strong>Error extraction:</strong> Parses <code>FunctionsHttpError.context</code> for <code>error.code</code> and <code>error.message</code></li>
+            <li>⚠️ <code>console.log()</code> still active in production — logs full API responses</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 ─── CORS Middleware ─── -->
+    <div class="timeline-node" data-color="purple">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#9333ea18; color:var(--purple);">03</span>
+          <span class="timeline-step-title">CORS Middleware</span>
+          <span class="timeline-source">_shared/cors.ts</span>
+        </div>
+        <div class="timeline-body">
+          Every edge function runs <code>handleCors(req)</code> first. If <code>req.method === 'OPTIONS'</code>, returns <code>200 "ok"</code> with headers. All responses include:
+          <div style="margin:0.5rem 0; padding:0.6rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border); font-family:var(--mono); font-size:0.72rem; color:var(--fg-dim);">
+            <span style="color:var(--emerald);">Access-Control-Allow-Origin</span>: <span style="color:var(--amber);">*</span><br>
+            <span style="color:var(--emerald);">Access-Control-Allow-Headers</span>: <span style="color:var(--amber);">authorization, x-client-info, apikey, content-type</span><br>
+            <span style="color:var(--emerald);">Access-Control-Allow-Methods</span>: <span style="color:var(--amber);">GET, POST, PUT, DELETE, OPTIONS</span>
+          </div>
+          <span class="tag tag-red">CORS: Wide-open wildcard — restrict before production</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 ─── Logger ─── -->
+    <div class="timeline-node" data-color="cyan">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#06b6d418; color:var(--cyan);">04</span>
+          <span class="timeline-step-title">Logger Initialization</span>
+          <span class="timeline-source">_shared/observability/logger.ts</span>
+        </div>
+        <div class="timeline-body">
+          <code>createLogger(req)</code> generates a unique <code>X-Request-ID</code> from headers, attaches it to every subsequent log entry and error response. Every step logs structured events (e.g. <code>request.started</code>, <code>analysis.started</code>).
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 ─── HTTP Method Guard ─── -->
+    <div class="timeline-node" data-color="orange">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#f9731618; color:var(--orange);">05</span>
+          <span class="timeline-step-title">HTTP Method Guard</span>
+          <span class="timeline-source">index.ts (each edge function)</span>
+        </div>
+        <div class="timeline-body">
+          If the request method doesn't match (e.g. <code>GET</code> on an import endpoint), immediately returns:
+          <div style="margin:0.4rem 0; padding:0.4rem 0.6rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border); font-family:var(--mono); font-size:0.72rem;">
+            <span style="color:var(--amber);">405</span> <span style="color:var(--red);">METHOD_NOT_ALLOWED</span> — "Method not allowed"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 ─── Body Parsing ─── -->
+    <div class="timeline-node" data-color="emerald">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#10b98118; color:var(--emerald);">06</span>
+          <span class="timeline-step-title">Body Parsing & Validation</span>
+          <span class="timeline-source">_shared/response.ts → req.json()</span>
+        </div>
+        <div class="timeline-body">
+          For <code>POST</code> requests, the body is parsed. Missing required fields return immediately:
+          <div style="margin:0.4rem 0; display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <span style="font-family:var(--mono); font-size:0.72rem; padding:0.2rem 0.5rem; background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--amber);">400 <span style="color:var(--red);">BAD_REQUEST</span></span>
+            <span style="font-family:var(--mono); font-size:0.72rem; padding:0.2rem 0.5rem; background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--amber);">400 <span style="color:var(--red);">MISSING_FIELD</span></span>
+          </div>
+          <ul class="detail-list">
+            <li>Import: requires <code>project_id</code> + <code>keyword</code></li>
+            <li>Analyze/Enrich/Sales: requires <code>business_id</code></li>
+            <li>Sales also validates <code>language</code> ∈ [<code>en</code>, <code>ar</code>, <code>fr</code>]</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 ─── Authentication ─── -->
+    <div class="timeline-node" data-color="red">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#ef444418; color:var(--red);">07</span>
+          <span class="timeline-step-title">Authentication</span>
+          <span class="timeline-source">_shared/auth/context.ts → authenticate()</span>
+        </div>
+        <div class="timeline-body">
+          <code>authenticate(req)</code> extracts the <code>Authorization</code> header, creates a Supabase client scoped to the user's JWT, then calls <code>getUser(token)</code> to validate. Returns an <code>AuthenticatedContext</code>:
+          <div style="margin:0.5rem 0; padding:0.6rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border); font-family:var(--mono); font-size:0.72rem; color:var(--fg-dim);">
+{ <span style="color:var(--emerald);">user</span>: User,        <span style="color:var(--comment);">// Authenticated user</span><br>
+  <span style="color:var(--emerald);">client</span>: Supabase,   <span style="color:var(--comment);">// RLS-enforced (user's JWT)</span><br>
+  <span style="color:var(--emerald);">service</span>: Supabase,  <span style="color:var(--comment);">// Admin client (bypasses RLS)</span><br>
+  <span style="color:var(--emerald);">logger</span>: Logger }
+          </div>
+          <div style="margin:0.4rem 0; display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <span style="font-family:var(--mono); font-size:0.72rem; padding:0.2rem 0.5rem; background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--amber);">401 <span style="color:var(--red);">UNAUTHORIZED_NO_AUTH_HEADER</span></span>
+            <span style="font-family:var(--mono); font-size:0.72rem; padding:0.2rem 0.5rem; background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--amber);">401 <span style="color:var(--red);">UNAUTHORIZED_INVALID_TOKEN</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 ─── Ownership Verification ─── -->
+    <div class="timeline-node" data-color="purple">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#9333ea18; color:var(--purple);">08</span>
+          <span class="timeline-step-title">Ownership Verification</span>
+          <span class="timeline-source">_shared/auth/verification.ts</span>
+        </div>
+        <div class="timeline-body">
+          <code>verifyBusinessOwnership(ctx, id)</code> or <code>verifyProjectOwnership(ctx, id)</code> queries using the <strong>user-scoped</strong> client (RLS enforced). If the row isn't found or isn't owned, throws:
+          <span class="tag tag-amber">FORBIDDEN_OR_NOT_FOUND → 403</span>
+          RLS policy: <code>projects.owner_id = auth.uid()</code> → <code>businesses.project_id → projects</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 ─── Rate Limiter ─── -->
+    <div class="timeline-node" data-color="amber">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#f59e0b18; color:var(--amber);">09</span>
+          <span class="timeline-step-title">Rate Limiter</span>
+          <span class="timeline-source">_shared/services/rate-limiter.ts → increment_usage RPC</span>
+        </div>
+        <div class="timeline-body">
+          <code>RateLimiter.checkAndIncrement(userId, type, maxLimit)</code> calls the Postgres RPC <code>increment_usage(p_user_id, p_usage_type, p_max_limit)</code>.
+          <ul class="detail-list">
+            <li><strong>Import:</strong> <code>maxLimit = 100</code> per day per user</li>
+            <li><strong>Gemini (Analysis):</strong> <code>maxLimit = 50</code> per day per user</li>
+            <li><strong>Failure mode:</strong> <span class="tag tag-amber">Fail Open</span> — if RPC fails, the request proceeds (beta mode)</li>
+          </ul>
+          <div style="margin:0.4rem 0; display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <span style="font-family:var(--mono); font-size:0.72rem; padding:0.2rem 0.5rem; background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--amber);">429 <span style="color:var(--red);">RATE_LIMIT_EXCEEDED</span></span>
+          </div>
+          <span class="tag tag-red">⚠️ SECURITY: increment_usage is SECURITY DEFINER without search_path — risk of privilege escalation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 ─── IMPORT PIPELINE ─── -->
+    <div class="timeline-node" data-color="emerald">
+      <div class="timeline-card" style="border-color: var(--emerald); border-width:2px;">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#10b981; color:#000;">10</span>
+          <span class="timeline-step-title" style="color:var(--emerald);">IMPORT PIPELINE</span>
+          <span class="timeline-source">import-businesses/index.ts → ImportService → BusinessImporter</span>
+        </div>
+        <div class="timeline-body">
+          <strong>Full import pipeline (synchronous, v1):</strong>
+          <ol style="margin:0.5rem 0; padding-left:1.2rem; list-style:decimal; color:var(--fg-dim); font-size:0.78rem;">
+            <li style="margin-bottom:0.3rem;"><strong>Google Places Search</strong> — <code>TextSearch</code> with <code>FIELD_MASK</code> (Basic+Contact), ≤60 results (3 pages × 20)</li>
+            <li style="margin-bottom:0.3rem;"><strong>Location Validation</strong> — skips businesses whose address doesn't reference the requested city</li>
+            <li style="margin-bottom:0.3rem;"><strong>Deduplication</strong> — by <code>place_id</code> → <code>website</code> → <code>phone</code>, scoped by <code>owner_id</code> via <code>projects!inner</code></li>
+            <li style="margin-bottom:0.3rem;"><strong>Health Scoring</strong> — weighted: website <span style="color:var(--emerald);">25</span> + phone <span style="color:var(--emerald);">20</span> + rating <span style="color:var(--emerald);">10</span> + reviews>10 <span style="color:var(--emerald);">10</span> + reviews>50 <span style="color:var(--emerald);">5</span> + address <span style="color:var(--emerald);">10</span> + category <span style="color:var(--emerald);">10</span> + coordinates <span style="color:var(--emerald);">10</span> = <span style="color:var(--amber);">100</span></li>
+            <li style="margin-bottom:0.3rem;"><strong>Status Assignment</strong> — score ≥ 50 AND has website → <code>READY_FOR_ANALYSIS</code>, else <code>NEW</code></li>
+            <li style="margin-bottom:0.3rem;"><strong>Session Tracking</strong> — creates <code>import_sessions</code> row with per-batch counters (new/updated/failed)</li>
+          </ol>
+          <div style="margin-top:0.5rem; padding:0.4rem 0.6rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border); font-family:var(--mono); font-size:0.72rem;">
+            Provider: <span style="color:var(--emerald);">GOOGLE_PLACES</span> &nbsp;|&nbsp; Max results: <span style="color:var(--amber);">maxImportPages × 20</span> &nbsp;|&nbsp; API cost tracked via <span style="color:var(--cyan);">CostTracker</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 ─── ENRICHMENT PIPELINE ─── -->
+    <div class="timeline-node" data-color="blue">
+      <div class="timeline-card" style="border-color: var(--blue); border-width:2px;">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#3b82f6; color:#fff;">11</span>
+          <span class="timeline-step-title" style="color:var(--blue);">ENRICHMENT PIPELINE</span>
+          <span class="timeline-source">enrich-business/index.ts → EnrichmentService → NativeScraper → DetectionEngine</span>
+        </div>
+        <div class="timeline-body">
+          <strong>Website scraping + capability detection:</strong>
+          <ol style="margin:0.5rem 0; padding-left:1.2rem; list-style:decimal; color:var(--fg-dim); font-size:0.78rem;">
+            <li style="margin-bottom:0.3rem;"><strong>Native HTTP Scraper</strong> — crawls 5 sub-pages: <code>/</code>, <code>/about</code>, <code>/contact</code>, <code>/services</code>, <code>/booking</code>. Fetch-only (no headless browser), 10s timeout per page, robots.txt respecting.</li>
+            <li style="margin-bottom:0.3rem;"><strong>Regex HTML Parser</strong> — extracts: title, meta, phone, email, address, social links, WhatsApp, text chunks, links. No DOM library → SPA sites yield empty text.</li>
+            <li style="margin-bottom:0.3rem;"><strong>Detection Engine</strong> (8 detectors): <span class="tag tag-emerald">Analytics</span> <span class="tag tag-blue">Booking</span> <span class="tag tag-purple">Chatbot</span> <span class="tag tag-amber">Contact</span> <span class="tag tag-red">Pixel</span> <span class="tag tag-pink">Social</span> <span class="tag tag-cyan">Tech Stack</span> <span class="tag tag-orange">WhatsApp</span></li>
+            <li style="margin-bottom:0.3rem;"><strong>Persist</strong> — normalized rows → <code>website_pages</code>, <code>website_content</code>, <code>business_capabilities</code>, <code>business_technologies</code>, <code>contacts</code></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 ─── PROFILE BUILDER ─── -->
+    <div class="timeline-node" data-color="purple">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#9333ea18; color:var(--purple);">12</span>
+          <span class="timeline-step-title">Canonical Profile Builder</span>
+          <span class="timeline-source">_shared/services/profile-builder.ts</span>
+        </div>
+        <div class="timeline-body">
+          Merges all data into a single <code>CanonicalBusinessProfile</code>:
+          <ul class="detail-list">
+            <li><strong>Content caps:</strong> HOME <span style="color:var(--emerald);">4000</span> | SERVICES <span style="color:var(--emerald);">3000</span> | ABOUT <span style="color:var(--emerald);">1500</span> | CONTACT <span style="color:var(--emerald);">1000</span> | BOOKING <span style="color:var(--emerald);">1000</span> chars</li>
+            <li><strong>Knowledge Score (0–100):</strong> website <span style="color:var(--amber);">+30</span> | scraped pages <span style="color:var(--amber);">+20</span> | contacts <span style="color:var(--amber);">+20</span> | address <span style="color:var(--amber);">+10</span> | tech <span style="color:var(--amber);">+10</span> | reviews <span style="color:var(--amber);">+10</span></li>
+            <li><strong>Analysis Source:</strong> <code>FULL_WEBSITE</code> | <code>PARTIAL_WEBSITE</code> | <code>GOOGLE_PLACES_ONLY</code></li>
+            <li><strong>Confidence (hardcoded):</strong> extraction <span style="color:var(--amber);">90</span> | detection <span style="color:var(--amber);">95</span> | overall <span style="color:var(--amber);">92</span></li>
+            <li><strong>Signals:</strong> BOOKING_MISSING, WHATSAPP_MISSING, CHATBOT_MISSING, NO_SOCIAL_LINKS, SSL_MISSING</li>
+            <li><strong>Aggregate Hash:</strong> SHA-256 of the entire profile for cache invalidation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13 ─── CACHE CHECK ─── -->
+    <div class="timeline-node" data-color="cyan">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#06b6d418; color:var(--cyan);">13</span>
+          <span class="timeline-step-title">Analysis Cache Check</span>
+          <span class="timeline-source">_shared/repositories/analysis-repo.ts</span>
+        </div>
+        <div class="timeline-body">
+          Compares <code>aggregate_hash</code> with the most recent stored analysis. If identical AND <code>analysis_items</code> exist (ghost-row guard added in Phase 1.9), skips Gemini and recomputes priority from cached score. Otherwise proceeds to the AI call.
+        </div>
+      </div>
+    </div>
+
+    <!-- 14 ─── PROMPT CONSTRUCTION ─── -->
+    <div class="timeline-node" data-color="pink">
+      <div class="timeline-card" style="border-color: var(--pink); border-width:2px;">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#ec4899; color:#fff;">14</span>
+          <span class="timeline-step-title" style="color:var(--pink);">PROMPT CONSTRUCTION</span>
+          <span class="timeline-source">_shared/ai/prompt-builder.ts → consultantV2.systemInstruction()</span>
+        </div>
+        <div class="timeline-body">
+          <strong>User prompt:</strong> <code>PromptBuilder.buildUserPrompt(profile)</code> serializes: identity, reputation, digitalPresence (pages + content with caps), contacts, technologies, verified_facts, knowledge_score. <br><br>
+          <strong>System instruction:</strong> Injected by <code>consultantV2.systemInstruction(context)</code> — receives offer templates as context and appends them to the prompt. Contains 6 critical rules + 6 analysis steps + strict JSON output schema. <strong>See full prompt layers in the Prompt Section below.</strong>
+          <div style="margin-top:0.5rem;">
+            <span class="tag tag-pink">consultant-v2.2-hybrid</span>
+            <span class="tag tag-purple">temperature: 0.2</span>
+            <span class="tag tag-amber">timeout: 90s</span>
+            <span class="tag tag-emerald">responseMimeType: application/json</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15 ─── GEMINI API CALL (Analysis) ─── -->
+    <div class="timeline-node" data-color="amber">
+      <div class="timeline-card" style="border-color: var(--amber); border-width:2px;">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#f59e0b; color:#000;">15</span>
+          <span class="timeline-step-title" style="color:var(--amber);">GEMINI API CALL — Analysis</span>
+          <span class="timeline-source">_shared/ai/gemini-service.ts → analyze()</span>
+        </div>
+        <div class="timeline-body">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:0.5rem; margin:0.5rem 0;">
+            <div style="padding:0.5rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border);">
+              <div style="font-size:0.68rem; color:var(--fg-muted); margin-bottom:0.2rem;">Model</div>
+              <div style="font-family:var(--mono); font-size:0.78rem; color:var(--emerald); font-weight:700;">gemini-2.5-flash</div>
+            </div>
+            <div style="padding:0.5rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border);">
+              <div style="font-size:0.68rem; color:var(--fg-muted); margin-bottom:0.2rem;">Temperature</div>
+              <div style="font-family:var(--mono); font-size:0.78rem; color:var(--amber); font-weight:700;">0.2</div>
+            </div>
+            <div style="padding:0.5rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border);">
+              <div style="font-size:0.68rem; color:var(--fg-muted); margin-bottom:0.2rem;">Timeout</div>
+              <div style="font-family:var(--mono); font-size:0.78rem; color:var(--red); font-weight:700;">90 seconds</div>
+            </div>
+            <div style="padding:0.5rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border);">
+              <div style="font-size:0.68rem; color:var(--fg-muted); margin-bottom:0.2rem;">Response Schema</div>
+              <div style="font-family:var(--mono); font-size:0.78rem; color:var(--cyan); font-weight:700;">consultantResponseSchema</div>
+            </div>
+          </div>
+          POST to <code>https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=…</code>
+          <br>AbortController enforces the 90s timeout → throws <code>AI_TIMEOUT</code> (504) on abort.
+        </div>
+      </div>
+    </div>
+
+    <!-- 16 ─── AI Validator ─── -->
+    <div class="timeline-node" data-color="red">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#ef444418; color:var(--red);">16</span>
+          <span class="timeline-step-title">AI Output Validation</span>
+          <span class="timeline-source">_shared/ai/validator.ts → AiValidator.validate()</span>
+        </div>
+        <div class="timeline-body">
+          Validates the raw Gemini JSON against strict rules before persisting. Coerces invalid values instead of failing when possible:
+          <ul class="detail-list">
+            <li>Required strings: <code>business_summary</code>, <code>sales_angle</code>, <code>recommended_offer</code>, <code>score_explanation</code>, <code>confidence_score</code></li>
+            <li><code>lead_score</code>: number 0–100 | <code>confidence_score</code>: HIGH | MEDIUM | LOW</li>
+            <li>Arrays: <code>strengths</code>, <code>weaknesses</code>, <code>automation_opportunities</code>, <code>ai_opportunities</code> — each item validated as EvidenceItem</li>
+            <li>Invalid <code>evidence_level</code> → coerced to <code>MEDIUM</code> | Invalid <code>impact_type</code> → coerced to <code>Operations</code></li>
+            <li><code>positive_signals</code> / <code>negative_signals</code> default to <code>[]</code> (excluded from responseSchema to avoid "too many states" error)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 17 ─── PRIORITY CALCULATOR ─── -->
+    <div class="timeline-node" data-color="blue">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#3b82f618; color:var(--blue);">17</span>
+          <span class="timeline-step-title">Priority Calculator</span>
+          <span class="timeline-source">_shared/services/priority-calculator.ts</span>
+        </div>
+        <div class="timeline-body">
+          Deterministic, no LLM — computes from contact channels + lead score:
+          <ul class="detail-list">
+            <li><strong>Sales Readiness (0–20 cap if no contacts):</strong> EMAIL <span style="color:var(--emerald);">+25</span> | PHONE <span style="color:var(--emerald);">+20</span> | WHATSAPP <span style="color:var(--emerald);">+20</span> | LINKEDIN <span style="color:var(--emerald);">+10</span> | Website <span style="color:var(--emerald);">+15</span> | Address <span style="color:var(--emerald);">+10</span></li>
+            <li><strong>Priority Score:</strong> <code>0.55 × leadScore + 0.45 × salesReadiness</code></li>
+            <li><strong>Priority Tier:</strong> IMMEDIATE <span style="color:var(--emerald);">≥90</span> | HIGH <span style="color:var(--blue);">≥70</span> | MEDIUM <span style="color:var(--amber);">≥50</span> | LOW <span style="color:var(--red);">< 50</span></li>
+            <li><strong>Next Best Action:</strong> CALL (phone + score≥70) → EMAIL (professional domain) → WHATSAPP → EMAIL (any) → CALL (phone only) → IGNORE (no contacts)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18 ─── SAVE RESULTS ─── -->
+    <div class="timeline-node" data-color="emerald">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#10b98118; color:var(--emerald);">18</span>
+          <span class="timeline-step-title">Save Results & Track Costs</span>
+          <span class="timeline-source">_shared/repositories/analysis-repo.ts → upsert_website_analysis RPC</span>
+        </div>
+        <div class="timeline-body">
+          Atomic upsert via Postgres RPC <code>upsert_website_analysis</code> — upserts the <code>website_analyses</code> row and replaces all <code>analysis_items</code> in one transaction. Business status updated to <code>ANALYZED</code>. CostTracker records token usage and provider costs.
+          <div style="margin-top:0.4rem;">
+            <span class="tag tag-emerald">ANALYZED</span>
+            <span class="tag tag-cyan">CostTracker: provider=gemini, model, tokens</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 19 ─── SALES GENERATION ─── -->
+    <div class="timeline-node" data-color="pink">
+      <div class="timeline-card" style="border-color: var(--pink); border-width:2px;">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#ec4899; color:#fff;">19</span>
+          <span class="timeline-step-title" style="color:var(--pink);">SALES GENERATION PIPELINE</span>
+          <span class="timeline-source">generate-sales/index.ts → SalesService</span>
+        </div>
+        <div class="timeline-body">
+          <strong>Triggered by "Generate Sales" button → separate endpoint:</strong>
+          <ol style="margin:0.5rem 0; padding-left:1.2rem; list-style:decimal; color:var(--fg-dim); font-size:0.78rem;">
+            <li style="margin-bottom:0.3rem;"><strong>Load Analysis</strong> — <code>getFullAnalysis(businessId)</code> joins <code>analysis_items</code></li>
+            <li style="margin-bottom:0.3rem;"><strong>Offer Matcher</strong> — scores all offers against analysis (Industry <span style="color:var(--emerald);">+30</span>, Weakness ×15 <span style="color:var(--emerald);">max +45</span>, Capability gap <span style="color:var(--emerald);">+20</span>, Tech gap <span style="color:var(--emerald);">+15</span>, AI alignment <span style="color:var(--emerald);">+20</span>, Lead score bonus <span style="color:var(--emerald);">+10</span>) → <strong>Top 3</strong></li>
+            <li style="margin-bottom:0.3rem;"><strong>Gemini Call</strong> — model <code>gemini-2.5-flash</code>, temperature <span style="color:var(--amber);">0.4</span>, timeout <span style="color:var(--red);">60s</span></li>
+            <li style="margin-bottom:0.3rem;"><strong>Post-Validate</strong> — selected offer must be one of the Top 3 (fallback to highest-scored if not)</li>
+            <li style="margin-bottom:0.3rem;"><strong>Advisory Lock</strong> — Postgres advisory lock prevents concurrent sales generation for the same business</li>
+            <li style="margin-bottom:0.3rem;"><strong>Content-Hash Cache</strong> — <code>SHA-256(aggregate_hash|offer_slugs|language)</code> → returns cached result if identical</li>
+            <li style="margin-bottom:0.3rem;"><strong>Save</strong> → <code>generated_messages</code> table (email, whatsapp, cold_call_script, follow_up_sequence, urgency)</li>
+          </ol>
+          <div style="margin-top:0.5rem; padding:0.4rem 0.6rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border); font-family:var(--mono); font-size:0.72rem;">
+            Output format: <span style="color:var(--emerald);">"Subject: ...\n\n{body}"</span> for email | <span style="color:var(--amber);">JSON.stringify()</span> for cold_call_script
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 20 ─── SAVE URGENCY ─── -->
+    <div class="timeline-node" data-color="orange">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#f9731618; color:var(--orange);">20</span>
+          <span class="timeline-step-title">Save Urgency</span>
+          <span class="timeline-source">_shared/repositories/analysis-repo.ts:192 → saveUrgency()</span>
+        </div>
+        <div class="timeline-body">
+          If the sales generation was NOT cached and a <code>proposal</code> (urgency) was generated, writes it to the latest <code>website_analyses</code> row. This method was <span class="tag tag-red">missing pre-Phase 1.9</span> and caused the entire sales endpoint to crash. Now implemented and functional.
+        </div>
+      </div>
+    </div>
+
+    <!-- 21 ─── RESPONSE ─── -->
+    <div class="timeline-node" data-color="cyan">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#06b6d418; color:var(--cyan);">21</span>
+          <span class="timeline-step-title">Response</span>
+          <span class="timeline-source">_shared/response.ts → success() / error()</span>
+        </div>
+        <div class="timeline-body">
+          Standardized response format:
+          <div style="margin:0.5rem 0; padding:0.6rem; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border); font-family:var(--mono); font-size:0.72rem; line-height:1.8;">
+            <span style="color:var(--emerald);">Success:</span> <span style="color:var(--fg-dim);">{ data: &lt;payload&gt;, error: null }</span><br>
+            <span style="color:var(--red);">Error:</span>   <span style="color:var(--fg-dim);">{ data: null, error: { message: "...", code: "ERROR_CODE" } }</span>
+          </div>
+          All responses include <code>X-Request-ID</code> header for tracing.
+        </div>
+      </div>
+    </div>
+
+    <!-- 22 ─── Frontend Render ─── -->
+    <div class="timeline-node" data-color="emerald">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#10b98118; color:var(--emerald);">22</span>
+          <span class="timeline-step-title">Frontend Display</span>
+          <span class="timeline-source">hooks/use-business.ts → TanStack Query → Components</span>
+        </div>
+        <div class="timeline-body">
+          On success, the React Query mutation invalidates relevant query keys (<code>['businesses']</code>, <code>['business', id]</code>, <code>['dashboard-stats']</code>), triggering a refetch. The hook <code>useBusiness</code> normalizes <code>website_analyses</code> (handles object-vs-array from PostgREST), sorts by <code>created_at</code>. Components re-render:
+          <ul class="detail-list">
+            <li><strong>LeadWorkspace:</strong> ScoreExplainer, BusinessSnapshot, AnalysisDetails, SalesAssetsModals</li>
+            <li><strong>Pipeline:</strong> Filters by priority tier + next_action segment</li>
+            <li><strong>Dashboard (Command Center):</strong> Today's Execution counts + Opportunity Segments via Priority Engine + Next Best Action</li>
+            <li><strong>Toasts:</strong> <code>sonner</code> — success/info/error with human-readable messages per error code</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 23 ─── Logging ─── -->
+    <div class="timeline-node" data-color="amber">
+      <div class="timeline-card">
+        <div class="timeline-header">
+          <span class="timeline-num" style="background:#f59e0b18; color:var(--amber);">23</span>
+          <span class="timeline-step-title">Logging & Observability</span>
+          <span class="timeline-source">_shared/observability/</span>
+        </div>
+        <div class="timeline-body">
+          Structured logging at every step: <code>request.started</code> → <code>analysis.started</code> → <code>analysis.cached_hit</code> or <code>gemini.analyze_success</code> → <code>analysis.priority_computed</code> → <code>analysis.completed</code> or <code>analysis.failed</code>. CostTracker records per-request token usage. API usage tracked in <code>api_usage</code> table. All logs include <code>X-Request-ID</code>, <code>userId</code>, <code>businessId</code>.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- 2. PROMPT LAYERS                                                          -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<div style="margin-bottom:3rem;">
+  <div class="section-title">
+    <span class="icon" style="background:#ec489918; color:var(--pink);">🤖</span>
+    Prompt Architecture — System Instructions & Output Schemas
+  </div>
+  <p class="section-sub">Each prompt tag and its purpose, extracted from the actual prompt files.</p>
+
+  <!-- Consultant Prompt -->
+  <div class="prompt-section">
+    <div class="prompt-header">
+      <span class="prompt-name">📋 consultant-v2.2-hybrid — Analysis Prompt</span>
+      <span class="prompt-meta">prompts/consultant-v2.ts | gemini-2.5-flash | temp 0.2</span>
+    </div>
+
+    <div style="margin-bottom:1rem;">
+      <div style="font-size:0.78rem; font-weight:600; color:var(--fg); margin-bottom:0.4rem;">System Instruction — Critical Rules (6 tags):</div>
+      <div class="prompt-block"><span class="k">Role:</span> <span class="v">Senior Business Consultant, AI Automation Expert, B2B Sales Strategist</span>
+
+<span class="k">══════ CRITICAL RULES ══════</span>
+
+<span class="s">1. THE PAGE SUMMARIES INCLUDE REAL WEBSITE CONTENT.</span>
+   Use the actual text content provided in <span class="c">pageSummaries</span> as evidence.
+
+<span class="s">2. NO WEBSITE FALLBACK (HALLUCINATION GUARD).</span>
+   If <span class="r">knowledge_score &lt; 30</span> or no pages provided → confidence MUST be LOW.
+   Do NOT invent findings about missing SSL/Booking if the website is missing.
+
+<span class="s">3. DO NOT RESTATE FACTS. TRANSLATE TO INSIGHTS.</span>
+   Fact: "No booking" → Insight: "Losing after-hours appointments."
+
+<span class="s">4. SEVERITY RANKING.</span>
+   Critical | High | Medium | Low | Info
+   Critical = Direct revenue loss or severe operational failure.
+
+<span class="s">5. TECHNICAL FIXES.</span>
+   Provide specific fix: "Install Calendly widget on /contact"
+
+<span class="s">6. SUGGESTED OFFERS (TOP 3).</span>
+   Pick from templates. Include slug + name + confidence.</div>
+    </div>
+
+    <div style="margin-bottom:1rem;">
+      <div style="font-size:0.78rem; font-weight:600; color:var(--fg); margin-bottom:0.4rem;">System Instruction — Analysis Steps (6 steps):</div>
+      <div class="prompt-block"><span class="k">Step 1 — business_summary</span>
+   <span class="v">2-3 sentences: What they do? Audience? Maturity level?</span>
+
+<span class="k">Step 2 — strengths & weaknesses & opportunities</span>
+   <span class="v">Array of EvidenceItem (see schema below)</span>
+
+<span class="k">Step 3 — sales_angle</span>
+   <span class="v">One powerful sentence. The hook for the first 10 seconds.</span>
+
+<span class="k">Step 4 — recommended_offer</span>
+   <span class="v">SINGLE most impactful offer slug from Available Templates.</span>
+
+<span class="k">Step 5 — lead_score (0-100)</span>
+   <span class="v">How desperate/ready is this business to buy AI/Automation?</span>
+
+<span class="k">Step 6 — score_explanation & confidence_score</span>
+   <span class="v">Explain the score. Set to HIGH | MEDIUM | LOW.</span>
+
+<span class="r">OUTPUT: Strictly follow the JSON schema. No markdown.</span></div>
+    </div>
+
+    <div>
+      <div style="font-size:0.78rem; font-weight:600; color:var(--fg); margin-bottom:0.4rem;">Output Schema — consultantResponseSchema:</div>
+      <div class="prompt-json-schema">
+        <h4>Top-Level Fields</h4>
+        <div class="json-field"><span class="fname">business_summary</span><span class="ftype">STRING</span></div>
+        <div class="json-field"><span class="fname">business_summary_confidence</span><span class="ftype">NUMBER</span></div>
+        <div class="json-field"><span class="fname">strengths</span><span class="ftype">ARRAY&lt;EvidenceItem&gt;</span></div>
+        <div class="json-field"><span class="fname">weaknesses</span><span class="ftype">ARRAY&lt;EvidenceItem&gt;</span></div>
+        <div class="json-field"><span class="fname">automation_opportunities</span><span class="ftype">ARRAY&lt;EvidenceItem&gt;</span></div>
+        <div class="json-field"><span class="fname">ai_opportunities</span><span class="ftype">ARRAY&lt;EvidenceItem&gt;</span></div>
+        <div class="json-field"><span class="fname">sales_angle</span><span class="ftype">STRING</span></div>
+        <div class="json-field"><span class="fname">recommended_offer</span><span class="ftype">STRING</span></div>
+        <div class="json-field"><span class="fname">recommended_offer_confidence</span><span class="ftype">NUMBER</span></div>
+        <div class="json-field"><span class="fname">lead_score</span><span class="ftype">NUMBER (0-100)</span></div>
+        <div class="json-field"><span class="fname">score_explanation</span><span class="ftype">STRING</span></div>
+        <div class="json-field"><span class="fname">confidence_score</span><span class="ftype">STRING</span> <span class="fenum">"HIGH" | "MEDIUM" | "LOW"</span></div>
+        <h4 style="margin-top:0.8rem;">EvidenceItem Object</h4>
+        <div class="json-field"><span class="fname">insight</span><span class="ftype">STRING (required)</span></div>
+        <div class="json-field"><span class="fname">severity</span><span class="ftype">STRING</span> <span class="fenum">"Critical" | "High" | "Medium" | "Low" | "Info"</span></div>
+        <div class="json-field"><span class="fname">technical_fix</span><span class="ftype">STRING</span></div>
+        <div class="json-field"><span class="fname">tags</span><span class="ftype">ARRAY&lt;STRING&gt;</span></div>
+        <div class="json-field"><span class="fname">confidence</span><span class="ftype">{ score: NUMBER, reason: STRING }</span></div>
+        <div class="json-field"><span class="fname">evidence_level</span><span class="ftype">STRING</span> <span class="fenum">"VERIFIED" | "STRONG" | "MEDIUM" | "WEAK" | "UNKNOWN"</span></div>
+        <div class="json-field"><span class="fname">detection_method</span><span class="ftype">STRING</span> <span class="fenum">"AI_INFERENCE"</span></div>
+        <div class="json-field"><span class="fname">business_impact</span><span class="ftype">{ impact_type, impact_score, description }</span> <span class="fenum">"Revenue" | "Operations" | "Marketing" | ...</span></div>
+        <div class="json-field"><span class="fname">opportunity_metrics</span><span class="ftype">{ estimated_effort, estimated_roi }</span> <span class="fenum">"Low" | "Medium" | "High"</span></div>
+        <div class="json-field"><span class="fname">suggested_offers</span><span class="ftype">ARRAY&lt;{ offer_slug, offer_name, confidence }&gt;</span></div>
+        <div class="json-field"><span class="fname">positive_signals</span><span class="ftype">ARRAY (not in schema — validated at runtime)</span></div>
+        <div class="json-field"><span class="fname">negative_signals</span><span class="ftype">ARRAY (not in schema — validated at runtime)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sales Prompt -->
+  <div class="prompt-section">
+    <div class="prompt-header">
+      <span class="prompt-name">📋 sales-generator-v1 — Sales Copywriter Prompt</span>
+      <span class="prompt-meta">prompts/sales-generator-v1.ts | gemini-2.5-flash | temp 0.4</span>
+    </div>
+
+    <div style="margin-bottom:1rem;">
+      <div style="font-size:0.78rem; font-weight:600; color:var(--fg); margin-bottom:0.4rem;">System Instruction — Tasks & Rules:</div>
+      <div class="prompt-block"><span class="k">Role:</span> <span class="v">Senior B2B Sales Copywriter & AI Automation Sales Specialist</span>
+
+<span class="k">══════ YOUR TASKS ══════</span>
+
+<span class="s">1. SELECT THE BEST OFFER</span>
+   Review 3 candidates. Set <span class="c">selected_offer_slug</span> + <span class="c">selection_reason</span>.
+
+<span class="s">2. WRITE THE URGENCY ("Why Now?")</span>
+   2-4 specific reasons why this business should buy THIS MONTH.
+   Reference real weaknesses/competitive gaps. <span class="r">No generic urgency.</span>
+
+<span class="s">3. GENERATE SALES ASSETS</span>
+
+   <span class="k">Cold Email:</span>
+   - <span class="c">email_subject</span>: Compelling, personalized (under 60 chars)
+   - <span class="c">email_body</span>: 3-4 paragraphs, reference specific pain points, clear CTA
+
+   <span class="k">WhatsApp Message:</span>
+   - <span class="c">whatsapp_message</span>: Casual, friendly. 2-3 short paragraphs. Use business name.
+
+   <span class="k">Cold Call Script:</span>
+   - <span class="c">cold_call_script.hook</span>: Opening line (10 sec), reference something specific
+   - <span class="c">cold_call_script.pitch</span>: Value proposition (30 sec)
+   - <span class="c">cold_call_script.objection_handling</span>: Top 3 objections
+
+   <span class="k">Follow-up Sequence (3 steps):</span>
+   - Day 1: Initial follow-up (email)
+   - Day 3-4: Value reminder (whatsapp)
+   - Day 7-8: Final attempt / close (phone)
+
+<span class="k">══════ LANGUAGE RULES ══════</span>
+   Generate ALL content in <span class="v">"language" field</span>.
+   <span class="c">"ar"</span> = write naturally in Arabic.
+   <span class="c">"fr"</span> = write naturally in French.
+   Business names/tech terms may stay in original language.
+
+<span class="k">══════ CRITICAL RULES ══════</span>
+   <span class="r">- MUST select one of the 3 provided candidates (no invented offers)</span>
+   <span class="r">- Reference SPECIFIC details from the analysis</span>
+   <span class="r">- No placeholder text like [Company Name]</span>
+   <span class="r">- Professional but human tone</span>
+   <span class="r">- Output strictly in requested JSON schema</span></div>
+    </div>
+
+    <div>
+      <div style="font-size:0.78rem; font-weight:600; color:var(--fg); margin-bottom:0.4rem;">Output Schema — SalesGenerationResult:</div>
+      <div class="prompt-json-schema">
+        <div class="json-field"><span class="fname">selected_offer_slug</span><span class="ftype">STRING (required)</span></div>
+        <div class="json-field"><span class="fname">selection_reason</span><span class="ftype">STRING (required)</span></div>
+        <div class="json-field"><span class="fname">urgency</span><span class="ftype">STRING (required)</span></div>
+        <div class="json-field"><span class="fname">email_subject</span><span class="ftype">STRING (required)</span></div>
+        <div class="json-field"><span class="fname">email_body</span><span class="ftype">STRING (required)</span></div>
+        <div class="json-field"><span class="fname">whatsapp_message</span><span class="ftype">STRING (required)</span></div>
+        <div class="json-field"><span class="fname">cold_call_script</span><span class="ftype">{ hook, pitch, objection_handling }</span></div>
+        <div class="json-field"><span class="fname">follow_up_sequence</span><span class="ftype">ARRAY&lt;{ day: INT, channel, goal, message }&gt;</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Prompt Format -->
+  <div class="prompt-section">
+    <div class="prompt-header">
+      <span class="prompt-name">📦 User Prompt Format — What Gemini Actually Receives</span>
+      <span class="prompt-meta">_shared/ai/prompt-builder.ts → buildUserPrompt()</span>
+    </div>
+    <div class="prompt-block"><span class="comment">// PromptBuilder.buildUserPrompt(profile) serializes this JSON:</span>
+{
+  <span class="k">"identity"</span>: {
+    <span class="k">"id"</span>: <span class="v">"uuid"</span>,
+    <span class="k">"projectId"</span>: <span class="v">"uuid"</span>,
+    <span class="k">"name"</span>: <span class="v">"Al-Falah Dental Clinic"</span>,
+    <span class="k">"category"</span>: <span class="v">"Dentist"</span>,
+    <span class="k">"location"</span>: { <span class="k">"address"</span>: <span class="v">"123 Main St, Cairo"</span> }
+  },
+  <span class="k">"reputation"</span>: { <span class="k">"rating"</span>: <span class="v">4.5</span>, <span class="k">"reviews"</span>: <span class="v">127</span> },
+  <span class="k">"digitalPresence"</span>: {
+    <span class="k">"website"</span>: <span class="v">"https://alfalah.com"</span>,
+    <span class="k">"pagesScraped"</span>: <span class="v">5</span>,
+    <span class="k">"pageSummaries"</span>: [
+      {
+        <span class="k">"url"</span>: <span class="v">"https://alfalah.com"</span>,
+        <span class="k">"type"</span>: <span class="v">"HOME"</span>,
+        <span class="k">"title"</span>: <span class="v">"Al-Falah Dental"</span>,
+        <span class="k">"content"</span>: <span class="v">"[up to 4000 chars of scraped text]"</span>  <span class="comment">// Phase 1.7: LLM now reads real content</span>
+      },
+      { <span class="k">"url"</span>: <span class="v">"…/services"</span>, <span class="k">"type"</span>: <span class="v">"SERVICES"</span>, <span class="k">"content"</span>: <span class="v">"[up to 3000 chars]"</span> },
+      { <span class="k">"url"</span>: <span class="v">"…/about"</span>, <span class="k">"type"</span>: <span class="v">"ABOUT"</span>, <span class="k">"content"</span>: <span class="v">"[up to 1500 chars]"</span> },
+      { <span class="k">"url"</span>: <span class="v">"…/contact"</span>, <span class="k">"type"</span>: <span class="v">"CONTACT"</span>, <span class="k">"content"</span>: <span class="v">"[up to 1000 chars]"</span> },
+      { <span class="k">"url"</span>: <span class="v">"…/booking"</span>, <span class="k">"type"</span>: <span class="v">"BOOKING"</span>, <span class="k">"content"</span>: <span class="v">"[up to 1000 chars]"</span> }
+    ]
+  },
+  <span class="k">"contacts"</span>: [
+    { <span class="k">"type"</span>: <span class="v">"EMAIL"</span>, <span class="k">"value"</span>: <span class="v">"info@alfalah.com"</span>, <span class="k">"source"</span>: <span class="v">"SCRAPER"</span>, <span class="k">"confidence"</span>: <span class="v">95</span> },
+    { <span class="k">"type"</span>: <span class="v">"PHONE"</span>, <span class="k">"value"</span>: <span class="v">"+20123456789"</span>, <span class="k">"source"</span>: <span class="v">"SCRAPER"</span>, <span class="k">"confidence"</span>: <span class="v">90</span> }
+  ],
+  <span class="k">"technologies"</span>: [
+    { <span class="k">"name"</span>: <span class="v">"WordPress"</span>, <span class="k">"category"</span>: <span class="v">"CMS"</span>, <span class="k">"confidence"</span>: <span class="v">95</span> }
+  ],
+  <span class="k">"verified_facts"</span>: [
+    { <span class="k">"signalId"</span>: <span class="s">"BOOKING_MISSING"</span>, <span class="k">"isPresent"</span>: <span class="v">false</span>, <span class="k">"evidenceLevel"</span>: <span class="v">"VERIFIED"</span> },
+    { <span class="k">"signalId"</span>: <span class="s">"WHATSAPP_MISSING"</span>, <span class="k">"isPresent"</span>: <span class="v">false</span>, <span class="k">"evidenceLevel"</span>: <span class="v">"STRONG"</span> },
+    { <span class="k">"signalId"</span>: <span class="s">"CHATBOT_MISSING"</span>,  <span class="k">"isPresent"</span>: <span class="v">false</span>, <span class="k">"evidenceLevel"</span>: <span class="v">"MEDIUM"</span> }
+  ],
+  <span class="k">"knowledge_score"</span>: <span class="v">70</span>  <span class="comment">// 0-100: website(30)+pages(20)+contacts(20)+address(10)+tech(10)+reviews(10)</span>
+}</div>
+  </div>
+
+  <!-- Offer Matcher Scoring -->
+  <div class="prompt-section">
+    <div class="prompt-header">
+      <span class="prompt-name">🎯 Offer Matcher — Deterministic Scoring</span>
+      <span class="prompt-meta">_shared/services/offer-matcher.ts | No LLM — Pure math</span>
+    </div>
+    <div class="prompt-block"><span class="k">scoreOffer() — 6 scoring signals, Top 3 returned:</span>
+
+  <span class="s">1. Industry Match</span>        <span class="v">+30</span>  <span class="comment">// Fuzzy: category.includes(industry) || industry.includes(category)</span>
+  <span class="s">2. Weakness Keyword</span>      <span class="v">+15 each, max +45</span>  <span class="comment">// Substring match: weakness.insight.toLowerCase().includes(problem)</span>
+  <span class="s">3. Missing Capability</span>    <span class="v">+20</span>  <span class="comment">// Offer's slug maps to a capability the business doesn't have</span>
+  <span class="s">4. Technology Gap</span>         <span class="v">+15</span>  <span class="comment">// Offer's category not in business's tech stack</span>
+  <span class="s">5. AI Opportunity</span>         <span class="v">+20</span>  <span class="comment">// AI opportunities mention the offer's features</span>
+  <span class="s">6. Lead Score Bonus</span>       <span class="v">+10</span>  <span class="comment">// Only if lead_score ≥ 70</span>
+
+<span class="k">Max possible score: 130</span>
+<span class="k">Return: Top 3 offers sorted by match_score descending</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- 3. SETTINGS CARDS                                                         -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<div style="margin-bottom:3rem;">
+  <div class="section-title">
+    <span class="icon" style="background:#f59e0b18; color:var(--amber);">⚙️</span>
+    Configuration & Settings
+  </div>
+  <p class="section-sub">All configuration values extracted from the actual code and config files.</p>
+
+  <div class="settings-grid">
+    <!-- AI Config -->
+    <div class="setting-card">
+      <h3><span class="dot" style="background:var(--emerald);"></span> AI Configuration</h3>
+      <div class="setting-row"><span class="label">Model (Analysis)</span><span class="value green">gemini-2.5-flash</span></div>
+      <div class="setting-row"><span class="label">Model (Sales)</span><span class="value green">gemini-2.5-flash</span></div>
+      <div class="setting-row"><span class="label">Analysis Temperature</span><span class="value amber">0.2</span></div>
+      <div class="setting-row"><span class="label">Sales Temperature</span><span class="value amber">0.4</span></div>
+      <div class="setting-row"><span class="label">Analysis Timeout</span><span class="value red">90s</span></div>
+      <div class="setting-row"><span class="label">Sales Timeout</span><span class="value red">60s</span></div>
+      <div class="setting-row"><span class="label">Response Format</span><span class="value cyan">application/json</span></div>
+      <div class="setting-row"><span class="label">Schema Constrained</span><span class="value green">Yes</span></div>
+      <div class="setting-row"><span class="label">Prompt Version</span><span class="value">consultant-v2.2-hybrid</span></div>
+      <div class="setting-row"><span class="label">Sales Prompt</span><span class="value">sales-generator-v1</span></div>
+    </div>
+
+    <!-- Session / Credits -->
+    <div class="setting-card">
+      <h3><span class="dot" style="background:var(--amber);"></span> Session & Credits</h3>
+      <div class="setting-row"><span class="label">Import Limit</span><span class="value amber">100/day/user</span></div>
+      <div class="setting-row"><span class="label">Gemini Limit</span><span class="value amber">50/day/user</span></div>
+      <div class="setting-row"><span class="label">JWT Expiry</span><span class="value blue">3600s (1 hr)</span></div>
+      <div class="setting-row"><span class="label">Refresh Token Rotation</span><span class="value green">Enabled</span></div>
+      <div class="setting-row"><span class="label">Refresh Reuse Interval</span><span class="value">10s</span></div>
+      <div class="setting-row"><span class="label">Max DB Rows Returned</span><span class="value">1000</span></div>
+      <div class="setting-row"><span class="label">Rate Limit Fail Mode</span><span class="value amber">Fail Open (beta)</span></div>
+      <div class="setting-row"><span class="label">Min Password Length</span><span class="value">6</span></div>
+    </div>
+
+    <!-- Pipeline Flags -->
+    <div class="setting-card">
+      <h3><span class="dot" style="background:var(--purple);"></span> Pipeline Flags</h3>
+      <div class="setting-row"><span class="label">FEATURE_AI</span><span class="value green">true</span></div>
+      <div class="setting-row"><span class="label">FEATURE_SCRAPING</span><span class="value green">true</span></div>
+      <div class="setting-row"><span class="label">FEATURE_SCORING</span><span class="value green">true</span></div>
+      <div class="setting-row"><span class="label">FEATURE_COST_TRACKING</span><span class="value green">true</span></div>
+      <div class="setting-row"><span class="label">MAX_IMPORT_PAGES</span><span class="value">3</span></div>
+      <div class="setting-row"><span class="label">MAX_CONCURRENT_JOBS</span><span class="value">1</span></div>
+      <div class="setting-row"><span class="label">Max Results/Cap</span><span class="value">60 (3 × 20)</span></div>
+    </div>
+
+    <!-- Locales & Languages -->
+    <div class="setting-card">
+      <h3><span class="dot" style="background:var(--cyan);"></span> Locales & Languages</h3>
+      <div class="setting-row"><span class="label">Supported Languages</span><span class="value cyan">en, ar, fr</span></div>
+      <div class="setting-row"><span class="label">Default Language</span><span class="value">en</span></div>
+      <div class="setting-row"><span class="label">Places API Language</span><span class="value amber">en (hardcoded)</span></div>
+      <div class="setting-row"><span class="label">Arabic Mode</span><span class="value green">Native Arabic output</span></div>
+      <div class="setting-row"><span class="label">French Mode</span><span class="value green">Native French output</span></div>
+    </div>
+
+    <!-- Scraping Config -->
+    <div class="setting-card">
+      <h3><span class="dot" style="background:var(--blue);"></span> Scraping & Detection</h3>
+      <div class="setting-row"><span class="label">Pages to Scrape</span><span class="value blue">/, /about, /contact, /services, /booking</span></div>
+      <div class="setting-row"><span class="label">Page Timeout</span><span class="value red">10s per page</span></div>
+      <div class="setting-row"><span class="label">JS Rendering</span><span class="value red">No (fetch only)</span></div>
+      <div class="setting-row"><span class="label">HTML Parser</span><span class="value">Regex-based</span></div>
+      <div class="setting-row"><span class="label">Detectors</span><span class="value green">8 active</span></div>
+      <div class="setting-row"><span class="label">HOME Content Cap</span><span class="value">4000 chars</span></div>
+      <div class="setting-row"><span class="label">SERVICES Cap</span><span class="value">3000 chars</span></div>
+      <div class="setting-row"><span class="label">ABOUT Cap</span><span class="value">1500 chars</span></div>
+      <div class="setting-row"><span class="label">CONTACT/BOOKING Cap</span><span class="value">1000 chars</span></div>
+    </div>
+
+    <!-- Infrastructure -->
+    <div class="setting-card">
+      <h3><span class="dot" style="background:var(--red);"></span> Infrastructure</h3>
+      <div class="setting-row"><span class="label">Frontend</span><span class="value green">React 19 + Vite 8</span></div>
+      <div class="setting-row"><span class="label">Runtime</span><span class="value cyan">Deno (Edge Functions)</span></div>
+      <div class="setting-row"><span class="label">Database</span><span class="value blue">PostgreSQL 17</span></div>
+      <div class="setting-row"><span class="label">Edge Runtime Policy</span><span class="value">per_worker</span></div>
+      <div class="setting-row"><span class="label">API Port</span><span class="value">54321</span></div>
+      <div class="setting-row"><span class="label">DB Port</span><span class="value">54322</span></div>
+      <div class="setting-row"><span class="label">Studio Port</span><span class="value">54323</span></div>
+      <div class="setting-row"><span class="label">Font</span><span class="value">Inter (sans) + JetBrains Mono</span></div>
+    </div>
+
+    <!-- Design System -->
+    <div class="setting-card">
+      <h3><span class="dot" style="background:var(--pink);"></span> Design System (Dark Theme)</h3>
+      <div class="setting-row"><span class="label">Background</span><span class="value" style="color:#8892b0;">hsl(224 71% 4%)</span></div>
+      <div class="setting-row"><span class="label">Card</span><span class="value" style="color:#8892b0;">hsl(222 47% 7%)</span></div>
+      <div class="setting-row"><span class="label">Primary (Emerald)</span><span class="value green">hsl(160 84% 39%)</span></div>
+      <div class="setting-row"><span class="label">Chart-1 (Emerald)</span><span class="value green">hsl(160 84% 45%)</span></div>
+      <div class="setting-row"><span class="label">Chart-2 (Amber)</span><span class="value amber">hsl(38 92% 55%)</span></div>
+      <div class="setting-row"><span class="label">Chart-3 (Purple)</span><span class="value purple">hsl(262 83% 63%)</span></div>
+      <div class="setting-row"><span class="label">Chart-4 (Blue)</span><span class="value blue">hsl(215 76% 61%)</span></div>
+      <div class="setting-row"><span class="label">Chart-5 (Red)</span><span class="value red">hsl(0 84% 65%)</span></div>
+      <div class="setting-row"><span class="label">Destructive</span><span class="value red">hsl(0 62.8% 50.6%)</span></div>
+      <div class="setting-row"><span class="label">Border</span><span class="value" style="color:#8892b0;">hsl(223 47% 13%)</span></div>
+      <div class="setting-row"><span class="label">Radius</span><span class="value">0.625rem</span></div>
+    </div>
+
+    <!-- Health Score Weights -->
+    <div class="setting-card">
+      <h3><span class="dot" style="background:var(--orange);"></span> Health Score Weights (Total = 100)</h3>
+      <div class="setting-row"><span class="label">Has Website</span><span class="value green">25</span></div>
+      <div class="setting-row"><span class="label">Has Phone</span><span class="value green">20</span></div>
+      <div class="setting-row"><span class="label">Rating > 0</span><span class="value">10</span></div>
+      <div class="setting-row"><span class="label">Reviews > 10</span><span class="value">10</span></div>
+      <div class="setting-row"><span class="label">Reviews > 50</span><span class="value">5</span></div>
+      <div class="setting-row"><span class="label">Has Address</span><span class="value">10</span></div>
+      <div class="setting-row"><span class="label">Has Category</span><span class="value">10</span></div>
+      <div class="setting-row"><span class="label">Has Coordinates</span><span class="value">10</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- 4. ERROR CODES TABLE                                                      -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<div style="margin-bottom:3rem;">
+  <div class="section-title">
+    <span class="icon" style="background:#ef444418; color:var(--red);">🚨</span>
+    Error Codes Reference
+  </div>
+  <p class="section-sub">Every error code with its HTTP status, color-coded by severity. All return format: <code>{ data: null, error: { message, code } }</code></p>
+
+  <div class="error-table-wrap">
+    <table class="error-table">
+      <thead>
+        <tr>
+          <th>HTTP</th>
+          <th>Code</th>
+          <th>Message</th>
+          <th>Triggered By</th>
+          <th>Frontend Handling</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 2xx -->
+        <tr>
+          <td><span class="status-badge status-2xx">200</span></td>
+          <td><span class="code-badge">—</span></td>
+          <td>Success</td>
+          <td>Valid request, all operations complete</td>
+          <td>Data rendered in UI</td>
+          <td>response.ts → success()</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-2xx">201</span></td>
+          <td><span class="code-badge">—</span></td>
+          <td>Created</td>
+          <td>POST /projects — new project created</td>
+          <td>Redirect to project</td>
+          <td>projects/index.ts</td>
+        </tr>
+        <!-- 4xx -->
+        <tr>
+          <td><span class="status-badge status-4xx">400</span></td>
+          <td><span class="code-badge">BAD_REQUEST</span></td>
+          <td>project_id and keyword are required</td>
+          <td>Missing required fields in POST body</td>
+          <td>Toast error</td>
+          <td>import-businesses, import-sessions</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">400</span></td>
+          <td><span class="code-badge">MISSING_FIELD</span></td>
+          <td>business_id is required</td>
+          <td>POST without business_id</td>
+          <td>Toast error</td>
+          <td>analyze-business, generate-sales</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">400</span></td>
+          <td><span class="code-badge">INVALID_LANGUAGE</span></td>
+          <td>Unsupported language: xxx</td>
+          <td>Language not in [en, ar, fr]</td>
+          <td>Toast error</td>
+          <td>generate-sales</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">401</span></td>
+          <td><span class="code-badge">UNAUTHORIZED_NO_AUTH_HEADER</span></td>
+          <td>No Authorization header</td>
+          <td>Request missing Authorization header</td>
+          <td>"Session expired" toast</td>
+          <td>auth/context.ts</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">401</span></td>
+          <td><span class="code-badge">UNAUTHORIZED_INVALID_TOKEN</span></td>
+          <td>JWT verification failed</td>
+          <td>Expired/invalid JWT token</td>
+          <td>"Session expired" toast</td>
+          <td>auth/context.ts</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">403</span></td>
+          <td><span class="code-badge">FORBIDDEN_OR_NOT_FOUND</span></td>
+          <td>Business/project not found or access denied</td>
+          <td>RLS blocked or wrong owner</td>
+          <td>"No permission" toast</td>
+          <td>auth/verification.ts</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">403</span></td>
+          <td><span class="code-badge">FORBIDDEN</span></td>
+          <td>Access denied</td>
+          <td>Import-sessions: project not owned</td>
+          <td>Toast error</td>
+          <td>import-sessions</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">404</span></td>
+          <td><span class="code-badge">NOT_FOUND</span></td>
+          <td>Business/project not found</td>
+          <td>ID doesn't exist in DB</td>
+          <td>Toast error</td>
+          <td>businesses, sales-assets</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">405</span></td>
+          <td><span class="code-badge">METHOD_NOT_ALLOWED</span></td>
+          <td>Method not allowed</td>
+          <td>Wrong HTTP method (GET on POST endpoint)</td>
+          <td>Toast error</td>
+          <td>All edge functions</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">409</span></td>
+          <td><span class="code-badge">OPERATION_IN_PROGRESS</span></td>
+          <td>Analysis/generation already running</td>
+          <td>Duplicate concurrent request for same business</td>
+          <td>"Already running" toast</td>
+          <td>analyze-business, generate-sales</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-4xx">429</span></td>
+          <td><span class="code-badge">RATE_LIMIT_EXCEEDED</span></td>
+          <td>Daily limit exceeded</td>
+          <td>User exceeded 100 imports or 50 Gemini calls today</td>
+          <td>"Daily limit reached" toast</td>
+          <td>import-businesses, analyze-business</td>
+        </tr>
+        <!-- 5xx -->
+        <tr>
+          <td><span class="status-badge status-5xx">500</span></td>
+          <td><span class="code-badge">SERVER_ERROR</span></td>
+          <td>Server configuration error</td>
+          <td>Missing API key or DB error</td>
+          <td>Toast error</td>
+          <td>import-businesses, import-sessions</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-5xx">500</span></td>
+          <td><span class="code-badge">ANALYSIS_FAILED</span></td>
+          <td>Unknown analysis error</td>
+          <td>Unexpected exception during analysis pipeline</td>
+          <td>Toast error</td>
+          <td>analyze-business</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-5xx">500</span></td>
+          <td><span class="code-badge">SALES_GENERATION_FAILED</span></td>
+          <td>Sales generation failed</td>
+          <td>Unexpected exception during sales pipeline</td>
+          <td>Toast error</td>
+          <td>generate-sales</td>
+        </tr>
+        <tr>
+          <td><span class="status-badge status-5xx">504</span></td>
+          <td><span class="code-badge">AI_TIMEOUT</span></td>
+          <td>AI service timed out</td>
+          <td>Gemini response took >90s (analysis) or >60s (sales)</td>
+          <td>"Gemini took too long" toast</td>
+          <td>gemini-service.ts (AbortController)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- 5. DATA FLOW DIAGRAM                                                      -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<div style="margin-bottom:3rem;">
+  <div class="section-title">
+    <span class="icon" style="background:#3b82f618; color:var(--blue);">📊</span>
+    Data Flow — Database Entity Graph
+  </div>
+  <p class="section-sub">Which tables are read/written at each pipeline stage.</p>
+
+  <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; overflow-x:auto;">
+    <pre style="font-family:var(--mono); font-size:0.72rem; line-height:1.8; color:var(--fg-dim); margin:0;">
+<span style="color:var(--emerald);">┌──────────────┐</span>   Google Places API (Text Search, ≤60 results)
+<span style="color:var(--emerald);">│   IMPORT     │</span>──► import-businesses (edge fn)
+<span style="color:var(--emerald);">│   pipeline   │</span>      └─ LocationValidator → Deduplicator(owner_id) → HealthCalculator → ImportSession
+<span style="color:var(--emerald);">└──────────────┘</span>         <span style="color:var(--amber);">writes:</span> businesses, import_sessions, categories, cities, api_usage, logs
+<span style="color:var(--blue);">┌──────────────┐</span>
+<span style="color:var(--blue);">│   ENRICH     │</span>──► enrich-business (edge fn)
+<span style="color:var(--blue);">│   pipeline   │</span>      └─ NativeScraper (5 pages) → HtmlParser → DetectionEngine (8 detectors)
+<span style="color:var(--blue);">└──────────────┘</span>         <span style="color:var(--amber);">writes:</span> website_pages, website_content, business_capabilities, business_technologies, contacts
+<span style="color:var(--pink);">┌──────────────┐</span>
+<span style="color:var(--pink);">│   ANALYZE    │</span>──► analyze-business (edge fn)
+<span style="color:var(--pink);">│   pipeline   │</span>      └─ ProfileBuilder → PromptBuilder → <span style="color:var(--amber);">Gemini(2.5-flash, temp 0.2)</span> → AiValidator → PriorityCalculator
+<span style="color:var(--pink);">└──────────────┘</span>         <span style="color:var(--amber);">writes:</span> website_analyses (upsert RPC), analysis_items, businesses.status → ANALYZED
+<span style="color:var(--purple);">┌──────────────┐</span>
+<span style="color:var(--purple);">│   SALES      │</span>──► generate-sales (edge fn)
+<span style="color:var(--purple);">│   pipeline   │</span>      └─ OfferMatcher (Top 3) → <span style="color:var(--amber);">Gemini(2.5-flash, temp 0.4)</span> → Post-Validate → AdvisoryLock
+<span style="color:var(--purple);">└──────────────┘</span>         <span style="color:var(--amber);">writes:</span> generated_messages, website_analyses.urgency
+<span style="color:var(--cyan);">┌──────────────┐</span>
+<span style="color:var(--cyan);">│   DISPLAY    │</span>──► React 19 SPA (TanStack Query, Supabase client)
+<span style="color:var(--cyan);">│   (frontend) │</span>      └─ businesses / import-sessions / sales-assets edge fns
+<span style="color:var(--cyan);">└──────────────┘</span>         <span style="color:var(--amber);">reads:</span> businesses, website_analyses, analysis_items, generated_messages, contacts, etc.
+    </pre>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- 6. EDGE FUNCTIONS                                                         -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<div style="margin-bottom:3rem;">
+  <div class="section-title">
+    <span class="icon" style="background:#9333ea18; color:var(--purple);">🔌</span>
+    Edge Functions — Endpoint Reference
+  </div>
+  <p class="section-sub">10 Supabase Edge Functions (Deno runtime) and their roles.</p>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(340px,1fr)); gap:0.8rem;">
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;"><span class="tag tag-emerald">POST</span> import-businesses</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">Batch import via Google Places Text Search. Creates businesses + health scores + import sessions. Rate limited 100/day.</div>
+    </div>
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;"><span class="tag tag-blue">POST</span> enrich-business</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">Scrape business website (5 pages), run 8 detectors, persist contacts/capabilities/technologies.</div>
+    </div>
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;"><span class="tag tag-pink">POST</span> analyze-business</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">Full AI analysis: profile → Gemini → priority → save. Caches by aggregate hash. Rate limited 50/day.</div>
+    </div>
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;"><span class="tag tag-purple">POST</span> generate-sales</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">Offer matching → Gemini sales copy → email/WhatsApp/cold-call/follow-up. Advisory lock prevents concurrency.</div>
+    </div>
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;"><span class="tag tag-amber">GET</span> businesses</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">List businesses for a project. Joins categories, cities, contacts, capabilities, analyses, messages. Auth required.</div>
+    </div>
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;"><span class="tag tag-amber">GET</span> import-sessions</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">List import sessions for a project. Auth + ownership check on project.</div>
+    </div>
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;"><span class="tag tag-amber">GET/POST/PUT/DELETE</span> projects</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">Full CRUD. Auth enforced. All ops scoped by owner_id. Auto-set owner_id on create.</div>
+    </div>
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;"><span class="tag tag-amber">GET</span> sales-assets</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">Fetch generated messages for a business or project. Joins businesses + offer_templates.</div>
+    </div>
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;"><span class="tag tag-cyan">GET</span> health</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">System health check. <strong>verify_jwt: false</strong> — open to all. Reports API usage + provider health.</div>
+    </div>
+    <div class="setting-card" style="padding:1rem;">
+      <h3 style="font-size:0.8rem; margin-bottom:0.5rem;">📁 _shared/</h3>
+      <div style="font-size:0.74rem; color:var(--fg-dim);">Shared domain layer: ai/, detection/, scraper/, providers/, repositories/, services/, resilience/, cost/, observability/</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  LeadForge Architecture Flow — Generated from actual source code<br>
+  <span style="color:var(--fg-muted);">Design system: index.css (dark theme) · Inter font · All values extracted from supabase/functions/_shared/* and src/*</span>
+</div>
+
+</body>
+</html>

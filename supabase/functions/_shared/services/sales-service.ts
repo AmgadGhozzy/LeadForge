@@ -56,7 +56,7 @@ export class SalesService {
       }
 
       // 3. Build content hash for caching
-      const contentHash = await this.buildHash(analysis.content_hash || '', offers.map(o => o.slug), language);
+      const contentHash = await this.buildHash(analysis.aggregate_hash || '', offers.map(o => o.slug), language);
 
       // 4. Check cache
       const cached = await this.salesRepo.getByHash(contentHash);

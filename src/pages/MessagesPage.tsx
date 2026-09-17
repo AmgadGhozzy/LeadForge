@@ -21,6 +21,19 @@ export function MessagesPage() {
     enabled: !!projectId,
   });
 
+  // Parse email subject from the stored "Subject: ...\n\n..." email string
+  const parseEmailSubject = (email: string): string => {
+    if (!email) return '';
+    const firstLine = email.split('\n')[0];
+    return firstLine.startsWith('Subject:') ? firstLine.replace('Subject:', '').trim() : '';
+  };
+
+  const parseEmailBody = (email: string): string => {
+    if (!email) return '';
+    const parts = email.split('\n\n');
+    return parts.length > 1 ? parts.slice(1).join('\n\n') : email;
+  };
+
   const messages = result?.data || [];
 
   const copyToClipboard = async (text: string, id: string) => {
@@ -36,7 +49,7 @@ export function MessagesPage() {
     return messages.filter(
       (m: any) =>
         (m.businesses?.name || '').toLowerCase().includes(lowerSearch) ||
-        (m.selected_offer_slug || '').toLowerCase().includes(lowerSearch)
+        (m.offer_templates?.name || '').toLowerCase().includes(lowerSearch)
     );
   }, [messages, search]);
 
@@ -117,7 +130,7 @@ export function MessagesPage() {
                   <div className="flex items-center gap-3">
                     <CardTitle className="text-base font-semibold">{msg.businesses?.name || 'Unknown Business'}</CardTitle>
                     <Badge variant="secondary" className="font-normal capitalize">
-                      {(msg.selected_offer_slug || 'custom').replace(/-/g, ' ')}
+                      {msg.offer_templates?.name || 'Custom Offer'}
                     </Badge>
                   </div>
                   <span className="text-xs text-muted-foreground">
@@ -141,8 +154,10 @@ export function MessagesPage() {
                       </Button>
                     </div>
                     <div className="bg-muted/20 p-3 rounded-md text-xs whitespace-pre-wrap text-muted-foreground h-48 overflow-y-auto">
-                      <span className="font-semibold text-foreground mb-1 block">Subj: {msg.email_subject}</span>
-                      {msg.email}
+                      {parseEmailSubject(msg.email) && (
+                        <span className="font-semibold text-foreground mb-1 block">Subj: {parseEmailSubject(msg.email)}</span>
+                      )}
+                      {parseEmailBody(msg.email)}
                     </div>
                   </div>
 

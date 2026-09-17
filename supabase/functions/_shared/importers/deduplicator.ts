@@ -12,12 +12,13 @@ export type DedupeResult =
 export class Deduplicator {
   constructor(private supabase: SupabaseClient) {}
 
-  async check(raw: RawBusinessData): Promise<DedupeResult> {
+  async check(raw: RawBusinessData, ownerId: string): Promise<DedupeResult> {
     // 1. Exact match by place_id (Same provider, same place)
     const { data: byPlaceId } = await this.supabase
       .from('businesses')
-      .select('id')
+      .select('id, projects!inner(owner_id)')
       .eq('place_id', raw.place_id)
+      .eq('projects.owner_id', ownerId)
       .maybeSingle();
 
     if (byPlaceId) {
@@ -31,8 +32,9 @@ export class Deduplicator {
       // For now, exact match on the raw website is safer
       const { data: byWebsite } = await this.supabase
         .from('businesses')
-        .select('id')
+        .select('id, projects!inner(owner_id)')
         .eq('website', raw.website)
+        .eq('projects.owner_id', ownerId)
         .maybeSingle();
 
       if (byWebsite) {
@@ -46,9 +48,10 @@ export class Deduplicator {
       // Find businesses that have this contact
       const { data: byContact } = await this.supabase
         .from('contacts')
-        .select('business_id')
+        .select('business_id, businesses!inner(projects!inner(owner_id))')
         .eq('type', 'PHONE')
         .in('value', phones)
+        .eq('businesses.projects.owner_id', ownerId)
         .limit(1)
         .maybeSingle();
 

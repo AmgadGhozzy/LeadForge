@@ -10,13 +10,30 @@ export function useCanonicalProfile(businessId: string | undefined) {
 
   if (!raw || isLoading) return { profile: null, isLoading, error };
 
-  const analysis = raw.website_analyses?.[0];
-  const items = analysis?.analysis_items || [];
+  const rawAnalyses = raw.website_analyses;
+  // Supabase PostgREST may return a single object (not array) when a UNIQUE
+  // constraint exists on the FK column. Handle both shapes defensively.
+  const analysisArr: any[] = Array.isArray(rawAnalyses)
+    ? rawAnalyses
+    : rawAnalyses != null
+      ? [rawAnalyses]
+      : [];
+
+  // Sort so the most recently created analysis is first
+  analysisArr.sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
+  const analysis = analysisArr[0] ?? null;
+  const items: any[] = analysis?.analysis_items ?? [];
+
   
   const contacts = Array.isArray(raw.contacts) ? raw.contacts : [];
   const technologies = Array.isArray(raw.business_technologies) ? raw.business_technologies : [];
   
-  // Calculate simulated sub-scores
+  const knowledgeScore = raw.health_score || 0;
+  
+  // Calculate simulated sub-scores for the progress bars
   const identityScore = raw.name && raw.categories ? 100 : 50;
   
   let contactScore = 0;
@@ -29,8 +46,6 @@ export function useCanonicalProfile(businessId: string | undefined) {
   
   const hasSocial = contacts.some((c: any) => ['FACEBOOK', 'INSTAGRAM', 'LINKEDIN'].includes(c.type));
   const socialScore = hasSocial ? 100 : 0;
-
-  const knowledgeScore = Math.round((identityScore + contactScore + websiteScore + techScore + socialScore) / 5);
 
   const profile = {
     identity: {

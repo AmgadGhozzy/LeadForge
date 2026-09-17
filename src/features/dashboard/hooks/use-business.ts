@@ -23,9 +23,14 @@ export function useBusiness(businessId: string | undefined) {
 
       if (error) throw error;
 
-      // Sort website_analyses so the latest is first (Supabase doesn't
-      // support ordering embedded resources via the select string).
-      if (data?.website_analyses?.length > 1) {
+      // Supabase may return website_analyses as a single object (not array)
+      // when a UNIQUE constraint is on the FK column. Normalize to array.
+      if (data && data.website_analyses != null && !Array.isArray(data.website_analyses)) {
+        data.website_analyses = [data.website_analyses];
+      }
+
+      // Sort so the most recently created analysis is always first.
+      if (Array.isArray(data?.website_analyses) && data.website_analyses.length > 1) {
         data.website_analyses.sort(
           (a: any, b: any) =>
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -35,6 +40,8 @@ export function useBusiness(businessId: string | undefined) {
       return data;
     },
     enabled: !!businessId,
+    staleTime: 0, // Always fetch fresh — analysis data changes after each run
   });
 }
+
 

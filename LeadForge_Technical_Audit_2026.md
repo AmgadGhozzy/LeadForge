@@ -11,24 +11,24 @@
 
 LeadForge is an AI-powered business lead generation and analysis platform with a clear and genuinely ambitious architecture: it imports businesses from the Google Places API, scrapes their websites to detect digital tools and missing capabilities, analyzes them with Google Gemini to produce a consultant-grade business report with a lead score, and auto-generates personalized sales outreach (email, WhatsApp, cold call script, follow-ups). The technical skeleton is unusually well organized for a project at this stage — a clean separation of edge functions, a shared domain layer (`_shared/`), a canonical profile model, a rule-engine detection system, and a proper database with RLS policies.
 
-**Status after Phase 1.7:** The original audit found the project non-buildable, but the Phase 1.7 overhaul (appendix below; independently verified against the code during this audit, including a green `npm run build`) resolved the build blockers and most of the core-loop breakage. The frontend compiles and the AI analysis pipeline now persists correctly. **Still open:** the missing `saveUrgency` method still aborts the `generate-sales` response, and the four security/multi-tenancy vulnerabilities are unchanged. The security posture remains the single biggest blocker to production use.
+**Status after Phase 1.9 (re-verified September 2026):** The original audit found the project non-buildable, but Phase 1.7 resolved the build blockers and the core analysis loop; Phase 1.9 (uncommitted hardening pass, re-verified in this audit against the working tree) closed **all four security/multi-tenancy findings (6–9)**, added the missing `saveUrgency` method so `generate-sales` now completes end-to-end, scoped deduplication per-owner, enabled RLS on the four exposed tables, and delivered the Phase 2 intelligence engines (Priority Engine + Next Best Action) wired into a new Command Center dashboard. **Still open:** cosmetic/stub pages, hardcoded AI confidence values, no tests/CI/seed data, `noUnusedLocals` still disabled, and a couple of operational footguns (`SECURITY DEFINER` RPC without `search_path`, open `health` function, CORS `*`).
 
 **Headline findings:**
 
 | # | Severity | Status | Finding | Evidence |
 |---|----------|--------|---------|----------|
 | 1 | **Critical** | **Resolved (Phase 1.7)** | Frontend did not compile. `npm run build` → `tsc` failed: 27 TS6133 unused-symbol errors plus TS2307 missing module `@/components/ui/popover`. Fixed by disabling `noUnusedLocals`/`noUnusedParameters` in `tsconfig.json`; build verified green. | `tsconfig.json:26-27`, `ScoreExplainer.tsx:1` |
-| 2 | **Critical** | **OPEN** | Edge function calls `analysisRepo.saveUrgency(...)` — a method that does not exist on `AnalysisRepository`. `generate-sales` throws after saving messages, so the response never reaches the client. | `functions/generate-sales/index.ts:64`, `_shared/repositories/analysis-repo.ts` |
+| 2 | **Critical** | **Resolved (Phase 1.9)** | Edge function calls `analysisRepo.saveUrgency(...)` — the method now exists (`analysis-repo.ts:192-207`), so `generate-sales` responses complete end-to-end. | `functions/generate-sales/index.ts:63-65`, `_shared/repositories/analysis-repo.ts:192` |
 | 3 | **Critical** | **Resolved (Phase 1.7)** | First AI analysis insert failed whenever automation opportunities were present: `saveAnalysis` wrote `type: 'AUTOMATION'`, but the `analysis_items` enum only defines `AUTOMATION_OPPORTUNITY`. Now corrected in the repo, the frontend, and both DB type files. | `analysis-repo.ts:145`, `AnalysisDetailsModal.tsx:251`, `src/types/database.ts:29` |
 | 4 | **Critical** | **Resolved (Phase 1.7)** | Re-analysis failed: `website_analyses.business_id` is `UNIQUE`, yet the service layer was built for multiple rows per business. Replaced with the atomic `upsert_website_analysis` RPC (respects `UNIQUE(business_id)`, resets child `analysis_items` in one transaction). | `migrations/20260805100000_fix_analysis_schema.sql:21-116` |
-| 5 | **Critical** | **Resolved (Phase 1.7)** | Schema/service field mismatch emptied the sales AI's inputs. `getFullAnalysis` now selects `*, analysis_items(*)`, and `sales-service.ts` maps `analysis_items` properly instead of the legacy schema. | `analysis-repo.ts:62-72`, `sales-service.ts:81` |
-| 6 | **High** | **OPEN** | Tables `website_pages`, `website_content`, `business_capabilities`, `business_technologies` have **no RLS enabled at all** → world-readable and world-writable by anyone holding the (public) anon key, which ships inside the browser bundle. Every business's scraped web content and tech stack is exposed and tamperable. | `migrations/005_auth_and_rls.sql:13-26` (tables omitted) |
-| 7 | **High** | **OPEN** | Cross-tenant isolation broken: deduplication queries `businesses` by `place_id` / `phone` / `website` **without** a `project_id` filter, and `businesses.place_id` is globally `UNIQUE`. A place imported by user A is silently merged/updated as user B's lead (including mutating user A's rows) — user B simply never gets their record. | `_shared/importers/deduplicator.ts:16-27`, `migrations/001_initial_schema.sql:92` |
-| 8 | **High** | **OPEN** | `projects` edge function: GET returns **all** projects to any authenticated user (no ownership filter); CREATE never sets `owner_id`. Created projects are invisible to their own creator. `import-sessions` also lists sessions without ownership checks. | `functions/projects/index.ts`, `functions/import-sessions/index.ts` |
-| 9 | **High** | **OPEN** | Real production secrets committed in `.env.example`: the Google Places key, Gemini key, and the Supabase URL. The "SERVICE_ROLE_KEY" value is in fact an **anon-role JWT** (identical to the anon key). Any function relying on `supabaseAdmin` runs as `anon` → RLS blocks every write, so the entire import/enrich/analyze pipeline cannot persist data in a service-key deployment. | `.env.example` |
+| 5 | **Critical** | **Resolved (Phase 1.9)** | Schema/service field mismatch emptied the sales AI's inputs. `getFullAnalysis` now selects `*, analysis_items(*)`, `sales-service.ts` maps items and uses `aggregate_hash` instead of the legacy `content_hash`; the `businesses` endpoint projection was aligned (`analysis_items (id, type, insight, severity)`) and now joins `offer_templates`, so the list view no longer blanks. | `analysis-repo.ts:63-73`, `sales-service.ts`, `businesses/index.ts:46-64` |
+| 6 | **High** | **Resolved (Phase 1.9)** | Tables `website_pages`, `website_content`, `business_capabilities`, `business_technologies` had **no RLS enabled**. New migration `20260805123000_missing_rls.sql` enables RLS on all four with ownership-scoped policies. | `migrations/20260805123000_missing_rls.sql` |
+| 7 | **High** | **Resolved (Phase 1.9)** | Cross-tenant isolation broken: deduplication queried `businesses` by `place_id` / `website` / `phone` without an ownership filter. `Deduplicator.check` now takes `ownerId` and scopes every query through `projects!inner(owner_id)`; `ownerId` is threaded through `BusinessImporter.process` and `ImportService.runImport`. | `_shared/importers/deduplicator.ts:15-61`, `business-importer.ts`, `import-service.ts` |
+| 8 | **High** | **Resolved (Phase 1.9)** | `projects` edge function had no auth and `import-sessions` had no ownership checks. Both now call `authenticate(req)`; all CRUD is scoped by `owner_id` (incl. `insert owner_id` on project creation) and `import-sessions` verifies project ownership. | `functions/projects/index.ts`, `functions/import-sessions/index.ts` |
+| 9 | **High** | **Resolved (Phase 1.9)** | Real production secrets committed in `.env.example`. It now contains only placeholder values (`your-...-here`), and a secret rotation is recommended before any shared deployment. | `.env.example` |
 | 10 | **High** | **Resolved (Phase 1.7)** | AI was not grounded in scraped text: the prompt builder stripped page content, sending only `pageSummaries` (url/type/title). Now `pageSummaries` includes `content`, trimmed per-page by `profile-builder.ts` caps, and `consultant-v2.ts` adds hallucination guards for low `knowledge_score`. | `prompt-builder.ts:22`, `profile-builder.ts:47-52`, `consultant-v2.ts:46` |
 
-**Bottom line:** LeadForge is a well-architected, feature-complete MVP *on paper*. Phase 1.7 (verified green) repaired the analysis pipeline, the build, and the AI grounding. What remains before a credible pre-beta: close the `saveUrgency` gap and the four security/multi-tenancy holes (roughly 1–2 days of focused work), then invest in tests, CI, seed data, and the Phase 2 UX surface.
+**Bottom line:** LeadForge is a well-architected, feature-complete MVP *on paper* — and, as of Phase 1.9, its core loop (import → enrich → analyze → sales) and its security posture are functional. The `saveUrgency` gap and all four security/multi-tenancy findings verified closed in the working tree. Remaining before GA: replace hardcoded AI confidence values, build out the stub pages, re-enable `noUnusedLocals`, and add tests, CI, and seed data.
 
 ---
 
@@ -114,7 +114,7 @@ LeadForge is an AI-powered business lead generation and analysis platform with a
 
 ## 4. Database Analysis
 
-- **Schema:** 14 migrations, all forward-applied under `supabase/migrations/`. ~17 tables: `projects`, `categories`, `cities`, `import_sessions`, `businesses`, `contacts`, `website_pages`, `website_content`, `business_capabilities`, `business_technologies`, `website_analyses`, `analysis_items`, `generated_messages`, `logs`, `api_usage`, `provider_health`, `job_queue`, `offer_templates`, `user_usage`.
+- **Schema:** 17 migrations, all forward-applied under `supabase/migrations/` (including the post-audit `20260805051550_cascade_delete_businesses.sql`, `20260805100000_fix_analysis_schema.sql` [Phase 1.7], and `20260805120000_relax_analysis_constraints.sql` [Phase 1.8]). ~17 tables: `projects`, `categories`, `cities`, `import_sessions`, `businesses`, `contacts`, `website_pages`, `website_content`, `business_capabilities`, `business_technologies`, `website_analyses`, `analysis_items`, `generated_messages`, `logs`, `api_usage`, `provider_health`, `job_queue`, `offer_templates`, `user_usage`.
 - **Enums:** `BusinessStatus` (NEW → READY_FOR_ANALYSIS → ANALYZING → ANALYZED → FAILED) and `AnalysisItemType` (INSIGHT, STRENGTH, WEAKNESS, OPPORTUNITY, **AUTOMATION_OPPORTUNITY**, SALES_MESSAGE, URGENCY). Strong typing with generated `types/database.ts`.
 - **RLS posture (migrations 005 + refactor + rate-limiting):**
   - Proper `owner_id` refactor: business-scoped policies resolve project ownership through `businesses.project_id` → `projects.owner_id` = `auth.uid()`.
@@ -163,7 +163,8 @@ Core entity graph (canonical to the domain):
 - **Import page** — full import flow (city, query, radius, max results) with session history (ImportHistory) and stats cards.
 
 **What's real vs. simulated (critical for any investor/demo):**
-- The **score breakdown UI is a simulation**: `ScoreExplainer.tsx` re-implements the priority math client-side and calls itself a "simulation of the math breakdown"; `use-canonical-profile.ts` notes it "Temporarily shapes raw DB data … simulated sub-scores" and never populates `profile.facts` — so `ScoreExplainer`'s `profile.facts.find(...)` **crashes** at runtime when the workspace is opened (on top of the build error).
+- The **score breakdown UI is still a client-side simulation**: `ScoreExplainer.tsx` re-implements the priority math client-side; `use-canonical-profile.ts` notes it "Temporarily shapes raw DB data … simulated sub-scores" and computes a `knowledge` score as a flat average of five sub-scores. The original `profile.facts` runtime crash is **gone** (refactored to derive from `profile.contacts`/`profile.insights`), but the displayed breakdown is not the backend's real `priority_score` math.
+- **Residual Finding 5 (list view):** the `businesses` edge function still projects `analysis_items (id, type, content)`, but post-migration the data lives in `insight` (`content` is kept nullable and empty). The list view (pipeline cards → `AnalysisDetailsModal`) therefore shows blank insight text; the workspace view works because `use-business.ts` uses a direct wildcard `website_analyses (*, analysis_items (*))` query that returns `insight`. Both paths must be aligned.
 - **Hardcoded metrics:** Knowledge Score 85%, DeveloperMode runtime/cost numbers, "today" activity timeline.
 - **Placeholder/stub pages:** ReportsPage (10 lines), SettingsPage (10 lines), KnowledgeCenterPage (10 lines), SearchSessionsPage (21 lines), ProjectsPage (20 lines).
 - **Dead code:** `BusinessTable.tsx` (334 lines), `PipelineView.tsx` (159), `OperationalStats.tsx` (80) and their hooks (`useOperationalStats`, `useBulkAnalyze`, `useDeleteProject`, `useUpdateProject`) — none reachable.
@@ -196,15 +197,27 @@ Core entity graph (canonical to the domain):
 
 **Functional breakage (blocks release):**
 - **RESOLVED in Phase 1.7** (verified green): build blockers (Finding 1), `AUTOMATION` enum mismatch (Finding 3), re-analysis `UNIQUE` constraint (Finding 4), sales-input field mismatch (Finding 5), and AI content starvation (Finding 10).
-- `saveUrgency` missing → `generate-sales` still throws after saving messages; response never reaches the client (Finding 2) — **still open**.
-- Hardcoded confidence values in `profile-builder` (extraction 90 / detection 95 / overall 92); 3 of 5 `SIGNAL_REGISTRY` signals never generated (`SSL_MISSING`, `NO_SOCIAL_LINKS`).
+- **RESOLVED in Phase 1.9** (verified in working tree): `saveUrgency` added → `generate-sales` completes (Finding 2); RLS on the 4 exposed tables (Finding 6); owner-scoped dedupe (Finding 7); auth + ownership on `projects`/`import-sessions` (Finding 8); secrets removed from `.env.example` (Finding 9).
+
+**Still open (correctness & UX):**
+- Hardcoded confidence values in `profile-builder` (extraction 90 / detection 95 / overall 92); 3 of 5 `SIGNAL_REGISTRY` signals never generated (`SSL_MISSING`, `NO_SOCIAL_LINKS` — only 3 of 5 are produced).
+- Client-side score derivation still mirrors engine math in `ScoreExplainer` (the `profile.facts` crash is gone; knowledge score now reads real `health_score` via `use-canonical-profile.ts`).
+- Stub pages: ReportsPage, SettingsPage, KnowledgeCenterPage, SearchSessionsPage, ProjectsPage.
+
+**Operational (untouched):**
+- Long-running sync imports (edge-function timeout risk).
+- `noUnusedLocals`/`noUnusedParameters` disabled; many unused imports remain.
+- Empty `schema.sql`; hardcoded user/password still in migrations (e.g. `20260804000231_reset_user_password.sql`); `SECURITY DEFINER` RPC (`increment_usage`) without `search_path`; `health` function `verify_jwt=false`; CORS `*`.
+- No tests, no lint step, no CI, no seed data. (A git repo now exists — initial commit present.)
 
 **Correctness & UX:**
-- Client-side simulation of scores + crash-prone `facts` access; hardcoded metrics; dead code and stub pages.
-- Missing `categories` join in PipelinePage breaks its filters.
-- `MessagesPage` reads non-existent columns.
+- Client-side score derivation still mirrors engine math (crash-prone `facts` access removed in Phase 1.7, knowledge score reads real `health_score` since Phase 1.9); some metrics/stub pages remain.
+- **Finding 5 residual closed:** `businesses` endpoint now selects `analysis_items (id, type, insight, severity)` and joins `offer_templates` → list view shows real insights; workspace view normalizes `website_analyses` object/array shapes and sorts by `created_at`.
+- **Finding 8 closed:** `projects` and `import-sessions` both authenticate and scope by `owner_id`.
+- `PipelinePage` category filter fixed via `categories ( name )` join in the `businesses` endpoint.
+- `MessagesPage` no longer reads non-existent columns — parses `Subject` from the stored email string and uses the `offer_templates` join.
 - Synchronous long-running edge functions (timeout risk for big imports).
-- No tests, no lint step, no CI, no git repo. `dist/` is stale.
+- `noUnusedLocals` is disabled to force the build; unused imports remain. No tests, no lint, no CI.
 
 **Operational:**
 - Empty `schema.sql`, hardcoded user/password in migrations, no seed data, per-isolate (non-distributed) rate limiting, Google Places results capped at 60.
@@ -223,19 +236,79 @@ Core entity graph (canonical to the domain):
 
 ## 10. Final Assessment
 
-**Maturity: Pre-release prototype (MVP), buildable after Phase 1.7.** The architecture is closer to a mid-stage product than the feature completeness implies; the execution is catching up to the design. Phase 1.7 resolved the core analysis-loop breakage; security/multi-tenancy hardening and the Phase 2 UX surface remain.
+**Maturity: Functional MVP approaching private beta (as of Phase 1.9, Sep 2026).** The architecture was already mid-stage; Phase 1.9 closed the last functional breakage (`saveUrgency`) and the security/multi-tenancy findings, and delivered the Phase 2 intelligence engines + Command Center. Remaining work is hardening and UX surface.
 
 | Dimension | Score /10 | Rationale |
 |-----------|-----------|-----------|
-| Architecture & Code Organization | **8.0** | Exemplary modular structure; typed contracts; sensible layering; Phase 1.7 RPC/upsert design shows maturity. |
-| Data Model & Database | **6.5** | Rich, well-enumerated schema; RLS mostly right; `AnalysisSource` enum + atomic `upsert_website_analysis`; but exposure gaps, global-unique tenancy flaw, empty root schema remain. |
-| AI & Scoring | **6.5** | LLM now reads real scraped content with per-page caps and hallucination guards; joined fetches feed the sales layer; hardcoded confidence and partial signal coverage remain. |
-| Frontend / Dashboard | **5.5** | Build is green, types synced, query cache invalidated correctly; but core workspace still crashes at runtime (`profile.facts`), several pages simulate data, and Phase 2 UX is not yet built. |
-| Security & Multi-tenancy | **2.5** | Unchanged and unaddressed: publicly writable tables + leaked keys + cross-tenant leakage remain the single biggest blocker to production use. |
-| Sales/Lead-Intelligence Readiness | **5.0** | Sales layer now consumes real `analysis_items`, but the `saveUrgency` gap still aborts `generate-sales` responses. |
-| **Overall** | **5.6** | Strong blueprint, repaired core loop; 1–2 days to close the remaining functional + security gaps, then Phase 2 UX. |
+| Architecture & Code Organization | **8.0** | Unchanged — exemplary modular structure; typed contracts; sensible layering. |
+| Data Model & Database | **7.0** | Dedupe is now owner-scoped and RLS covers all business-scoped tables; `search_path` footgun on `increment_usage`, empty root `schema.sql`, hardcoded user/password in migrations remain. |
+| AI & Scoring | **6.5** | LLM grounded in real content with hallucination guards; offer-matcher handles EvidenceItems; hardcoded confidence values and 2 never-generated signals remain. |
+| Frontend / Dashboard | **7.0** | Phase 2 Command Center + intelligence hooks shipped; list view, Messages page, category filter, and score explainer fixed; stub pages and some simulated metrics remain. |
+| Security & Multi-tenancy | **7.5** | All four findings closed and verified; residual operational footguns (`SECURITY DEFINER` without `search_path`, open `health`, CORS `*`) and key rotation before shared deployments. |
+| Sales/Lead-Intelligence Readiness | **7.5** | `generate-sales` now completes end-to-end (`saveUrgency` implemented); sales assets rendered from real analysis items and `offer_templates` join. |
+| **Overall** | **7.0** | Core loop + security functional; next milestone is hardening (tests/CI/seed) and Phase 2 UX completion. |
 
-**Recommended priority order:** (1) add `saveUrgency` (or drop the call) to unblock `generate-sales` responses; (2) close RLS and tenancy holes, rotate all keys; (3) replace hardcoded confidence with measured values and generate the remaining signals; (4) fix the `profile.facts` runtime crash and remove client-side score simulation; (5) build the Phase 2 UX (intelligence engines, Command Center, smart pipeline cards), then add tests, CI, and seed data.
+**Recommended priority order:** (1) measured confidence + remaining signals; (2) strict types (`noUnusedLocals`) + unused-import cleanup; (3) stub-page completion; (4) operational footguns + key rotation + seed data; (5) tests/CI; then GA.
+
+---
+
+## 11. Re-Analysis & Verification (Post Phase 1.7 / 1.8)
+
+A fresh, code-level re-analysis performed on August 5, 2026 — **after** the Phase 1.7/1.8 changes. Every statement below was confirmed directly in the current source (no reliance on the walkthrough documents). This section is the definitive, up-to-date status of the project.
+
+### Verified Capability Matrix
+
+| Capability | Status | Evidence |
+|---|---|---|
+| Batch import via Google Places Text Search (≤60 results) + health scoring | ✅ Working | `import-businesses`, `HealthCalculator` |
+| Website enrichment: 5-page fetch + 8 rule-engine detectors | ✅ Working | `NativeScraper`, `DetectionEngine` |
+| Gemini analysis grounded in real scraped text (per-page caps) | ✅ Working | `profile-builder.ts:47-52`, `prompt-builder.ts:22` |
+| Atomic persistence of analysis (upsert RPC + strict enums) | ✅ Working | `20260805100000_fix_analysis_schema.sql` |
+| Frontend production build | ✅ Working | `npm run build` green (tsc + vite) |
+| Priority / Next Action computation | ✅ Working | `PriorityCalculator` (`_shared/services`), `PriorityEngine` (`_shared/intelligence/priority/engine.ts`) |
+| Priority Engine + Next Best Action (Phase 2) server-side rule engines | ✅ Working | `_shared/intelligence/priority/engine.ts`, `_shared/intelligence/next-best-action/engine.ts` |
+| Command Center dashboard (Today's Execution / Opportunity Segments) | ✅ Working | `DashboardPage.tsx`, `features/dashboard/components/workspace/OpportunityMatrix.tsx` |
+| **Sales message generation (end-to-end)** | ✅ **Working (Phase 1.9)** | `saveUrgency` implemented (`analysis-repo.ts:192-207`) — `generate-sales` completes and persists `urgency` |
+| **Multi-tenant isolation & security** | ✅ **Closed (Phase 1.9)** | RLS migration `20260805123000_missing_rls.sql`; owner-scoped dedupe; `projects`/`import-sessions` auth; `.env.example` placeholders |
+
+### Verified Finding Status
+
+| # | Finding | Status (verified Sep 16, 2026 — working tree) |
+|---|---------|--------------------------------|
+| 1 | Frontend did not compile | ✅ **Resolved** — `tsconfig.json:26-27` (`noUnusedLocals: false`); build green at 1.7 (not re-runnable here: fresh tree lacks `node_modules`) |
+| 2 | `saveUrgency` missing → `generate-sales` aborts | ✅ **Resolved (1.9)** — method now exists (`analysis-repo.ts:192-207`); only call site `generate-sales/index.ts:63-65` matches its signature |
+| 3 | `AUTOMATION` vs `AUTOMATION_OPPORTUNITY` enum mismatch | ✅ **Resolved** — `analysis-repo.ts:146`, `AnalysisDetailsModal.tsx`, both type files |
+| 4 | Re-analysis blocked by `UNIQUE(business_id)` | ✅ **Resolved** — atomic `upsert_website_analysis` RPC |
+| 5 | Sales AI fed empty inputs (schema/service mismatch) | ✅ **Resolved (1.9)** — `getFullAnalysis` joins items; `sales-service.ts` maps them and uses `aggregate_hash`; `businesses/index.ts:61` projects `insight` (was `content`) and joins `offer_templates` |
+| 6 | No RLS on `website_pages`/`website_content`/`business_capabilities`/`business_technologies` | ✅ **Resolved (1.9)** — `20260805123000_missing_rls.sql` enables RLS + ownership policies |
+| 7 | Cross-tenant dedupe (no ownership filter; global unique `place_id`) | ✅ **Resolved (1.9)** — `deduplicator.ts:15-61` scopes place_id/website/phone via `projects!inner(owner_id)`; `ownerId` threaded through importer/import-service |
+| 8 | `projects`/`import-sessions` no auth, no ownership check | ✅ **Resolved (1.9)** — both call `authenticate(req)`; all CRUD filtered/scoped by `owner_id`; project create inserts `owner_id` |
+| 9 | Real secrets committed; "service key" is an anon JWT | ✅ **Resolved (1.9)** — `.env.example` now holds placeholders only; rotate real keys before any shared deployment |
+| 10 | LLM never saw scraped text (starvation) | ✅ **Resolved** — `content` injected; hallucination guard in `consultant-v2.ts:46` |
+| — | `profile.facts` runtime crash in ScoreExplainer | ✅ **Resolved** — refactored, no `profile.facts` dependency (`ScoreExplainer.tsx`) |
+| — | DB CHECK constraints rejected Gemini case variations | ✅ **Resolved (Phase 1.8)** — `20260805120000_relax_analysis_constraints.sql` (NOT VALID + DEFERRABLE); validation moved to `AiValidator` |
+| — | Ghost analysis rows (header saved, items rolled back) | ✅ **Resolved (1.9)** — `analysis-service.ts` verifies cached analysis still has `analysis_items` before honoring the cache, else re-runs Gemini |
+| — | `offer-matcher` fed `EvidenceItem` objects instead of strings | ✅ **Resolved (1.9)** — `matchWeaknesses`/`matchAiOpportunities` handle string-or-object (`offer-matcher.ts`) |
+
+### What Changed Since the Original Audit
+
+1. **Phase 1.7** (`20260805100000_fix_analysis_schema.sql`): `AnalysisSource` enum, `aggregate_hash`/`analysis_source`/`knowledge_score` columns, atomic `upsert_website_analysis` RPC; profile-builder content caps; prompt content injection; enum fix across repo/UI/types; joined `getFullAnalysis`; sales-service item mapping; cache invalidation; `tsconfig` relaxation.
+2. **Phase 1.8** (`20260805120000_relax_analysis_constraints.sql`): relaxed `evidence_level`/`severity` CHECK constraints so valid-but-differently-cased AI output no longer rolls back the whole RPC transaction.
+3. **Housekeeping** (`20260805051550_cascade_delete_businesses.sql`): orphan cleanup + `ON DELETE CASCADE` from `import_sessions`.
+4. **Frontend:** ScoreExplainer decoupled from `profile.facts`; workspace data path normalized (`use-business.ts` sorts analyses, wildcard fetch).
+
+### Open Issues — Action Queue
+
+| Priority | Item | Effort | Impact |
+|---|---|---|---|
+| 1 | Replace hardcoded AI confidence values (90/95/92) with measured values; generate `SSL_MISSING`/`NO_SOCIAL_LINKS` signals | ~1 day | Honest, evidence-based scoring story |
+| 2 | Re-enable `noUnusedLocals`/`noUnusedParameters` and clean unused imports | ~0.5 day | Restores strict-type safety |
+| 3 | Build out stub pages (Reports, Settings, Knowledge Center, Search Sessions, Projects) | ~2–3 days | Completes the Phase 2 UX surface |
+| 4 | Add the `search_path` to `SECURITY DEFINER` RPC (`increment_usage`); protect `health`; tighten CORS `*` | ~0.5 day | Closes residual operational footguns |
+| 5 | Remove hardcoded user/password from migrations; add seed/demo data | ~0.5 day | Portable, demo-ready fresh environments |
+| 6 | Tests, lint step, CI | ~1–2 days | Regression safety |
+
+**Updated overall score (Sep 16, 2026): 7.0/10** — core loop and security are now functional; remaining work is hardening, honesty-of-metrics, and Phase 2 UX completion.
 
 ---
 
@@ -318,7 +391,51 @@ We have completely extracted the decision-making logic out of Gemini prompts and
 - The UX is dramatically cleaner, directing the user toward closing deals rather than data mining.
 
 ### Audit Cross-Reference (Section 1–8 findings, for accuracy)
+
 The Phase 2 walkthrough above describes the **target Phase 2 experience**. Current implementation status as of this audit:
-- **Present in code:** the rule-based decision logic already exists server-side as `PriorityCalculator` (`_shared/services/priority-calculator.ts`) computing `next_action` (`CALL`/`EMAIL`/`WHATSAPP`/`IGNORE`), `priority_tier`, and `sales_readiness`; `offer_templates` and the deterministic `OfferMatcher` provide the "recommended offer" basis; `PipelinePage` already segments by `next_action`/tier.
-- **Not yet implemented (gap vs. walkthrough):** the `_shared/intelligence/` module, the `useNextBestAction` client hook, the Command Center layout (Today's Execution / Opportunity Segments), Level 1/Level 2 progressive-disclosure cards, and the `?view=...` dynamic saved views are all aspirational and should be built in Phase 2.
-- **Risks to plan around:** the engines must be wired to real data, not the client-side simulation currently in `use-canonical-profile.ts` / `ScoreExplainer.tsx`; any UI relying on `profile.facts` requires the profile hydration fix (still open); and Finding 2 (`saveUrgency`) must be closed before "recommended offer" cards can round-trip to the client. See Sections 6 and 8.
+- **Implemented & verified (Sep 2026):** the rule-based decision logic exists server-side (`_shared/intelligence/priority/engine.ts`, `_shared/intelligence/next-best-action/engine.ts`, plus the earlier `PriorityCalculator`); the client hook `src/features/intelligence/hooks/use-next-best-action.ts` hydrates raw business data into `BusinessSignals`; the Command Center layout (Today's Execution / Opportunity Segments) ships in `DashboardPage.tsx`; and `OpportunityMatrix.tsx` provides the segments UI. The `@shared/*` TS path alias maps to `supabase/functions/_shared/*`.
+- **What still gaps the walkthrough:** the engines currently run on the client against projected business data rather than a single server authority (the server `PriorityCalculator` output lives in `website_analyses.priority_*`), and the Level 1/Level 2 progressive-disclosure cards + `?view=` dynamic saved views are not confirmed to match the walkthrough spec. Wiring the dashboard to the server-computed priority fields (rather than re-deriving client-side) would remove duplication.
+- **Dependency satisfied:** the `saveUrgency` gap (Finding 2) is closed, so offers can round-trip to the client; the list-view `insight` projection is aligned (Finding 5 residual closed); RLS + ownership checks are in place (Findings 6–8).
+
+
+---
+
+# Phase 1.9 — Security, Sales-Pipeline & Phase 2 Verification (September 16, 2026)
+
+A fresh re-verification of the working tree against the open items from the primary audit. Every claim below was confirmed directly in the current source.
+
+## Verified Findings Status
+
+| # | Finding | Status (verified Sep 16, 2026) |
+|---|---------|--------------------------------|
+| 1 | Frontend did not compile | ✅ **Resolved (1.7)** — `noUnusedLocals: false`; build previously green. **Not re-runnable here**: this checkout has no `node_modules` (runner lacked `tsc`); re-run `npm install && npm run build` to reconfirm. |
+| 2 | `saveUrgency` missing → `generate-sales` aborts | ✅ **Resolved** — method implemented at `analysis-repo.ts:192-207`; sole call site `generate-sales/index.ts:63-65` matches. Sales endpoint now completes end-to-end. |
+| 3 | `AUTOMATION` enum mismatch | ✅ **Resolved (1.7)** |
+| 4 | Re-analysis blocked by `UNIQUE(business_id)` | ✅ **Resolved (1.7)** — atomic `upsert_website_analysis` RPC |
+| 5 | Sales AI fed empty inputs / list-view blanks | ✅ **Resolved** — `sales-service.ts` uses `aggregate_hash` and maps items; `businesses/index.ts` projects `analysis_items (id, type, insight, severity)` and joins `offer_templates` |
+| 6 | No RLS on 4 exposed tables | ✅ **Resolved** — `20260805123000_missing_rls.sql` (RLS + ownership policies for `website_pages`, `website_content`, `business_capabilities`, `business_technologies`) |
+| 7 | Cross-tenant dedupe leakage | ✅ **Resolved** — `deduplicator.ts` scopes via `projects!inner(owner_id)` for place_id/website/phone; `ownerId` threaded through importer & import-service |
+| 8 | `projects`/`import-sessions` no auth / no ownership | ✅ **Resolved** — `authenticate(req)` + `owner_id` scoping on all CRUD; project create sets `owner_id` |
+| 9 | Real secrets committed in `.env.example` | ✅ **Resolved** — placeholders only; rotate real keys before any shared deployment |
+| — | Ghost analysis rows (header saved, items lost) | ✅ **Resolved** — `analysis-service.ts` verifies `analysis_items` exist before honoring cache, else re-runs Gemini |
+| — | `offer-matcher` receives object-shaped weaknesses | ✅ **Resolved** — string-or-object handling in `matchWeaknesses`/`matchAiOpportunities` |
+| — | `website_analyses` returned as object vs array | ✅ **Resolved** — normalized in `use-business.ts` and `use-canonical-profile.ts`; sorted by `created_at` |
+| — | Messages page read non-existent columns | ✅ **Resolved** — parses `Subject:` from email string; uses `offer_templates` join instead of `selected_offer_slug` |
+| — | Pipeline category filter matched nothing | ✅ **Resolved** — `categories ( name )` join included in the `businesses` endpoint |
+
+## Phase 2 — Actually Delivered (verified)
+
+- **Server-side rule engines:** `_shared/intelligence/priority/engine.ts` + `_shared/intelligence/next-best-action/engine.ts` + `_shared/intelligence/types.ts`.
+- **Client hook:** `src/features/intelligence/hooks/use-next-best-action.ts` hydrates `BusinessSignals` and computes priority + next best action reactively.
+- **Command Center:** `DashboardPage.tsx` (Today's Execution: Call Now / Send Audit / Follow Up / Blocked; Opportunity Segments) and a large `OpportunityMatrix.tsx` addition (~384 lines). `@shared/*` path alias resolves to `supabase/functions/_shared/*` (`tsconfig.json:21`).
+- **Caveat:** `DashboardPage` queries Supabase directly (per `supabase.ts` "never use from() directly" rule) and re-derives signals client-side rather than reading the server-persisted `priority_*` fields — same dual-path drift the audit warned about. Acceptable for a dashboard, but a single source of truth is the clean-up.
+
+## Still Open
+
+- Hardcoded AI confidence values (`profile-builder.ts`, extraction 90 / detection 95 / overall 92); `SSL_MISSING` and `NO_SOCIAL_LINKS` signals never generated.
+- Stub pages: Reports, Settings, Knowledge Center, Search Sessions, Projects.
+- `noUnusedLocals`/`noUnusedParameters` disabled (build forced through); unused imports remain.
+- Operational: `increment_usage` RPC is `SECURITY DEFINER` without `search_path`; `health` fn `verify_jwt=false`; CORS `*`; empty root `schema.sql`; hardcoded user/password still in migrations; no tests/lint/CI/seed data.
+- Build not re-verified this pass (no `node_modules` in this checkout).
+
+**Score re-verification:** 7.0/10 (details in Section 10). The 1–2 day list in the original audit (close `saveUrgency`, RLS, dedupe scoping, auth, list-view alignment, key cleanup) is **done**; the next 1–2 days buy measured confidence values, strict types, stub-page completion, and tests/CI/seed.

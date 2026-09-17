@@ -11,6 +11,7 @@
 import { handleCors } from '../_shared/cors.ts';
 import { success, error, parseBody } from '../_shared/response.ts';
 import { supabaseAdmin } from '../_shared/supabase-admin.ts';
+import { authenticate } from '../_shared/auth/context.ts';
 
 interface CreateProjectBody {
   name: string;
@@ -32,6 +33,9 @@ Deno.serve(async (req) => {
   const id = url.searchParams.get('id');
 
   try {
+    // Enforce Authentication
+    const ctx = await authenticate(req);
+    
     switch (req.method) {
       // ── LIST / GET ─────────────────────────
       case 'GET': {
@@ -40,6 +44,7 @@ Deno.serve(async (req) => {
             .from('projects')
             .select('*')
             .eq('id', id)
+            .eq('owner_id', ctx.user.id)
             .single();
 
           if (dbError) return error(dbError.message, 'PROJECT_NOT_FOUND', 404);
@@ -49,6 +54,7 @@ Deno.serve(async (req) => {
         const { data, error: dbError } = await supabaseAdmin
           .from('projects')
           .select('*')
+          .eq('owner_id', ctx.user.id)
           .order('created_at', { ascending: false });
 
         if (dbError) return error(dbError.message, 'FETCH_FAILED', 500);
@@ -68,6 +74,7 @@ Deno.serve(async (req) => {
           .insert({
             name: body.name.trim(),
             description: body.description?.trim() || null,
+            owner_id: ctx.user.id,
           })
           .select()
           .single();
@@ -96,6 +103,7 @@ Deno.serve(async (req) => {
           .from('projects')
           .update(updates)
           .eq('id', body.id)
+          .eq('owner_id', ctx.user.id)
           .select()
           .single();
 
@@ -112,7 +120,8 @@ Deno.serve(async (req) => {
         const { error: dbError } = await supabaseAdmin
           .from('projects')
           .delete()
-          .eq('id', id);
+          .eq('id', id)
+          .eq('owner_id', ctx.user.id);
 
         if (dbError) return error(dbError.message, 'DELETE_FAILED', 500);
         return success({ deleted: true });

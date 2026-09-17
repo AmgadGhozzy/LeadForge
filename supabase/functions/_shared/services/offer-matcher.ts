@@ -106,10 +106,14 @@ export class OfferMatcher {
    * Find weaknesses that match the offer's problem keywords.
    * Uses substring matching for flexibility.
    */
-  private static matchWeaknesses(problems: string[], weaknesses: string[]): string[] {
+  private static matchWeaknesses(problems: string[], weaknesses: any[]): string[] {
     const matched: string[] = [];
     for (const weakness of weaknesses) {
-      const weakLower = weakness.toLowerCase();
+      // Phase 1.7 upgrade: weakness might be an EvidenceItem object
+      const weaknessText = typeof weakness === 'string' ? weakness : weakness?.insight || '';
+      if (!weaknessText) continue;
+      
+      const weakLower = weaknessText.toLowerCase();
       for (const problem of problems) {
         if (weakLower.includes(problem.toLowerCase())) {
           matched.push(problem);
@@ -176,11 +180,15 @@ export class OfferMatcher {
   /**
    * Check if AI opportunities mention features the offer provides.
    */
-  private static matchAiOpportunities(offer: OfferTemplate, aiOpportunities: string[]): string | null {
+  private static matchAiOpportunities(offer: OfferTemplate, aiOpportunities: any[]): string | null {
     const featureKeywords = offer.features.map(f => f.toLowerCase());
     
     for (const opp of aiOpportunities) {
-      const oppLower = opp.toLowerCase();
+      // Phase 1.7 upgrade: opp might be an EvidenceItem object
+      const oppText = typeof opp === 'string' ? opp : opp?.insight || '';
+      if (!oppText) continue;
+      
+      const oppLower = oppText.toLowerCase();
       for (const keyword of featureKeywords) {
         // Check if opportunity text contains any feature keyword
         const words = keyword.split(/\s+/);

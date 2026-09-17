@@ -1,85 +1,323 @@
-import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+﻿import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { AlertCircle, ArrowRight } from 'lucide-react';
+import {
+  AlertCircle,
+  AlertTriangle,
+  Info,
+  ChevronDown,
+  ChevronUp,
+  Zap,
+  TrendingDown,
+  Shield,
+  DollarSign,
+  Users,
+  Wrench,
+  ArrowRight,
+  Sparkles,
+} from 'lucide-react';
 
-export function OpportunityMatrix({ insights }: { insights: any[] }) {
-  if (!insights || insights.length === 0) {
+// ─── Types ──────────────────────────────────────────────────────────────────
+
+interface Insight {
+  type?: string;
+  severity?: string;
+  insight?: string;
+  finding?: string;
+  business_impact?: { impact_type?: string; description?: string } | string;
+  technical_fix?: string;
+  suggested_offers?: { offer_name?: string }[];
+  suggested_offer?: string;
+}
+
+// ─── Config ──────────────────────────────────────────────────────────────────
+
+const SEVERITY_CONFIG = {
+  Critical: {
+    label: 'Critical',
+    weight: 4,
+    bg: 'bg-red-500/8',
+    border: 'border-red-500/30',
+    badgeBg: 'bg-red-500/15',
+    badgeText: 'text-red-400',
+    badgeBorder: 'border-red-500/30',
+    dot: 'bg-red-500',
+    glow: 'shadow-red-500/10',
+    icon: AlertCircle,
+    iconColor: 'text-red-400',
+    stripColor: 'bg-red-500',
+  },
+  High: {
+    label: 'High',
+    weight: 3,
+    bg: 'bg-orange-500/8',
+    border: 'border-orange-500/30',
+    badgeBg: 'bg-orange-500/15',
+    badgeText: 'text-orange-400',
+    badgeBorder: 'border-orange-500/30',
+    dot: 'bg-orange-500',
+    glow: 'shadow-orange-500/10',
+    icon: AlertTriangle,
+    iconColor: 'text-orange-400',
+    stripColor: 'bg-orange-500',
+  },
+  Medium: {
+    label: 'Medium',
+    weight: 2,
+    bg: 'bg-amber-500/8',
+    border: 'border-amber-500/20',
+    badgeBg: 'bg-amber-500/15',
+    badgeText: 'text-amber-400',
+    badgeBorder: 'border-amber-500/30',
+    dot: 'bg-amber-400',
+    glow: 'shadow-amber-500/10',
+    icon: Zap,
+    iconColor: 'text-amber-400',
+    stripColor: 'bg-amber-400',
+  },
+  Low: {
+    label: 'Low',
+    weight: 1,
+    bg: 'bg-blue-500/5',
+    border: 'border-blue-500/15',
+    badgeBg: 'bg-blue-500/10',
+    badgeText: 'text-blue-400',
+    badgeBorder: 'border-blue-500/20',
+    dot: 'bg-blue-400',
+    glow: '',
+    icon: Info,
+    iconColor: 'text-blue-400',
+    stripColor: 'bg-blue-400',
+  },
+  Info: {
+    label: 'Info',
+    weight: 0,
+    bg: 'bg-muted/30',
+    border: 'border-border/50',
+    badgeBg: 'bg-muted/50',
+    badgeText: 'text-muted-foreground',
+    badgeBorder: 'border-border',
+    dot: 'bg-muted-foreground',
+    glow: '',
+    icon: Info,
+    iconColor: 'text-muted-foreground',
+    stripColor: 'bg-muted-foreground/40',
+  },
+} as const;
+
+type SeverityKey = keyof typeof SEVERITY_CONFIG;
+
+const IMPACT_CONFIG: Record<string, { icon: React.ElementType; label: string; color: string }> = {
+  REVENUE: { icon: DollarSign, label: 'Revenue', color: 'text-emerald-400' },
+  REPUTATION: { icon: Shield, label: 'Reputation', color: 'text-purple-400' },
+  EFFICIENCY: { icon: TrendingDown, label: 'Efficiency', color: 'text-blue-400' },
+  GROWTH: { icon: Users, label: 'Growth', color: 'text-cyan-400' },
+  TECHNICAL: { icon: Wrench, label: 'Technical', color: 'text-orange-400' },
+};
+
+// ─── Sub-components ──────────────────────────────────────────────────────────
+
+function SeverityBadge({ severity }: { severity: string }) {
+  const cfg = SEVERITY_CONFIG[severity as SeverityKey] ?? SEVERITY_CONFIG.Info;
+  const Icon = cfg.icon;
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider border',
+        cfg.badgeBg,
+        cfg.badgeText,
+        cfg.badgeBorder,
+      )}
+    >
+      <Icon className="h-3 w-3" />
+      {cfg.label}
+    </span>
+  );
+}
+
+function ImpactPill({ impactType }: { impactType: string }) {
+  const cfg = IMPACT_CONFIG[impactType?.toUpperCase()] ?? null;
+  if (!cfg) {
     return (
-      <div className="p-8 text-center text-muted-foreground border rounded-lg bg-muted/10 flex flex-col items-center">
-        <AlertCircle className="h-8 w-8 mb-2 opacity-50" />
-        <p>No actionable insights generated yet.</p>
-        <p className="text-xs opacity-70">Run an AI analysis to populate this matrix.</p>
-      </div>
-    );
-  }
-
-  // Filter out strengths and sort by severity
-  const actionable = insights.filter(i => i.type !== 'STRENGTH').sort((a, b) => {
-    const weights: any = { 'Critical': 4, 'High': 3, 'Medium': 2, 'Low': 1, 'Info': 0 };
-    return (weights[b.severity] || 0) - (weights[a.severity] || 0);
-  });
-
-  const getSeverityBadge = (severity: string) => {
-    switch (severity) {
-      case 'Critical': return <Badge variant="outline" className="text-red-500 bg-red-500/10 border-red-500/20 px-1.5 h-5 text-[10px]">CRITICAL</Badge>;
-      case 'High': return <Badge variant="outline" className="text-orange-500 bg-orange-500/10 border-orange-500/20 px-1.5 h-5 text-[10px]">HIGH</Badge>;
-      case 'Medium': return <Badge variant="outline" className="text-amber-500 bg-amber-500/10 border-amber-500/20 px-1.5 h-5 text-[10px]">MEDIUM</Badge>;
-      case 'Low': return <Badge variant="outline" className="text-blue-500 bg-blue-500/10 border-blue-500/20 px-1.5 h-5 text-[10px]">LOW</Badge>;
-      default: return <Badge variant="outline" className="text-muted-foreground px-1.5 h-5 text-[10px]">INFO</Badge>;
-    }
-  };
-
-  const getImpactBadge = (impactType: string) => {
-    if (!impactType) return null;
-    return (
-      <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
+      <span className="text-[11px] uppercase font-semibold tracking-wider text-muted-foreground">
         {impactType}
       </span>
     );
-  };
+  }
+  const Icon = cfg.icon;
+  return (
+    <span className={cn('inline-flex items-center gap-1 text-[11px] font-semibold', cfg.color)}>
+      <Icon className="h-3.5 w-3.5" />
+      {cfg.label}
+    </span>
+  );
+}
+
+function InsightCard({ item, index }: { item: Insight; index: number }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const severity = (item.severity as SeverityKey) ?? 'Info';
+  const cfg = SEVERITY_CONFIG[severity] ?? SEVERITY_CONFIG.Info;
+
+  const label = item.insight ?? item.finding ?? 'No description';
+  const offer =
+    Array.isArray(item.suggested_offers) && item.suggested_offers[0]?.offer_name
+      ? item.suggested_offers[0].offer_name
+      : item.suggested_offer;
+
+  const impactType =
+    typeof item.business_impact === 'object'
+      ? item.business_impact?.impact_type
+      : typeof item.business_impact === 'string'
+      ? item.business_impact
+      : null;
+
+  const hasFix = !!item.technical_fix;
 
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader className="bg-muted/30">
-          <TableRow>
-            <TableHead className="w-[300px]">Issue / Insight</TableHead>
-            <TableHead>Severity</TableHead>
-            <TableHead>Business Impact</TableHead>
-            <TableHead>Suggested Offer</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {actionable.map((item, i) => {
-            const offer = Array.isArray(item.suggested_offers) ? item.suggested_offers[0]?.offer_name : item.suggested_offer;
-            const impact = item.business_impact?.impact_type || (typeof item.business_impact === 'string' ? item.business_impact : null);
-            
-            return (
-              <TableRow key={i} className={cn("group transition-colors", item.severity === 'Critical' ? 'bg-red-500/[0.02]' : '')}>
-                <TableCell className="font-medium text-sm">
-                  {item.insight || item.finding}
-                  {item.technical_fix && (
-                    <p className="text-xs text-muted-foreground font-mono mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      ↳ Fix: {item.technical_fix}
-                    </p>
-                  )}
-                </TableCell>
-                <TableCell>{getSeverityBadge(item.severity)}</TableCell>
-                <TableCell>{getImpactBadge(impact)}</TableCell>
-                <TableCell>
-                  {offer ? (
-                    <div className="flex items-center gap-1.5 text-xs font-semibold text-purple-400">
-                      <ArrowRight className="h-3 w-3" />
-                      {offer}
-                    </div>
-                  ) : <span className="text-muted-foreground">-</span>}
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
+    <div
+      className={cn(
+        'relative rounded-xl border overflow-hidden transition-all duration-200',
+        'shadow-sm hover:shadow-md',
+        cfg.bg,
+        cfg.border,
+        cfg.glow && `shadow ${cfg.glow}`,
+      )}
+    >
+      <div className={cn('absolute left-0 top-0 bottom-0 w-1 rounded-l-xl', cfg.stripColor)} />
+
+      <div className="pl-5 pr-4 py-4">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 text-[11px] font-bold text-muted-foreground/50 tabular-nums w-4 shrink-0">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+
+          <div className="flex-1 min-w-0 space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <SeverityBadge severity={severity} />
+              {impactType && (
+                <>
+                  <span className="text-muted-foreground/30 text-xs">·</span>
+                  <ImpactPill impactType={impactType} />
+                </>
+              )}
+            </div>
+
+            <p className="text-sm font-semibold leading-snug text-foreground">{label}</p>
+
+            {offer && (
+              <div className="flex items-center gap-1.5 text-[12px] font-medium text-purple-400">
+                <Sparkles className="h-3 w-3 shrink-0" />
+                <span className="truncate">{offer}</span>
+              </div>
+            )}
+          </div>
+
+          {hasFix && (
+            <button
+              onClick={() => setExpanded((v) => !v)}
+              className={cn(
+                'shrink-0 mt-0.5 rounded-lg p-1.5 transition-colors',
+                'text-muted-foreground hover:text-foreground hover:bg-foreground/8',
+              )}
+              aria-label={expanded ? 'Collapse fix' : 'Show fix'}
+            >
+              {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            </button>
+          )}
+        </div>
+
+        {hasFix && expanded && (
+          <div className="mt-3 ml-7 flex items-start gap-2 rounded-lg bg-background/60 border border-border/60 px-3 py-2.5">
+            <ArrowRight className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
+            <p className="text-xs text-muted-foreground font-mono leading-relaxed">
+              {item.technical_fix}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SummaryStrip({ actionable }: { actionable: Insight[] }) {
+  const counts = { Critical: 0, High: 0, Medium: 0, Low: 0, Info: 0 };
+  for (const item of actionable) {
+    const s = (item.severity as SeverityKey) ?? 'Info';
+    if (s in counts) counts[s as keyof typeof counts]++;
+  }
+
+  const entries = (['Critical', 'High', 'Medium', 'Low'] as const).filter((s) => counts[s] > 0);
+  if (entries.length === 0) return null;
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      {entries.map((s) => {
+        const cfg = SEVERITY_CONFIG[s];
+        return (
+          <div
+            key={s}
+            className={cn(
+              'flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-bold',
+              cfg.badgeBg,
+              cfg.badgeText,
+              cfg.badgeBorder,
+            )}
+          >
+            <span className={cn('h-1.5 w-1.5 rounded-full', cfg.dot)} />
+            {counts[s]} {cfg.label}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center gap-3 py-16 px-8 rounded-xl border border-dashed border-border/60 bg-muted/10 text-center">
+      <div className="h-12 w-12 rounded-full bg-muted/30 flex items-center justify-center">
+        <Zap className="h-6 w-6 text-muted-foreground/40" />
+      </div>
+      <div>
+        <p className="text-sm font-medium text-foreground">No actionable insights yet</p>
+        <p className="text-xs text-muted-foreground mt-1">
+          Run an AI analysis to populate the opportunity matrix.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export function OpportunityMatrix({ insights }: { insights: Insight[] }) {
+  if (!insights || insights.length === 0) return <EmptyState />;
+
+  const actionable = insights
+    .filter((i) => i.type !== 'STRENGTH')
+    .sort((a, b) => {
+      const w = SEVERITY_CONFIG;
+      return (
+        (w[(b.severity as SeverityKey)] ?? w.Info).weight -
+        (w[(a.severity as SeverityKey)] ?? w.Info).weight
+      );
+    });
+
+  if (actionable.length === 0) return <EmptyState />;
+
+  return (
+    <div className="space-y-3">
+      <SummaryStrip actionable={actionable} />
+
+      <div className="space-y-2">
+        {actionable.map((item, i) => (
+          <InsightCard key={i} item={item} index={i} />
+        ))}
+      </div>
+
+      {actionable.some((i) => i.technical_fix) && (
+        <p className="text-[11px] text-muted-foreground/50 text-center pt-1 flex items-center justify-center gap-1">
+          Tap <ChevronDown className="inline h-3 w-3" /> on a card to reveal the technical fix
+        </p>
+      )}
     </div>
   );
 }

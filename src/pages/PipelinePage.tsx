@@ -31,7 +31,7 @@ export function PipelinePage() {
     queryFn: async () => {
       const { data } = await supabase
         .from('businesses')
-        .select('*, website_analyses(*), contacts(*), business_technologies(*)')
+        .select('*, categories(name), website_analyses(*), contacts(*), business_technologies(*)')
         .eq('project_id', projectId)
         .order('created_at', { ascending: false });
       return data || [];

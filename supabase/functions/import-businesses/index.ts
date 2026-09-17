@@ -108,7 +108,7 @@ serve(async (req) => {
 
     // Run import synchronously for now (v1)
     const maxResults = max_results || (features.maxImportPages * 20);
-    const report = await importService.runImport(project_id, keyword, city, country, maxResults);
+    const report = await importService.runImport(ctx.user.id, project_id, keyword, city, country, maxResults);
 
     ctx.logger.info('request.completed', { status: 200 });
     return success(report, 200, { 'X-Request-ID': ctx.logger.getRequestId() });
