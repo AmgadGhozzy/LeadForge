@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { calculatePriorityScore } from '@shared/intelligence/priority/engine';
-import { determineNextBestAction } from '@shared/intelligence/next-best-action/engine';
 import type { BusinessSignals } from '@shared/intelligence/types';
 
 export function useNextBestAction(business: any) {
@@ -25,7 +24,14 @@ export function useNextBestAction(business: any) {
     };
 
     const priorityResult = calculatePriorityScore(signals);
-    const action = determineNextBestAction(signals, priorityResult.tier, analysis?.recommended_offer);
+    
+    const action = {
+      action: 'RESEARCH' as const,
+      title: 'Awaiting Opportunity Analysis',
+      reason: ['Pending Engine evaluation'],
+      urgency: 'Low' as const,
+      recommended_offer: undefined
+    };
 
     return {
       signals,

@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, Search, Zap, PhoneCall, Mail, Clock, AlertOctagon, Globe, MessageCircle } from 'lucide-react';
 import { calculatePriorityScore } from '@shared/intelligence/priority/engine';
-import { determineNextBestAction } from '@shared/intelligence/next-best-action/engine';
 import type { BusinessSignals } from '@shared/intelligence/types';
 
 export function DashboardPage() {
@@ -54,11 +53,12 @@ export function DashboardPage() {
       };
 
       const priority = calculatePriorityScore(signals);
-      const action = determineNextBestAction(signals, priority.tier, analysis?.recommended_offer);
-
-      if (action.action === 'CALL') callNow++;
-      else if (action.action === 'SEND_AUDIT') sendAudit++;
-      else if (action.action === 'WHATSAPP') followUp++;
+      // Legacy NextBestAction removed. Opportunities are currently 0-rule.
+      
+      // Fallback heuristics until new Opportunity rules are defined.
+      if (priority.tier === 'IMMEDIATE' && signals.hasPhone) callNow++;
+      else if (priority.tier === 'HIGH' && signals.hasWebsite) sendAudit++;
+      else followUp++;
       
       if (!signals.hasPhone && !signals.hasWebsite && !signals.hasWhatsApp) {
         blocked++; // Rough heuristic for blocked
