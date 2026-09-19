@@ -2,16 +2,16 @@
 // AI Output Validator (Phase 1.6 - Knowledge Layer)
 // ──────────────────────────────────────────────
 
-import { ConsultantAnalysisResult } from './types.ts';
+import { ConsultantResponse } from './types.ts';
 
 export class AiValidator {
   
-  static validate(raw: any): ConsultantAnalysisResult {
+  static validate(raw: any): ConsultantResponse {
     if (!raw || typeof raw !== 'object') {
       throw new Error('AI output must be a JSON object');
     }
 
-    const requiredStrings = ['business_summary', 'sales_angle', 'recommended_offer', 'score_explanation', 'confidence_score'];
+    const requiredStrings = ['business_summary', 'sales_angle', 'score_explanation', 'confidence_score'];
     for (const field of requiredStrings) {
       if (typeof raw[field] !== 'string' || raw[field].trim() === '') {
         throw new Error(`Missing or invalid string field: ${field}`);
@@ -22,10 +22,6 @@ export class AiValidator {
       throw new Error(`Invalid business_summary_confidence: ${raw.business_summary_confidence}`);
     }
 
-    if (typeof raw.recommended_offer_confidence !== 'number' || raw.recommended_offer_confidence < 0 || raw.recommended_offer_confidence > 100) {
-      throw new Error(`Invalid recommended_offer_confidence: ${raw.recommended_offer_confidence}`);
-    }
-
     if (typeof raw.lead_score !== 'number' || raw.lead_score < 0 || raw.lead_score > 100) {
       throw new Error(`Invalid lead_score: ${raw.lead_score}`);
     }
@@ -34,22 +30,7 @@ export class AiValidator {
       throw new Error(`Invalid confidence_score: ${raw.confidence_score}`);
     }
 
-    const arrayFields = ['strengths', 'weaknesses', 'automation_opportunities', 'ai_opportunities'];
-    for (const field of arrayFields) {
-      if (!Array.isArray(raw[field])) {
-        throw new Error(`Field ${field} must be an array`);
-      }
-      
-      raw[field].forEach((item: any, index: number) => {
-        try {
-          this.validateEvidenceItem(item);
-        } catch (err: any) {
-          throw new Error(`Validation failed in ${field}[${index}]: ${err.message}`);
-        }
-      });
-    }
-
-    return raw as ConsultantAnalysisResult;
+    return raw as ConsultantResponse;
   }
 
   private static validateEvidenceItem(item: any) {

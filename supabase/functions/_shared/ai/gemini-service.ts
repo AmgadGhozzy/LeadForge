@@ -7,88 +7,20 @@ import { AiValidator } from './validator.ts';
 import { Logger } from '../observability/logger.ts';
 
 // ─── Trimmed EvidenceItem schema ────────────────────────────────────────────
-// Strategy: constrain all scalar fields so Gemini always emits them, but
-// deliberately OMIT positive_signals / negative_signals from the schema.
-// Those are arrays-of-objects with nullable sub-fields — they are what caused
-// the HTTP 400 "too many states" error in Gemini's constrained decoder.
-// AiValidator already validates signals at runtime, so nothing is lost.
-const evidenceItemSchema = {
-  type: 'OBJECT',
-  properties: {
-    insight:          { type: 'STRING' },
-    severity:         { type: 'STRING' },
-    technical_fix:    { type: 'STRING' },
-    tags:             { type: 'ARRAY', items: { type: 'STRING' } },
-    confidence: {
-      type: 'OBJECT',
-      properties: {
-        score:  { type: 'NUMBER' },
-        reason: { type: 'STRING' },
-      },
-      required: ['score', 'reason'],
-    },
-    evidence_level:   { type: 'STRING' },
-    detection_method: { type: 'STRING' },
-    business_impact: {
-      type: 'OBJECT',
-      properties: {
-        impact_type:  { type: 'STRING' },
-        impact_score: { type: 'NUMBER' },
-        description:  { type: 'STRING' },
-      },
-      required: ['impact_type', 'impact_score', 'description'],
-    },
-    opportunity_metrics: {
-      type: 'OBJECT',
-      properties: {
-        estimated_effort: { type: 'STRING' },
-        estimated_roi:    { type: 'STRING' },
-      },
-      required: ['estimated_effort', 'estimated_roi'],
-    },
-    suggested_offers: {
-      type: 'ARRAY',
-      items: {
-        type: 'OBJECT',
-        properties: {
-          offer_slug: { type: 'STRING' },
-          offer_name: { type: 'STRING' },
-          confidence: { type: 'NUMBER' },
-        },
-        required: ['offer_slug', 'offer_name', 'confidence'],
-      },
-    },
-    // positive_signals / negative_signals intentionally excluded from schema —
-    // they are validated by AiValidator at runtime after the response arrives.
-  },
-  required: [
-    'insight', 'severity', 'tags', 'confidence', 'evidence_level',
-    'detection_method', 'business_impact',
-  ],
-};
-
 // ─── Top-level consultant response schema ────────────────────────────────────
 const consultantResponseSchema = {
   type: 'OBJECT',
   properties: {
     business_summary:             { type: 'STRING' },
     business_summary_confidence:  { type: 'NUMBER' },
-    strengths:                    { type: 'ARRAY', items: evidenceItemSchema },
-    weaknesses:                   { type: 'ARRAY', items: evidenceItemSchema },
-    automation_opportunities:     { type: 'ARRAY', items: evidenceItemSchema },
-    ai_opportunities:             { type: 'ARRAY', items: evidenceItemSchema },
     sales_angle:                  { type: 'STRING' },
-    recommended_offer:            { type: 'STRING' },
-    recommended_offer_confidence: { type: 'NUMBER' },
     lead_score:                   { type: 'NUMBER' },
     score_explanation:            { type: 'STRING' },
     confidence_score:             { type: 'STRING' },
   },
   required: [
     'business_summary', 'business_summary_confidence',
-    'strengths', 'weaknesses', 'automation_opportunities', 'ai_opportunities',
-    'sales_angle', 'recommended_offer', 'recommended_offer_confidence',
-    'lead_score', 'score_explanation', 'confidence_score',
+    'sales_angle', 'lead_score', 'score_explanation', 'confidence_score',
   ],
 };
 

@@ -65,17 +65,26 @@ export interface EvidenceItem {
 // ─── Consultant Analysis Result ───────────────
 // Returned by Gemini after analysis.
 
-export interface ConsultantAnalysisResult {
+export interface LegacyConsultantAnalysisResult {
   business_summary: string;
-  business_summary_confidence: number;      // 0–100 confidence in the summary
-  strengths: EvidenceItem[];
-  weaknesses: EvidenceItem[];
-  automation_opportunities: EvidenceItem[];
-  ai_opportunities: EvidenceItem[];
+  business_summary_confidence: number;
+  strengths?: EvidenceItem[];
+  weaknesses?: EvidenceItem[];
+  automation_opportunities?: EvidenceItem[];
+  ai_opportunities?: EvidenceItem[];
   sales_angle: string;
-  recommended_offer: string;                // The ultimate chosen offer slug for this business
-  recommended_offer_confidence: number;     // 0–100 confidence in the overall offer choice
-  lead_score: number;                       // 0–100
+  recommended_offer?: string;
+  recommended_offer_confidence?: number;
+  lead_score: number;
+  score_explanation: string;
+  confidence_score: 'HIGH' | 'MEDIUM' | 'LOW';
+}
+
+export interface ConsultantResponse {
+  business_summary: string;
+  business_summary_confidence: number;
+  sales_angle: string;
+  lead_score: number;
   score_explanation: string;
   confidence_score: 'HIGH' | 'MEDIUM' | 'LOW';
 }
