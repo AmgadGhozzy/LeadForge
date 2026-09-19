@@ -13,6 +13,11 @@ import { Logger } from '../observability/logger.ts';
 import { PriorityCalculator } from './priority-calculator.ts';
 import { RateLimiter } from './rate-limiter.ts';
 
+import { EnrichmentRepository } from '../repositories/enrichment-repo.ts';
+import { EvidenceRepository } from '../repositories/evidence-repo.ts';
+import { EvidenceEngine } from '../intelligence/evidence/engine.ts';
+import { evaluateOpportunities } from '../intelligence/opportunity/engine.ts';
+
 export class AnalysisService {
   constructor(
     private profileBuilder: ProfileBuilder,
@@ -21,11 +26,16 @@ export class AnalysisService {
     private businessRepo: BusinessRepository,
     private costTracker: CostTracker,
     private rateLimiter: RateLimiter,
+    private enrichmentRepo: EnrichmentRepository,
+    private evidenceRepo: EvidenceRepository,
+    private evidenceEngine: EvidenceEngine,
     private logger: Logger
   ) {}
 
   async runAnalysis(businessId: string, userId: string): Promise<void> {
     this.logger.info('analysis.started', { businessId });
+    
+    let runId: string | null = null;
     
     try {
       // 0. Idempotency Gate
@@ -40,6 +50,9 @@ export class AnalysisService {
       // 1. Build Canonical Profile
       const profile = await this.profileBuilder.build(businessId);
       
+      // 1.5 Start Enrichment Run
+      runId = await this.enrichmentRepo.startRun(profile.identity.projectId, businessId, 'WEBSITE_ANALYSIS');
+      
       // 2. Check Cache — also verify items exist to catch ghost rows (header saved,
       //    items failed) left by a previous constraint-violation rollback.
       const hasChanged = await this.analysisRepo.hasChanged(businessId, profile.aggregateHash);
@@ -50,29 +63,42 @@ export class AnalysisService {
           this.logger.info('analysis.cached_hit', { businessId, hash: profile.aggregateHash, items: itemCount });
           await this.computeAndSavePriority(businessId, profile);
           await this.businessRepo.update(businessId, { status: 'ANALYZED' });
+          if (runId) await this.enrichmentRepo.completeRun(runId, { cached: true });
           return;
         }
         // Hash matches but no items — ghost row. Fall through and re-run Gemini.
         this.logger.warn('analysis.ghost_row_detected', { businessId, hash: profile.aggregateHash });
       }
 
-      // 3. Rate Limit Check
+      // 3. Extract and Persist Evidence (Phase 1)
+      const evidenceList = await this.evidenceEngine.extractEvidence(profile, runId!);
+      if (evidenceList.length > 0) {
+        await this.evidenceRepo.saveMany(evidenceList);
+        this.logger.info('analysis.evidence_persisted', { businessId, evidenceCount: evidenceList.length, runId });
+      }
+
+      // 3.5 Evaluate Opportunities (Zero-Rule Baseline)
+      // Gate: No Opportunity → no offer-specific downstream action.
+      // Result is intentionally not persisted until rules exist.
+      const opportunities = evaluateOpportunities(evidenceList as any);
+      this.logger.info('analysis.opportunities_evaluated', { businessId, count: opportunities.length, runId });
+
+      // 4. Rate Limit Check
       const isAllowed = await this.rateLimiter.checkAndIncrement(userId, 'gemini', 50);
       if (!isAllowed) {
         throw new Error('RATE_LIMIT_EXCEEDED');
       }
 
-      // 4. Build Prompt & Fetch Offers
-      const userPrompt = PromptBuilder.buildUserPrompt(profile);
+      // 5. Build Prompt (LLM is now a Sales Copywriter only — no offer selection)
+      const userPrompt = PromptBuilder.buildUserPrompt(profile, evidenceList);
       const modelName = 'gemini-2.5-flash';
-      const offerTemplates = await this.analysisRepo.getActiveOfferTemplates();
 
-      // 5. Call LLM (using v2 prompt with context injection)
+      // 5. Call LLM — Opportunities are determined deterministically, not by LLM.
       const { result, tokens } = await this.gemini.analyze(
-        userPrompt, 
-        consultantV2, 
-        modelName, 
-        { offers: offerTemplates }
+        userPrompt,
+        consultantV2,
+        modelName,
+        {}
       );
 
       // 6. Save Results (handles hashing and timestamps internally)
@@ -97,7 +123,12 @@ export class AnalysisService {
         last_analyzed_at: new Date().toISOString()
       });
 
-      // 9. Track Costs
+      // 9. Complete Enrichment Run
+      if (runId) {
+        await this.enrichmentRepo.completeRun(runId, { analysisId, leadScore: result.lead_score });
+      }
+
+      // 10. Track Costs
       await this.costTracker.record({
         provider: 'gemini',
         model: modelName,
@@ -110,11 +141,14 @@ export class AnalysisService {
         status: 'success',
       });
 
-      this.logger.info('analysis.completed', { businessId, score: result.lead_score });
+      this.logger.info('analysis.completed', { businessId, score: result.lead_score, runId });
 
-    } catch (error) {
-      this.logger.error('analysis.failed', error, { businessId });
+    } catch (error: any) {
+      this.logger.error('analysis.failed', error, { businessId, runId });
       await this.businessRepo.update(businessId, { status: 'FAILED' });
+      if (runId) {
+        await this.enrichmentRepo.failRun(runId, error?.message || 'Unknown Error');
+      }
       throw error;
     }
   }
