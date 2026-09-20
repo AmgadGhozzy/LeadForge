@@ -31,3 +31,43 @@ npm-debug.log*
 
 .vercel
 .env*
+
+# Keys
+google-cloud-key.json
+gcp-key.json
+*-key.json
+*.pem
+*.key
+serviceAccount*.json
+
+# Databases (local / generated)
+*.db
+*.sqlite
+
+# Agent / AI tooling — local only, never committed
+AGENTS.md
+opencode.json
+opencode.jsonc
+.opencode/
+.claude/
+CLAUDE.md
+.ignore
+
+# Scratches / local notes
+.scratch/
+scratch/
+
+# Docs & audit artifacts — local only
+docs/
+LeadForge_Analysis_AR.md
+LeadForge_Technical_Audit_2026.md
+detector_*.json
+detector_*.md
+*output.json
+architecture-flow.html
+test-dump-*.ts
+test-pathological.ts
+test-projection-size.ts
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
