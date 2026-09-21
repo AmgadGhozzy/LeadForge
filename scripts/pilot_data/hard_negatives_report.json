@@ -1,0 +1,477 @@
+{
+  "timestamp": "2026-09-21T21:55:32.850Z",
+  "spec": "HARD_NEGATIVE_CONTROL_SPEC v1",
+  "parent_contract": "ADR-005-opportunity-engine-freeze.md Section 10",
+  "rules_definition": {
+    "A": "PHONE === PRESENT ∧ BOOKING === ABSENT ∧ CHATBOT === ABSENT",
+    "C": "WHATSAPP === PRESENT ∧ BOOKING === ABSENT",
+    "E": "PHONE === PRESENT ∧ EMAIL === PRESENT ∧ BOOKING === ABSENT ∧ CHATBOT === ABSENT"
+  },
+  "failure_semantics": "crawl_status !== SUCCESS → all signals UNKNOWN → rule UNKNOWN",
+  "ground_truth": "ALL 15 targets NOT_FIT (label = 0)",
+  "zero_mutation": "Verified (0 DB tables modified)",
+  "summary": {
+    "total_targets": 15,
+    "evaluable": 11,
+    "unknown_due_to_crawl_failure": 4,
+    "metrics": {
+      "A": {
+        "tn": 7,
+        "fp": 4,
+        "unk": 4,
+        "evaluable": 11,
+        "specificity": "63.64%",
+        "fpRate": "36.36%"
+      },
+      "C": {
+        "tn": 8,
+        "fp": 3,
+        "unk": 4,
+        "evaluable": 11,
+        "specificity": "72.73%",
+        "fpRate": "27.27%"
+      },
+      "E": {
+        "tn": 8,
+        "fp": 3,
+        "unk": 4,
+        "evaluable": 11,
+        "specificity": "72.73%",
+        "fpRate": "27.27%"
+      },
+      "ANY": {
+        "tn": 6,
+        "fp": 5,
+        "unk": 4,
+        "evaluable": 11,
+        "specificity": "54.55%",
+        "fpRate": "45.45%"
+      }
+    }
+  },
+  "verdict": "ALL_PATTERNS_FAIL_HARD_NEGATIVES",
+  "recommended_action": "All candidate patterns (A, C, E) produce False Positives on service businesses. Retain ZERO_RULES baseline. Archive evaluated patterns. Shift to designing richer Evidence types.",
+  "fp_forensic_table": [
+    {
+      "business_id": "hn-006",
+      "business_name": "Lendo",
+      "website_url": "https://www.lendo.sa",
+      "archetype": "already_automated",
+      "matched_rules": [
+        "A",
+        "E"
+      ],
+      "observable_signals": {
+        "p": "PRESENT",
+        "e": "PRESENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "commercial_reason": "Crowdlending FinTech platform operating fully digital self-service borrower and investor portals under regulatory sandbox.",
+      "observable_basis": "Direct investor sign-in/register portal and automated SME financing application form.",
+      "failure_mode": "CONTACT_SIGNAL_WITHOUT_COMMERCIAL_FIT: Phone visible, no booking/chatbot, but commercial model precludes nurturing"
+    },
+    {
+      "business_id": "hn-007",
+      "business_name": "Morni Roadside Assistance",
+      "website_url": "https://morni.com",
+      "archetype": "already_automated",
+      "matched_rules": [
+        "A",
+        "C"
+      ],
+      "observable_signals": {
+        "p": "PRESENT",
+        "e": "ABSENT",
+        "w": "PRESENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "commercial_reason": "On-demand roadside assistance and towing dispatched automatically through consumer mobile app; emergency requests cannot use delayed email/SMS nurture sequences.",
+      "observable_basis": "App Store and Google Play download CTA as primary service fulfillment vehicle.",
+      "failure_mode": "CONTACT_SIGNAL_WITHOUT_COMMERCIAL_FIT: Phone visible, no booking/chatbot, but commercial model precludes nurturing"
+    },
+    {
+      "business_id": "hn-014",
+      "business_name": "PureGym Arabia",
+      "website_url": "https://puregymarabia.com",
+      "archetype": "membership_subscription",
+      "matched_rules": [
+        "C"
+      ],
+      "observable_signals": {
+        "p": "ABSENT",
+        "e": "ABSENT",
+        "w": "PRESENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "commercial_reason": "No-contract 24/7 fitness club with automated recurring membership signup online; access is automated via QR code without sales agent nurturing.",
+      "observable_basis": "Join Now button leading to monthly recurring credit card authorization.",
+      "failure_mode": "WHATSAPP_CUSTOMER_SERVICE: WhatsApp channel for support/dispatch, not lead nurturing pipeline entry"
+    },
+    {
+      "business_id": "hn-015",
+      "business_name": "Fitness First Middle East",
+      "website_url": "https://www.fitnessfirstme.com",
+      "archetype": "membership_subscription",
+      "matched_rules": [
+        "A",
+        "E"
+      ],
+      "observable_signals": {
+        "p": "PRESENT",
+        "e": "PRESENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "commercial_reason": "Standardized health club network offering direct online membership packages and recurring subscription renewals.",
+      "observable_basis": "Online membership tiers pricing grid with direct Join Online checkout.",
+      "failure_mode": "CONTACT_SIGNAL_WITHOUT_COMMERCIAL_FIT: Phone visible, no booking/chatbot, but commercial model precludes nurturing"
+    },
+    {
+      "business_id": "hn-016",
+      "business_name": "Hive Coworking",
+      "website_url": "https://hive.sa",
+      "archetype": "membership_subscription",
+      "matched_rules": [
+        "A",
+        "C",
+        "E"
+      ],
+      "observable_signals": {
+        "p": "PRESENT",
+        "e": "PRESENT",
+        "w": "PRESENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "commercial_reason": "Shared flexible workspace offering instant daily passes and monthly hot-desk subscriptions through digital checkout.",
+      "observable_basis": "Direct pricing table for hot-desks and meeting rooms with online booking capability.",
+      "failure_mode": "CONTACT_SIGNAL_WITHOUT_COMMERCIAL_FIT: Phone visible, no booking/chatbot, but commercial model precludes nurturing"
+    }
+  ],
+  "counterexample_matrix": [
+    {
+      "id": "hn-001",
+      "A": "✗",
+      "C": "✗",
+      "E": "✗",
+      "ANY(A,C,E)": "✗"
+    },
+    {
+      "id": "hn-003",
+      "A": "✗",
+      "C": "✗",
+      "E": "✗",
+      "ANY(A,C,E)": "✗"
+    },
+    {
+      "id": "hn-006",
+      "A": "✓",
+      "C": "✗",
+      "E": "✓",
+      "ANY(A,C,E)": "✓"
+    },
+    {
+      "id": "hn-007",
+      "A": "✓",
+      "C": "✓",
+      "E": "✗",
+      "ANY(A,C,E)": "✓"
+    },
+    {
+      "id": "hn-008",
+      "A": "✗",
+      "C": "✗",
+      "E": "✗",
+      "ANY(A,C,E)": "✗"
+    },
+    {
+      "id": "hn-012",
+      "A": "✗",
+      "C": "✗",
+      "E": "✗",
+      "ANY(A,C,E)": "✗"
+    },
+    {
+      "id": "hn-014",
+      "A": "✗",
+      "C": "✓",
+      "E": "✗",
+      "ANY(A,C,E)": "✓"
+    },
+    {
+      "id": "hn-015",
+      "A": "✓",
+      "C": "✗",
+      "E": "✓",
+      "ANY(A,C,E)": "✓"
+    },
+    {
+      "id": "hn-016",
+      "A": "✓",
+      "C": "✓",
+      "E": "✓",
+      "ANY(A,C,E)": "✓"
+    },
+    {
+      "id": "hn-017",
+      "A": "✗",
+      "C": "✗",
+      "E": "✗",
+      "ANY(A,C,E)": "✗"
+    },
+    {
+      "id": "hn-019",
+      "A": "✗",
+      "C": "✗",
+      "E": "✗",
+      "ANY(A,C,E)": "✗"
+    }
+  ],
+  "site_details": [
+    {
+      "business_id": "hn-001",
+      "name": "Yelo Car Rental",
+      "archetype": "direct_self_service",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "ABSENT",
+        "e": "PRESENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "NO_MATCH",
+      "rule_C": "NO_MATCH",
+      "rule_E": "NO_MATCH"
+    },
+    {
+      "business_id": "hn-003",
+      "name": "Tawuniya Insurance",
+      "archetype": "direct_self_service",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "ABSENT",
+        "e": "ABSENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "NO_MATCH",
+      "rule_C": "NO_MATCH",
+      "rule_E": "NO_MATCH"
+    },
+    {
+      "business_id": "hn-005",
+      "name": "Tamra Capital",
+      "archetype": "already_automated",
+      "crawl_status": "FAILED",
+      "signals": {
+        "p": "UNKNOWN",
+        "e": "UNKNOWN",
+        "w": "UNKNOWN",
+        "b": "UNKNOWN",
+        "c": "UNKNOWN"
+      },
+      "rule_A": "UNKNOWN",
+      "rule_C": "UNKNOWN",
+      "rule_E": "UNKNOWN"
+    },
+    {
+      "business_id": "hn-006",
+      "name": "Lendo",
+      "archetype": "already_automated",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "PRESENT",
+        "e": "PRESENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "MATCH",
+      "rule_C": "NO_MATCH",
+      "rule_E": "MATCH"
+    },
+    {
+      "business_id": "hn-007",
+      "name": "Morni Roadside Assistance",
+      "archetype": "already_automated",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "PRESENT",
+        "e": "ABSENT",
+        "w": "PRESENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "MATCH",
+      "rule_C": "MATCH",
+      "rule_E": "NO_MATCH"
+    },
+    {
+      "business_id": "hn-008",
+      "name": "Careem",
+      "archetype": "already_automated",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "ABSENT",
+        "e": "ABSENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "NO_MATCH",
+      "rule_C": "NO_MATCH",
+      "rule_E": "NO_MATCH"
+    },
+    {
+      "business_id": "hn-010",
+      "name": "SMSA Express",
+      "archetype": "direct_self_service",
+      "crawl_status": "FAILED",
+      "signals": {
+        "p": "UNKNOWN",
+        "e": "UNKNOWN",
+        "w": "UNKNOWN",
+        "b": "UNKNOWN",
+        "c": "UNKNOWN"
+      },
+      "rule_A": "UNKNOWN",
+      "rule_C": "UNKNOWN",
+      "rule_E": "UNKNOWN"
+    },
+    {
+      "business_id": "hn-012",
+      "name": "Flynas",
+      "archetype": "direct_self_service",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "ABSENT",
+        "e": "ABSENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "NO_MATCH",
+      "rule_C": "NO_MATCH",
+      "rule_E": "NO_MATCH"
+    },
+    {
+      "business_id": "hn-014",
+      "name": "PureGym Arabia",
+      "archetype": "membership_subscription",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "ABSENT",
+        "e": "ABSENT",
+        "w": "PRESENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "NO_MATCH",
+      "rule_C": "MATCH",
+      "rule_E": "NO_MATCH"
+    },
+    {
+      "business_id": "hn-015",
+      "name": "Fitness First Middle East",
+      "archetype": "membership_subscription",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "PRESENT",
+        "e": "PRESENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "MATCH",
+      "rule_C": "NO_MATCH",
+      "rule_E": "MATCH"
+    },
+    {
+      "business_id": "hn-016",
+      "name": "Hive Coworking",
+      "archetype": "membership_subscription",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "PRESENT",
+        "e": "PRESENT",
+        "w": "PRESENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "MATCH",
+      "rule_C": "MATCH",
+      "rule_E": "MATCH"
+    },
+    {
+      "business_id": "hn-017",
+      "name": "KPMG Saudi Arabia",
+      "archetype": "institutional_enterprise",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "ABSENT",
+        "e": "ABSENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "NO_MATCH",
+      "rule_C": "NO_MATCH",
+      "rule_E": "NO_MATCH"
+    },
+    {
+      "business_id": "hn-019",
+      "name": "Law Firm of Salah Al-Hejailan",
+      "archetype": "institutional_enterprise",
+      "crawl_status": "SUCCESS",
+      "signals": {
+        "p": "ABSENT",
+        "e": "ABSENT",
+        "w": "ABSENT",
+        "b": "ABSENT",
+        "c": "ABSENT"
+      },
+      "rule_A": "NO_MATCH",
+      "rule_C": "NO_MATCH",
+      "rule_E": "NO_MATCH"
+    },
+    {
+      "business_id": "hn-020",
+      "name": "CleanCo Saudi Arabia",
+      "archetype": "institutional_enterprise",
+      "crawl_status": "FAILED",
+      "signals": {
+        "p": "UNKNOWN",
+        "e": "UNKNOWN",
+        "w": "UNKNOWN",
+        "b": "UNKNOWN",
+        "c": "UNKNOWN"
+      },
+      "rule_A": "UNKNOWN",
+      "rule_C": "UNKNOWN",
+      "rule_E": "UNKNOWN"
+    },
+    {
+      "business_id": "hn-022",
+      "name": "Saudi Towing 24",
+      "archetype": "emergency_instant_dispatch",
+      "crawl_status": "FAILED",
+      "signals": {
+        "p": "UNKNOWN",
+        "e": "UNKNOWN",
+        "w": "UNKNOWN",
+        "b": "UNKNOWN",
+        "c": "UNKNOWN"
+      },
+      "rule_A": "UNKNOWN",
+      "rule_C": "UNKNOWN",
+      "rule_E": "UNKNOWN"
+    }
+  ]
+}

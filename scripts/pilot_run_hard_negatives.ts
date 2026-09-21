@@ -103,7 +103,7 @@ async function callEndpointChunk(
           'Authorization': `Bearer ${SERVICE_ROLE_KEY}`,
           'x-pilot-secret': PILOT_SECRET!,
         },
-        body: JSON.stringify({ businesses: chunk }),
+        body: JSON.stringify({ items: chunk }),
       });
 
       if (response.status === 546) {
@@ -129,7 +129,7 @@ async function callEndpointChunk(
       }
 
       const json = await response.json();
-      const results: EndpointResultItem[] = json.results ?? [];
+      const results: EndpointResultItem[] = json.data?.results ?? json.results ?? [];
       const durationMs = Date.now() - chunkStart;
       console.log(`    ✅ Success in ${durationMs}ms: ${results.length} items returned`);
       return results;
