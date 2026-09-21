@@ -6,18 +6,27 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "collect:validation-leads": "tsx scripts/validate/collect-leads.ts",
+    "generate-reference": "tsx scripts/validate/crawler.ts && tsx scripts/validate/reference-extractor.ts",
+    "select-leads": "tsx scripts/validate/select-leads.ts",
+    "generate-reference:from-db": "tsx scripts/validate/select-leads.ts && tsx scripts/validate/crawler.ts && tsx scripts/validate/reference-extractor.ts",
+    "validate:evidence": "tsx scripts/validate/run.ts"
   },
   "devDependencies": {
+    "@google/genai": "^2.23.0",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^26.1.2",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
+    "playwright": "^1.63.0",
     "supabase": "^2.111.0",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.13",
     "typescript": "~6.0.2",
-    "vite": "^8.2.0"
+    "vite": "^8.2.0",
+    "vitest": "^5.0.1"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.0",
