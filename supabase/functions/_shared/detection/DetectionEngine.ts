@@ -31,9 +31,9 @@ export class DetectionEngine {
    * Run all detectors against the provided HTML.
    * Each detector is independent and does not share state.
    */
-  run(html: string): DetectionReport {
+  run(html: string, links?: string[]): DetectionReport {
     return {
-      booking:   this.booking.detect(html),
+      booking:   this.booking.detect(html, links),
       chatbot:   this.chatbot.detect(html),
       whatsapp:  this.whatsapp.detect(html),
       social:    this.social.detect(html),

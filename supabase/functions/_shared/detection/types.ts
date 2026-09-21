@@ -2,6 +2,9 @@
 // Detection Engine — Core Types
 // Single source of truth for all detectors.
 // Every detector MUST implement the Detector interface.
+//
+// ⚠️  FROZEN — ADR-004 (docs/contracts/ADR-004-evidence-layer-freeze.md)
+// Changes to DetectionResult require a new ADR + regression gate run.
 // ──────────────────────────────────────────────
 
 // ─── Detection Method Enum ────────────────────
@@ -56,9 +59,18 @@ export interface ConfidenceRating {
 // ─── Detection Result ─────────────────────────
 // Returned by every detector. detected=false still includes
 // negative_signals to prove what was checked.
+//
+// Contract (ADR-004):
+//   ambiguous: boolean   REQUIRED — must be explicit, never optional.
+//     true  = subject-relevant evidence observed but insufficient for PRESENT.
+//     false = no partial signals; Detector is certain about its negative.
+//   confidence           orthogonal to polarity; used for scoring/reporting only.
+//   EvidenceEngine reads: detected + ambiguous + observability → polarity.
+//   EvidenceEngine NEVER reads: confidence.score for polarity.
 
 export interface DetectionResult {
   detected: boolean;
+  ambiguous: boolean;
   confidence: ConfidenceRating;
   evidence_level: EvidenceLevel;
   positive_signals: EvidenceSignal[];  // what was found
