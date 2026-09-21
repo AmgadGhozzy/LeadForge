@@ -5,15 +5,6 @@
 
 import { EvidenceSignal, EvidenceLevel, DetectionMethod } from '../detection/types.ts';
 
-// ─── Distributed Confidence ─────────────────────
-
-export interface ConfidenceMetrics {
-  extraction_confidence: number;  // Scraper accuracy (0-100)
-  detection_confidence: number;   // Rule Engine accuracy (0-100)
-  ai_confidence?: number;         // LLM insight confidence (0-100)
-  overall_confidence: number;     // Weighted average
-}
-
 // ─── Signal Registry ────────────────────────────
 
 export interface SignalDefinition {
@@ -99,8 +90,10 @@ export interface DigitalPresence {
   pages: {
     url: string;
     pageType: string;
-    title: string | null;
-    content: string; // Truncated text representation
+    title?: string | null;
+    content?: string; // HTML content
+    textContent?: string; // Visible text
+    links?: string[]; // Extracted links
   }[];
 }
 
@@ -132,7 +125,6 @@ export interface CanonicalBusinessProfile {
   
   // Knowledge Health
   knowledgeScore: number;     // 0-100 Data completeness 
-  confidence: ConfidenceMetrics;
   
   // Idempotency / Cache Key
   aggregateHash: string;

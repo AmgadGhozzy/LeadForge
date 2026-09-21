@@ -159,11 +159,6 @@ export class ProfileBuilder {
       analysisSource: source,
       facts,
       knowledgeScore: kScore,
-      confidence: {
-        extraction_confidence: 90,
-        detection_confidence: 95,
-        overall_confidence: 92
-      },
       aggregateHash: '' // Calculated below
     };
 

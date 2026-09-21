@@ -13,6 +13,9 @@ import { BusinessRepository } from "../_shared/repositories/business-repo.ts";
 import { CostTracker } from "../_shared/cost/cost-tracker.ts";
 import { AnalysisService } from "../_shared/services/analysis-service.ts";
 import { RateLimiter } from "../_shared/services/rate-limiter.ts";
+import { EnrichmentRepository } from "../_shared/repositories/enrichment-repo.ts";
+import { EvidenceRepository } from "../_shared/repositories/evidence-repo.ts";
+import { EvidenceEngine } from "../_shared/intelligence/evidence/engine.ts";
 
 serve(async (req) => {
   if (handleCors(req)) return new Response("ok", { headers: corsHeaders });
@@ -42,9 +45,12 @@ serve(async (req) => {
     const businessRepo = new BusinessRepository(ctx.service);
     const costTracker = new CostTracker(ctx.service, scopedLogger);
     const rateLimiter = new RateLimiter(ctx.service, scopedLogger);
+    const enrichmentRepo = new EnrichmentRepository(ctx.service);
+    const evidenceRepo = new EvidenceRepository(ctx.service);
+    const evidenceEngine = new EvidenceEngine();
 
     const analysisService = new AnalysisService(
-      profileBuilder, gemini, analysisRepo, businessRepo, costTracker, rateLimiter, scopedLogger
+      profileBuilder, gemini, analysisRepo, businessRepo, costTracker, rateLimiter, enrichmentRepo, evidenceRepo, evidenceEngine, scopedLogger
     );
 
     // Run the analysis (Synchronously for MVP UI feedback)
