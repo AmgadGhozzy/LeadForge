@@ -1,0 +1,137 @@
+[
+  {
+    "business_id": "hn-001",
+    "business_name": "Yelo Car Rental",
+    "website_url": "https://www.yelo.sa",
+    "archetype": "direct_self_service",
+    "ground_truth_label": "0",
+    "commercial_reason": "Direct online fleet reservation with instant credit card checkout; transaction is finalized at booking time without sales nurturing cycle.",
+    "observable_basis": "Prominent instant vehicle booking widget with date/location selectors and immediate price calculation and payment gateway."
+  },
+  {
+    "business_id": "hn-003",
+    "business_name": "Tawuniya Insurance",
+    "website_url": "https://tawuniya.com",
+    "archetype": "direct_self_service",
+    "ground_truth_label": "0",
+    "commercial_reason": "Standardized motor and travel insurance policies are issued instantly online via Absher/Najm integrations without consultative sales follow-ups.",
+    "observable_basis": "Instant policy quotation and direct checkout buttons (Buy Motor Policy Now)."
+  },
+  {
+    "business_id": "hn-005",
+    "business_name": "Tamra Capital",
+    "website_url": "https://www.tamra.sa",
+    "archetype": "already_automated",
+    "ground_truth_label": "0",
+    "commercial_reason": "Robo-advisory wealth management service where client onboarding and portfolio funding are 100% automated via digital app and Nafath.",
+    "observable_basis": "Links directing users exclusively to download the automated iOS/Android app to open investment accounts."
+  },
+  {
+    "business_id": "hn-006",
+    "business_name": "Lendo",
+    "website_url": "https://www.lendo.sa",
+    "archetype": "already_automated",
+    "ground_truth_label": "0",
+    "commercial_reason": "Crowdlending FinTech platform operating fully digital self-service borrower and investor portals under regulatory sandbox.",
+    "observable_basis": "Direct investor sign-in/register portal and automated SME financing application form."
+  },
+  {
+    "business_id": "hn-007",
+    "business_name": "Morni Roadside Assistance",
+    "website_url": "https://morni.com",
+    "archetype": "already_automated",
+    "ground_truth_label": "0",
+    "commercial_reason": "On-demand roadside assistance and towing dispatched automatically through consumer mobile app; emergency requests cannot use delayed email/SMS nurture sequences.",
+    "observable_basis": "App Store and Google Play download CTA as primary service fulfillment vehicle."
+  },
+  {
+    "business_id": "hn-008",
+    "business_name": "Careem",
+    "website_url": "https://careem.com",
+    "archetype": "already_automated",
+    "ground_truth_label": "0",
+    "commercial_reason": "Ride-hailing and courier mobility platform operating strictly as an algorithmic real-time matching marketplace via mobile app.",
+    "observable_basis": "Universal app-download redirect and digital booking interface with no offline sales pipeline."
+  },
+  {
+    "business_id": "hn-010",
+    "business_name": "SMSA Express",
+    "website_url": "https://www.smsaexpress.com",
+    "archetype": "direct_self_service",
+    "ground_truth_label": "0",
+    "commercial_reason": "High-volume standardized courier and freight logistics; transactions are self-service label generation or walk-in retail with fixed tariffs.",
+    "observable_basis": "Waybill tracking, rate calculator, and ship-now direct portal on homepage."
+  },
+  {
+    "business_id": "hn-012",
+    "business_name": "Flynas",
+    "website_url": "https://www.flynas.com",
+    "archetype": "direct_self_service",
+    "ground_truth_label": "0",
+    "commercial_reason": "Commercial passenger airline; ticket sales are direct online card purchases via global distribution systems with zero consultative follow-up.",
+    "observable_basis": "Comprehensive airline booking engine with origin/destination, dates, and immediate payment flow."
+  },
+  {
+    "business_id": "hn-014",
+    "business_name": "PureGym Arabia",
+    "website_url": "https://puregymarabia.com",
+    "archetype": "membership_subscription",
+    "ground_truth_label": "0",
+    "commercial_reason": "No-contract 24/7 fitness club with automated recurring membership signup online; access is automated via QR code without sales agent nurturing.",
+    "observable_basis": "Join Now button leading to monthly recurring credit card authorization."
+  },
+  {
+    "business_id": "hn-015",
+    "business_name": "Fitness First Middle East",
+    "website_url": "https://www.fitnessfirstme.com",
+    "archetype": "membership_subscription",
+    "ground_truth_label": "0",
+    "commercial_reason": "Standardized health club network offering direct online membership packages and recurring subscription renewals.",
+    "observable_basis": "Online membership tiers pricing grid with direct Join Online checkout."
+  },
+  {
+    "business_id": "hn-016",
+    "business_name": "Hive Coworking",
+    "website_url": "https://hive.sa",
+    "archetype": "membership_subscription",
+    "ground_truth_label": "0",
+    "commercial_reason": "Shared flexible workspace offering instant daily passes and monthly hot-desk subscriptions through digital checkout.",
+    "observable_basis": "Direct pricing table for hot-desks and meeting rooms with online booking capability."
+  },
+  {
+    "business_id": "hn-017",
+    "business_name": "KPMG Saudi Arabia",
+    "website_url": "https://www.kpmg.com/sa",
+    "archetype": "institutional_enterprise",
+    "ground_truth_label": "0",
+    "commercial_reason": "Tier-1 institutional audit and government advisory governed by public procurement portals (Etimad) and formal tender pre-qualifications; cold lead nurture CRM is commercially inappropriate.",
+    "observable_basis": "Corporate thought leadership publications, career portal, and procurement tender contact points."
+  },
+  {
+    "business_id": "hn-019",
+    "business_name": "Law Firm of Salah Al-Hejailan",
+    "website_url": "https://www.saudilegal.com",
+    "archetype": "institutional_enterprise",
+    "ground_truth_label": "0",
+    "commercial_reason": "High-end corporate litigation, arbitration, and sovereign legal counsel requiring strict conflict checks and formal partner mandates; automated lead nurture CRM contradicts ethical and commercial practice.",
+    "observable_basis": "Institutional practice area descriptions and partner profiles with traditional office contact details only."
+  },
+  {
+    "business_id": "hn-020",
+    "business_name": "CleanCo Saudi Arabia",
+    "website_url": "https://cleanco.com.sa",
+    "archetype": "institutional_enterprise",
+    "ground_truth_label": "0",
+    "commercial_reason": "Commercial and industrial facility management provider bidding on long-term institutional concessions and municipal contracts.",
+    "observable_basis": "B2B client portfolio, ISO certification badges, and formal commercial proposal inquiry channels."
+  },
+  {
+    "business_id": "hn-022",
+    "business_name": "Saudi Towing 24",
+    "website_url": "https://satowing.com",
+    "archetype": "emergency_instant_dispatch",
+    "ground_truth_label": "0",
+    "commercial_reason": "24/7 urgent vehicle breakdown dispatch; requires immediate phone operator dispatch within seconds; delayed lead nurturing sequences are completely irrelevant.",
+    "observable_basis": "Call Now 24/7 emergency hotline prominently displayed across the entire viewport."
+  }
+]

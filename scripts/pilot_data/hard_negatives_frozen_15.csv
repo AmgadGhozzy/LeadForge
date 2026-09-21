@@ -1,0 +1,16 @@
+business_id,website_url,business_name,archetype,ground_truth_label,commercial_reason,observable_basis
+hn-001,https://www.yelo.sa,Yelo Car Rental,direct_self_service,0,Direct online vehicle hire checkout without sales consultation,Prominent online booking & instant checkout widget
+hn-003,https://tawuniya.com,Tawuniya Insurance,direct_self_service,0,Instant online policy purchase via Absher/Najm without lead nurturing,Instant quotation and Buy Policy Now buttons
+hn-005,https://www.tamra.sa,Tamra Capital,already_automated,0,Robo-advisory onboarding 100% automated via app and Nafath,Download App links as sole onboarding flow
+hn-006,https://www.lendo.sa,Lendo,already_automated,0,Regulated FinTech crowdlending portal with digital self-service,Direct investor sign-in & automated SME loan application
+hn-007,https://morni.com,Morni Roadside Assistance,already_automated,0,Emergency roadside dispatch via automated consumer mobile app,App download CTA as primary service vehicle
+hn-008,https://careem.com,Careem,already_automated,0,Algorithmic on-demand ride & delivery platform,Mobile app ecosystem without offline sales cycle
+hn-010,https://www.smsaexpress.com,SMSA Express,direct_self_service,0,Standardized courier freight with fixed tariffs and self-service label generation,Rate calculator & Ship Now portal
+hn-012,https://www.flynas.com,Flynas,direct_self_service,0,Commercial airline booking with immediate payment gateway,Full flight booking bar with instant checkout
+hn-014,https://puregymarabia.com,PureGym Arabia,membership_subscription,0,24/7 self-service gym membership with direct recurring online billing,Join Now automated membership checkout
+hn-015,https://www.fitnessfirstme.com,Fitness First Middle East,membership_subscription,0,Fitness club chain with direct online package purchasing,Join Online pricing tier checkout
+hn-016,https://hive.sa,Hive Coworking,membership_subscription,0,Flexible desk and meeting room booking via instant digital pass,Direct workspace rate table & instant booking
+hn-017,https://www.kpmg.com/sa,KPMG Saudi Arabia,institutional_enterprise,0,Institutional audit & public advisory via government tenders (Etimad),Enterprise publications & tender inquiry channels
+hn-019,https://www.saudilegal.com,Law Firm of Salah Al-Hejailan,institutional_enterprise,0,High-end corporate litigation and sovereign counsel requiring formal partner mandate,Partner profiles & traditional office registry
+hn-020,https://cleanco.com.sa,CleanCo Saudi Arabia,institutional_enterprise,0,Industrial facility management bidding on multi-year municipal concessions,B2B contract portfolio & corporate proposal channel
+hn-022,https://satowing.com,Saudi Towing 24,emergency_instant_dispatch,0,Instant 24/7 breakdown dispatch with 0-minute sales cycle,Call 24/7 emergency dispatch hotline
