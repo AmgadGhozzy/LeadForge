@@ -120,6 +120,8 @@ export class AnalysisRepository {
       const hash = await this.generateEvidenceHash(businessId, e.insight, evidenceObj, e.detection_method, promptVersion, rulesVersion);
       return {
         type,
+        title: e.insight,
+        description: e.technical_fix || null,
         insight: e.insight,
         severity: e.severity,
         technical_fix: e.technical_fix || null,
@@ -147,17 +149,19 @@ export class AnalysisRepository {
     for (const e of result.ai_opportunities) items.push(await buildItem('AI_OPPORTUNITY', e));
 
     // 2. Use RPC for atomic upsert of analysis and items
-    const { data: analysisId, error: rpcErr } = await this.supabase.rpc('upsert_website_analysis', {
+    const { data: analysisId, error: rpcErr } = await this.supabase.rpc('save_analysis', {
       p_business_id: businessId,
-      p_aggregate_hash: aggregateHash,
+      p_content_hash: aggregateHash,
       p_summary: result.business_summary,
       p_lead_score: result.lead_score,
-      p_score_explanation: result.score_explanation,
-      p_confidence_score: result.confidence_score,
       p_recommended_offer: result.recommended_offer,
       p_sales_angle: result.sales_angle,
+      p_urgency_reason: null, // Will be updated later or if it comes from the result
       p_analysis_source: analysisSource,
       p_knowledge_score: knowledgeScore,
+      p_gemini_model: modelName,
+      p_prompt_version: promptVersion,
+      p_rules_version: rulesVersion,
       p_analysis_items: items
     });
 
