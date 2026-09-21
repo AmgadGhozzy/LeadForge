@@ -24,6 +24,7 @@ prisma/*.db
 
 # Supabase
 .supabase/
+supabase/.temp/
 
 # Logs
 *.log
@@ -56,6 +57,10 @@ CLAUDE.md
 # Scratches / local notes
 .scratch/
 scratch/
+
+# Generated validation artifacts
+scripts/validate/datasets/
+scripts/pilot_data/
 
 # Docs & audit artifacts — local only
 docs/
