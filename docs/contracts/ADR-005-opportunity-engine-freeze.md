@@ -182,3 +182,32 @@ Production Opportunity Rules
 - **Rule Winner vs Metric Winner:** Optimizing for academic F1 metrics does not justify commercial activation in production outreach.
 - **Next Validation Gate:** Any graduation to production requires testing against **Hard Negative Controls** (service businesses with contact info where lead nurturing is NOT an opportunity).
 
+### 10.3 Hard Negative Controls Audit Results (HARD_NEGATIVE_CONTROL_SPEC v1)
+
+**Audit Date:** 2026-09-22  
+**Dataset:** 15 Frozen Service Businesses across 5 archetypes (`scripts/pilot_data/hard_negatives_frozen_15.json`)  
+**Zero-Mutation Gate:** Strictly Verified ($\Delta = 0$ across `contacts`, `business_capabilities`, `website_pages`, `business_technologies`).  
+**Evaluable Targets:** 11 scraped successfully, 4 unknown due to site blocking/crawl failure.
+
+#### Confusion Matrix & Specificity
+| Rule | Evaluable | UNKNOWN | TN | FP | Specificity | False Positive Rate |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Pattern A** | 11 | 4 | 7 | 4 | **63.64%** | **36.36%** |
+| **Pattern C** | 11 | 4 | 8 | 3 | **72.73%** | **27.27%** |
+| **Pattern E** | 11 | 4 | 8 | 3 | **72.73%** | **27.27%** |
+| **Combined (ANY)** | 11 | 4 | 6 | 5 | **54.55%** | **45.45%** |
+
+#### Forensic Counterexamples Identified (False Positives on Real Service Businesses)
+1. **Lendo (`hn-006`)** — *Crowdlending FinTech platform*. Matched Rules A, E (`phone: PRESENT`, `email: PRESENT`, `booking: ABSENT`, `chatbot: ABSENT`). Fails: operates 100% digital self-service borrower/investor portals under SAMA sandbox.
+2. **Morni (`hn-007`)** — *Roadside assistance & towing*. Matched Rules A, C (`phone: PRESENT`, `whatsapp: PRESENT`). Fails: on-demand instant dispatch via consumer mobile app; emergency services cannot use delayed nurture workflows.
+3. **PureGym Arabia (`hn-014`)** — *24/7 fitness club*. Matched Rule C (`whatsapp: PRESENT`). Fails: direct online self-service membership checkout with automated QR entry; WhatsApp is pure customer service.
+4. **Fitness First Middle East (`hn-015`)** — *Health club network*. Matched Rules A, E (`phone: PRESENT`, `email: PRESENT`). Fails: standardized online subscription package checkout.
+5. **Hive Coworking (`hn-016`)** — *Coworking & hot-desks*. Matched Rules A, C, E (`phone: PRESENT`, `email: PRESENT`, `whatsapp: PRESENT`). Fails: instant day pass and monthly hot-desk subscriptions via digital checkout.
+
+#### Definitive Conclusion:
+- **Verdict:** `ALL_PATTERNS_FAIL_HARD_NEGATIVES`.
+- **Permanent Rejection:** Patterns A, C, and E are permanently rejected for rule graduation. They have unacceptable false positive rates (27%–45%) on real service businesses.
+- **Production Baseline:** **`ZERO_RULES` is retained indefinitely.**
+- **Strategic Direction:** Surface-level contact presence (`has_phone`, `has_email`, `has_whatsapp`) without commercial flow signals (e.g. self-service checkout, mobile app dispatch, pricing model) cannot be used to infer lead qualification or nurturing opportunities. Richer Evidence types must be designed before any rule is considered.
+
+
