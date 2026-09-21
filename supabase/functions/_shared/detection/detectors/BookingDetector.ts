@@ -10,79 +10,159 @@ import {
   DetectionMethod, scoreToLevel,
 } from '../types.ts';
 
-// All booking signals we check (positive or negative)
-const BOOKING_CHECKS: Array<{ type: string; selector: string; pattern: RegExp | string }> = [
-  { type: 'calendly_link',     selector: 'href[contains calendly.com]',        pattern: 'calendly.com' },
-  { type: 'acuity_link',       selector: 'href[contains acuityscheduling.com]', pattern: 'acuityscheduling.com' },
-  { type: 'setmore_link',      selector: 'href[contains setmore.com]',          pattern: 'setmore.com' },
-  { type: 'bookly_plugin',     selector: 'script/class[contains bookly]',       pattern: 'bookly' },
-  { type: 'amelia_plugin',     selector: 'script/class[contains wpamelia]',     pattern: 'wpamelia' },
-  { type: 'simplybook_link',   selector: 'href[contains simplybook.me]',        pattern: 'simplybook.me' },
-  { type: 'reservio_link',     selector: 'href[contains reservio.com]',         pattern: 'reservio.com' },
-  { type: 'fresha_link',       selector: 'href[contains fresha.com]',           pattern: 'fresha.com' },
-  { type: 'booking_keyword',   selector: 'text[booking|appointment|reserve]',   pattern: /\b(book now|book an appointment|schedule a visit|reserve your spot|make a reservation)\b/i },
-  { type: 'booking_form',      selector: 'form[action/id/class contains book]', pattern: /\bbook(ing)?\b/i },
+// Corroboration logic
+// STRONG: Known provider URL, OR Booking-specific interactive structure on booking page
+// MEDIUM: Internal booking URL (e.g., /appointment), OR Strong CTA (EN/AR)
+// WEAK: Generic "appointment" or weak CTA ("احجز" alone)
+// FormCheck: corroborates, but not enough alone.
+
+const BOOKING_PROVIDERS = [
+  'calendly.com', 'zocdoc.com', 'mindbody.io', 'doctolib',
+  'setmore.com', 'simplybook', 'acuityscheduling', 'fresha.com',
+  'booksy.com', 'vagaro.com', 'appointy.com', '10to8.com',
+  'clinicmaster', 'healthengine', 'practo.com', 'bookly', 'wpamelia'
 ];
 
+const INTERNAL_BOOKING_URLS = [
+  '/appointment', '/appointments', '/book', '/book-online',
+  '/online-booking', '/online-appointment', '/schedule',
+  '/booking', '/reserve', '/book-now'
+];
+
+const STRONG_CTA_EN = /\b(book now|book an appointment|book your appointment|schedule a visit|make an appointment|schedule now|book online|reserve your spot)\b/i;
+const STRONG_CTA_AR = /احجز موعد|احجز الآن|احجز موعدك|حجز موعد|حجز أونلاين|حجز اونلاين|حجز عبر الإنترنت|حجز إلكتروني/;
+
+const MEDIUM_CTA_EN = /\b(book appointment|schedule appointment|book a consultation|request an appointment)\b/i;
+
+const WEAK_CTA = /\bappointment\b/i;
+const WEAK_CTA_AR = /احجز(?!\s+موعد|\s+الآن|\s+موعدك)|\bحجز\b|\bمواعيد\b/;
+
 export class BookingDetector implements Detector {
-  detect(html: string): DetectionResult {
+  detect(html: string, links?: string[]): DetectionResult {
     const htmlLower = html.toLowerCase();
     const positive: EvidenceSignal[] = [];
     const negative: EvidenceSignal[] = [];
+    
+    let hasProvider = false;
+    let hasBookingStructure = false;
+    let hasInternalUrl = false;
+    let hasStrongCTA = false;
+    let hasWeakCTA = false;
 
-    for (const check of BOOKING_CHECKS) {
-      const matched = typeof check.pattern === 'string'
-        ? htmlLower.includes(check.pattern)
-        : check.pattern.test(html);
-
-      if (matched) {
-        // Extract actual value for link-type checks
-        let value: string | null = null;
-        if (typeof check.pattern === 'string') {
-          const regex = new RegExp(`href=["'][^"']*${check.pattern}[^"']*["']`, 'i');
-          const m = html.match(regex);
-          value = m ? m[0].replace(/href=["']|["']$/g, '') : check.pattern;
-        }
-        positive.push({
-          type: check.type,
-          source: DetectionMethod.HTML_SCAN,
-          selector: check.selector,
-          value,
-        });
-      } else {
-        negative.push({
-          type: check.type,
-          source: DetectionMethod.HTML_SCAN,
-          selector: check.selector,
-          value: null,
-        });
-      }
+    // 1. Provider
+    const providerMatches = BOOKING_PROVIDERS.filter(p => htmlLower.includes(p) || (links || []).some(l => l.toLowerCase().includes(p)));
+    if (providerMatches.length > 0) {
+      hasProvider = true;
+      positive.push({
+        type: 'booking_provider',
+        source: DetectionMethod.HTML_SCAN,
+        value: providerMatches.join(', '),
+        confidence: 100,
+        confidence_source: 'RULE_ENGINE'
+      });
     }
 
-    const detected = positive.length > 0;
+    // 2. Booking Structure (Form inputs of date/time or calendar widgets)
+    // For safety, only consider these strong if they look like booking widgets.
+    if (htmlLower.includes('<input type="date"') || htmlLower.includes('<input type="time"') || htmlLower.includes('calendar-widget')) {
+      hasBookingStructure = true;
+      positive.push({
+        type: 'booking_structure',
+        source: DetectionMethod.DOM,
+        value: 'date/time inputs found',
+        confidence: 90,
+        confidence_source: 'RULE_ENGINE'
+      });
+    }
 
-    // Score: each signal adds weight
-    const linkSignals   = positive.filter(s => s.type.endsWith('_link')).length;
-    const pluginSignals = positive.filter(s => s.type.endsWith('_plugin')).length;
-    const keywordSig    = positive.filter(s => s.type === 'booking_keyword').length;
+    // 3. Internal Booking URL
+    const internalUrlMatches = INTERNAL_BOOKING_URLS.filter(p => (links || []).some(l => l.toLowerCase().includes(p)) || htmlLower.includes(`href="${p}"`) || htmlLower.includes(`href='${p}'`));
+    if (internalUrlMatches.length > 0) {
+      hasInternalUrl = true;
+      positive.push({
+        type: 'internal_booking_url',
+        source: DetectionMethod.REGEX,
+        value: internalUrlMatches.join(', '),
+        confidence: 70,
+        confidence_source: 'RULE_ENGINE'
+      });
+    }
 
+    // 4. CTAs
+    if (STRONG_CTA_EN.test(html) || STRONG_CTA_AR.test(html)) {
+      hasStrongCTA = true;
+      positive.push({
+        type: 'booking_cta_strong',
+        source: DetectionMethod.REGEX,
+        value: 'Strong booking CTA found',
+        confidence: 80,
+        confidence_source: 'RULE_ENGINE'
+      });
+    } else if (MEDIUM_CTA_EN.test(html)) {
+      // Treat medium as strong for corroboration purposes here
+      hasStrongCTA = true;
+      positive.push({
+        type: 'booking_cta_medium',
+        source: DetectionMethod.REGEX,
+        value: 'Medium booking CTA found',
+        confidence: 70,
+        confidence_source: 'RULE_ENGINE'
+      });
+    }
+
+    if (WEAK_CTA.test(html) || WEAK_CTA_AR.test(html)) {
+      hasWeakCTA = true;
+      positive.push({
+        type: 'booking_cta_weak',
+        source: DetectionMethod.REGEX,
+        value: 'Weak booking CTA found',
+        confidence: 40,
+        confidence_source: 'RULE_ENGINE'
+      });
+    }
+
+    // Corroboration Decision
+    let detected = false;
     let score = 0;
-    if (linkSignals > 0)   score = Math.min(95, 75 + linkSignals * 10);
-    else if (pluginSignals) score = 85;
-    else if (keywordSig)    score = 50;
+    let reason = '';
 
-    const reason = detected
-      ? `${positive.length} booking signal(s) found: ${positive.map(s => s.type).join(', ')}.`
-      : `No booking signals found. ${BOOKING_CHECKS.length} patterns checked and all returned negative.`;
+    if (hasProvider) {
+      detected = true;
+      score = 95;
+      reason = 'Known booking provider detected.';
+    } else if (hasBookingStructure && hasInternalUrl) {
+      detected = true;
+      score = 90;
+      reason = 'Internal booking URL with booking structure found.';
+    } else if (hasStrongCTA && hasInternalUrl) {
+      detected = true;
+      score = 85;
+      reason = 'Strong CTA corroborated by internal booking URL.';
+    } else if (hasStrongCTA && hasBookingStructure) {
+      detected = true;
+      score = 85;
+      reason = 'Strong CTA corroborated by booking structure.';
+    } else {
+      // Not enough corroboration
+      detected = false;
+      score = hasInternalUrl || hasStrongCTA || hasWeakCTA ? 40 : 0;
+      reason = score > 0 ? 'Weak or uncorroborated booking signals found.' : 'No booking signals found.';
+      // Move all positive to negative since we decided ABSENT/UNKNOWN
+      negative.push(...positive.map(p => ({ ...p, value: 'Uncorroborated: ' + p.value })));
+      positive.length = 0; // Clear positive
+    }
 
     return {
       detected,
-      confidence: { score: detected ? score : 90, reason },
-      evidence_level: detected ? scoreToLevel(score) : 'VERIFIED',
+      ambiguous: !detected && (hasInternalUrl || hasStrongCTA || hasWeakCTA),
+      confidence: { score, reason },
+      evidence_level: scoreToLevel(score),
       positive_signals: positive,
-      negative_signals: negative,
+      negative_signals: negative.length > 0 ? negative : [{ type: 'booking', source: DetectionMethod.HTML_SCAN, value: null, confidence: 100, confidence_source: 'RULE_ENGINE' }],
       method: DetectionMethod.HTML_SCAN,
-      metadata: { checks_run: BOOKING_CHECKS.length },
+      metadata: { 
+        hasProvider, hasBookingStructure, hasInternalUrl, hasStrongCTA, hasWeakCTA
+      },
     };
   }
 }

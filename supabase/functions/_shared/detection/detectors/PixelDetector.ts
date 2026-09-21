@@ -87,6 +87,7 @@ export class PixelDetector implements Detector {
 
     return {
       detected,
+      ambiguous: false,
       confidence: { score, reason },
       evidence_level: detected ? scoreToLevel(score) : 'VERIFIED',
       positive_signals: positive,

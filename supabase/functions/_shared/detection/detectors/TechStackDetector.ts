@@ -159,6 +159,7 @@ export class TechStackDetector implements Detector {
 
     return {
       detected,
+      ambiguous: false,
       confidence: { score, reason },
       evidence_level: detected ? scoreToLevel(score) : 'STRONG',
       positive_signals: positive,
