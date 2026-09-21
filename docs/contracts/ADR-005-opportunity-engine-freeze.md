@@ -150,3 +150,35 @@ Before any new Detector or Rule is authored:
 3. Determine if those signals can be collected at scrape time.
 4. Decide if a new Detector justifies the added complexity.
 5. Only then: write one explicit Rule, one explicit test, and one explicit gate.
+
+---
+
+## 10. Candidate Patterns Evaluation & Production Decision (Post-Pilot Backtest)
+
+**Date:** 2026-09-21  
+**Audit Context:** Combined Backtest on Reference Set (31 FIT) and Negative Control (8 Scraped NOT_FIT + 7 Limit Failed).
+
+### 10.1 Evaluated Candidate Patterns
+| Candidate Pattern | Definition | Precision | Recall | F1 | Evaluation Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Pattern A** | `PHONE=PRESENT ∧ BOOKING=ABSENT ∧ CHATBOT=ABSENT` | 95.24% | 64.52% | 76.92% | Evaluated (FP: Shahid VIP) |
+| **Pattern C** | `WHATSAPP=PRESENT ∧ BOOKING=ABSENT` | 100.0% | 48.39% | 65.22% | Evaluated (Clean signal, low recall) |
+| **Pattern E** | `PHONE=PRESENT ∧ EMAIL=PRESENT ∧ BOOKING=ABSENT ∧ CHATBOT=ABSENT` | 93.33% | 45.16% | 60.87% | Evaluated (FP: Shahid VIP) |
+
+### 10.2 Architectural Verdict: ZERO_RULES Baseline Preserved
+```
+Candidate Patterns
+├── A — evaluated
+├── C — evaluated
+└── E — evaluated
+
+Production Opportunity Rules
+└── NONE (ZERO_RULES)
+```
+
+**Key Rationale:**
+- **Contact Signal ≠ Lead Nurturing Opportunity:** Observable website contact patterns (e.g. phone presence without visible booking) are website pattern detectors, not commercial opportunity proof.
+- **False Positive Gate:** Pattern A & E fire on non-fit models (e.g. streaming/subscription media like Shahid VIP).
+- **Rule Winner vs Metric Winner:** Optimizing for academic F1 metrics does not justify commercial activation in production outreach.
+- **Next Validation Gate:** Any graduation to production requires testing against **Hard Negative Controls** (service businesses with contact info where lead nurturing is NOT an opportunity).
+
