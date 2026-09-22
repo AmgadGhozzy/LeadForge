@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vortex Fabrication — Custom Metal & Industrial Solutions</title>
+</head>
+<body>
+  <header>
+    <h1>Vortex Heavy Fabrication</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/request-quote" class="cta-nav">Request a Custom Quote</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <h2>Engineered Structural Components Made to Specification</h2>
+      <p>We manufacture custom pressure vessels, pipelines, and structural steel for oil & gas operators.</p>
+      <a href="#quote-section" class="btn-quote">Get Project Pricing & Proposal</a>
+    </section>
+    <section id="quote-section" class="quote-form-container">
+      <h3>Request a Custom Quotation</h3>
+      <p>Submit your engineering blueprints and Bill of Materials for a comprehensive commercial proposal.</p>
+      <form id="rfq-form" action="/api/rfq" method="POST">
+        <label for="company">Company Name:</label>
+        <input type="text" id="company" name="company" required>
+        
+        <label for="scope">Project Scope & Specifications:</label>
+        <textarea id="scope" name="scope" rows="5" required></textarea>
+        
+        <label for="budget">Target Budget (SAR):</label>
+        <input type="text" id="budget" name="budget">
+        
+        <button type="submit" class="submit-rfq">Submit RFQ for Quotation</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>Direct inquiries: info@vortexfab.sa | Riyadh Industrial City 2</p>
+  </footer>
+</body>
+</html>

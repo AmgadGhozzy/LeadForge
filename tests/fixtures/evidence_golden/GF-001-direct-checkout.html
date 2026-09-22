@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Apex Hardware — Direct Online Store</title>
+</head>
+<body>
+  <header>
+    <h1>Apex Hardware Online Store</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/shop">Shop Products</a>
+      <a href="/cart">Cart (3 items)</a>
+    </nav>
+  </header>
+  <main>
+    <section class="catalog">
+      <h2>Featured Industrial Tools</h2>
+      <div class="product-item">
+        <h3>Precision Torque Wrench</h3>
+        <p class="price">SAR 450.00</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </section>
+    <section class="checkout-container">
+      <h2>Order Summary & Direct Checkout</h2>
+      <p>Total: SAR 450.00</p>
+      <form id="checkout-form" action="/api/pay" method="POST">
+        <div id="stripe-elements-card"></div>
+        <button type="submit" id="checkout-btn" class="btn-primary">Proceed to Checkout</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2026 Apex Hardware Ltd. All rights reserved.</p>
+  </footer>
+</body>
+</html>
