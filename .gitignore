@@ -63,7 +63,8 @@ scripts/validate/datasets/
 scripts/pilot_data/
 
 # Docs & audit artifacts — local only
-docs/
+docs/*
+!docs/contracts/
 LeadForge_Analysis_AR.md
 LeadForge_Technical_Audit_2026.md
 detector_*.json

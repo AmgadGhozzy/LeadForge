@@ -1,0 +1,183 @@
+{
+  "manifest_version": "1.1.0",
+  "generated_at": "2026-10-18T10:42:47.480Z",
+  "purpose": "Gate 5.13 Immutable Evidence & Test Ground-Truth Fingerprint Manifest (Reference Datasets & Fixtures Only)",
+  "files": {
+    "scripts/pilot_data/backtest_results.json": {
+      "sha256": "1b37a91701c44f0dcdbb572e6c5a718b76415e5698dc6166c68b6a8d354fc149",
+      "bytes": 2515
+    },
+    "scripts/pilot_data/backtest_v2_results.json": {
+      "sha256": "9ab9a798faca6bb1a2eafa0d4c1e37dbf840cc0dc2f05474d410c9a19ee1da6f",
+      "bytes": 1130
+    },
+    "scripts/pilot_data/combined_backtest_report.json": {
+      "sha256": "081817a39a86dd0638c162d3d0baf15bd7fd87d9b395f88552831ff7b0c95d95",
+      "bytes": 1214
+    },
+    "scripts/pilot_data/endpoint_smoke_results.json": {
+      "sha256": "20a1eacd7e573e2d00b8fc0cf7dcedc283a2e8485a46c63d43f8c250e1d43061",
+      "bytes": 2677
+    },
+    "scripts/pilot_data/full_47_results.json": {
+      "sha256": "f7a4a591589f4de43b7d2577ee3efbc7fd4587a5787171e7d6483d8d8f7530b3",
+      "bytes": 55816
+    },
+    "scripts/pilot_data/gate4_evidence_backtest_results.json": {
+      "sha256": "0de54bd907b7ac6b0d529327a672da7f801ccbac86f49a3d3a1dce992db48b3c",
+      "bytes": 185840
+    },
+    "scripts/pilot_data/hard_negatives_candidates_24.json": {
+      "sha256": "daa9e39d6eef8251eaf9dc1e1bf596ffc79ed7e5ce37bb8ebae94e854a16be77",
+      "bytes": 10874
+    },
+    "scripts/pilot_data/hard_negatives_frozen_15.csv": {
+      "sha256": "0002b72db69248ad7344e5bc92c2960a40fd0f7858bd4a03caf3ee02bcc89bfd",
+      "bytes": 2825
+    },
+    "scripts/pilot_data/hard_negatives_frozen_15.json": {
+      "sha256": "ac00d6a093f6557801c89bb587354d6b01eefdbe8c98b6afaddb8abc9907ede7",
+      "bytes": 7405
+    },
+    "scripts/pilot_data/hard_negatives_report.json": {
+      "sha256": "6e274206bccf2ca751be24dae828092ad9f5e2e2ec1050b524457566bdd66dbe",
+      "bytes": 13126
+    },
+    "scripts/pilot_data/hard_negatives_results.json": {
+      "sha256": "c05d5f21f22eaf921e56ea8942a9221c110cdd3564b455d0c7178b3049dd4b47",
+      "bytes": 9309
+    },
+    "scripts/pilot_data/llm_reference_labels.csv": {
+      "sha256": "18a9939e3cd9a156b53c1c6f3da52aa449cfc55208582a59f34034267b5c53ea",
+      "bytes": 23560
+    },
+    "scripts/pilot_data/negative_backtest_gpt_message.txt": {
+      "sha256": "8d9963841a4a33a70c3cab67f1fcc284417fac9576b4fa930bfb0b7975ff2707",
+      "bytes": 1848
+    },
+    "scripts/pilot_data/negative_backtest_report.json": {
+      "sha256": "8cb57b46a41a04b90222e93577bc03a0b3c24ca2912b3d7b106bf150022731fa",
+      "bytes": 6338
+    },
+    "scripts/pilot_data/negative_control_candidates_draft.csv": {
+      "sha256": "948de3d44f76a8f3b95eded85a51d4a9c6d2aa3bf0d37ac79ecc6b69659d64b9",
+      "bytes": 3537
+    },
+    "scripts/pilot_data/negative_control_results.json": {
+      "sha256": "6cfa93271be5b442f9e3692a09d70c65bf698be24aa40eea6895305ecf067c7f",
+      "bytes": 13418
+    },
+    "scripts/pilot_data/pilot_candidate_inputs.csv": {
+      "sha256": "b281436d15f7ea9949b8d599afbafc0014cf780054eb64bf2c78ac334097d032",
+      "bytes": 4091
+    },
+    "scripts/pilot_data/pilot_candidate_inputs_v2.csv": {
+      "sha256": "18f070f9e03e434426560e1513f7ae69cd1aa78728ee83e8743b480ce81d1eea",
+      "bytes": 3853
+    },
+    "scripts/pilot_data/pilot_evidence_reference.csv": {
+      "sha256": "14f0850feb7eb8880f09882a22e87bf54b5b0f87312ea4fc47aaa4900758ae50",
+      "bytes": 10688
+    },
+    "scripts/pilot_data/pilot_evidence_reference_provenance.json": {
+      "sha256": "f1e94d605be9a70841b33bcd8281039137593ba5264e334cf09204a2f94054dc",
+      "bytes": 39090
+    },
+    "scripts/pilot_data/pilot_negative_control.csv": {
+      "sha256": "6a3d5604206d22e5de88df5595da14115efd5e14118cbd21235f096b6c7c198a",
+      "bytes": 2077
+    },
+    "scripts/pilot_data/pilot_reviewer_a.csv": {
+      "sha256": "446ae1ca886598d6d2a3ab8cc6705b14853922c050fed50753e65db73eedc1a8",
+      "bytes": 5787
+    },
+    "scripts/pilot_data/pilot_reviewer_b.csv": {
+      "sha256": "446ae1ca886598d6d2a3ab8cc6705b14853922c050fed50753e65db73eedc1a8",
+      "bytes": 5787
+    },
+    "scripts/pilot_data/pilot_sample_snapshot.csv": {
+      "sha256": "40f398dde10e91653d5cf0f23b39b54bac869c32103f12fac7facc33bb07133a",
+      "bytes": 5675
+    },
+    "scripts/pilot_data/smoke_test_results.json": {
+      "sha256": "82a2cb96f355213858f8915fc59a612adea40d7c426b8fe045d5e08029be4c29",
+      "bytes": 2491
+    },
+    "tests/fixtures/evidence_golden/GF-001-direct-checkout.html": {
+      "sha256": "37d15e3af3b22ea67115a1a8445135de8d0e71210d82c53fcf343a0cf16ff834",
+      "bytes": 1073
+    },
+    "tests/fixtures/evidence_golden/GF-002-quote-driven-service.html": {
+      "sha256": "29f3d83d738ab8027c110f0c5b1d1ea1ae7897d6350067406adb608a373c4aac",
+      "bytes": 1603
+    },
+    "tests/fixtures/evidence_golden/GF-003-consultation-service.html": {
+      "sha256": "721d7495fc5f359bc33cb1483477470d32df5793b36812a43b9b4b60a5e7e6b3",
+      "bytes": 1151
+    },
+    "tests/fixtures/evidence_golden/GF-004-support-only-whatsapp.html": {
+      "sha256": "161da1e8d6428d0341cf720628ac846583f02cc02543f766e48077c88fa1f749",
+      "bytes": 1057
+    },
+    "tests/fixtures/evidence_golden/GF-005-acquisition-whatsapp.html": {
+      "sha256": "f24dd3a9540bc1fc533a22ac616e1955123c0f490dece2bfbd03cfbb9ade748e",
+      "bytes": 999
+    },
+    "tests/fixtures/evidence_golden/GF-006-self-service-membership.html": {
+      "sha256": "c61695b87f6b449519488ae0b3d256ef0444a94d1bb07401cf7997a79042cc5d",
+      "bytes": 987
+    },
+    "tests/fixtures/evidence_golden/GF-007-multi-stage-journey.html": {
+      "sha256": "8b4869ba1ae2efae96022de3757880c53f0b875852879b040dd5ecd3c7ef03b9",
+      "bytes": 1890
+    },
+    "tests/fixtures/evidence_golden/GF-008-ambiguous-contact.html": {
+      "sha256": "bfa21d1beffcae8b32a06fc1d94b9a3e836f125e9f8c569e778e082eb2e627d7",
+      "bytes": 893
+    },
+    "tests/fixtures/evidence_golden/GF-009-insufficient-observability.html": {
+      "sha256": "18befdb66976e09973ea587014cfa9b63372a469377ac5cc7a073feb755cddbc",
+      "bytes": 778
+    },
+    "tests/fixtures/evidence_golden/GF-ARABIC-CONSULT-001.html": {
+      "sha256": "e76fdba3a960eee6f6409ed5552ea4dd037d4f4c8f105abcd1accf0d559326e8",
+      "bytes": 540
+    },
+    "tests/fixtures/evidence_golden/GF-CAREERS-001.html": {
+      "sha256": "16fa27b0335588ec8fa8f6563eb80b8097736523c010ccfd8a3f34c60f8977fe",
+      "bytes": 649
+    },
+    "tests/fixtures/evidence_golden/GF-MEMBERSHIP-001.html": {
+      "sha256": "93ac12cf358cd0e61d4dc8d4f47e3551a2510e48b57cdcc6a101d22cd1cff666",
+      "bytes": 596
+    },
+    "tests/fixtures/evidence_golden/GF-NEWSLETTER-001.html": {
+      "sha256": "14c4b9127f5047bcc62c529f789d349863722d734d93714d5fcf6c91986a6680",
+      "bytes": 679
+    },
+    "tests/fixtures/evidence_golden/contract_expectations.ts": {
+      "sha256": "d303adb9c4d56c20f7564370bb1f7b761fc1c24cd7b2a9a145392493c773acdb",
+      "bytes": 14656
+    },
+    "tests/fixtures/hard_negatives/HF-001-regulatory-disclosure.html": {
+      "sha256": "be2025dbd526da4342312f62c9138b4b52c0d9755b4896c67a2e253c5ed81a25",
+      "bytes": 762
+    },
+    "tests/fixtures/hard_negatives/HF-002-emergency-dispatch.html": {
+      "sha256": "14e0a56786944a82af0ccd32f921e08244a56367fa4454c72517b9395c9c9f30",
+      "bytes": 682
+    },
+    "tests/fixtures/hard_negatives/HF-003-support-only-whatsapp.html": {
+      "sha256": "c84f7db2e560b3d506c87c5bfd5c40ca4c63e7d947b3d74e089f895d96c9590d",
+      "bytes": 516
+    },
+    "tests/fixtures/hard_negatives/HF-004-self-service-subscription.html": {
+      "sha256": "81c20b18f4cbbb67491ee6a6fd5712bdfc26a340e5060304fa0e34f004f9d3e4",
+      "bytes": 497
+    },
+    "tests/fixtures/hard_negatives/HF-005-bare-whatsapp-icon.html": {
+      "sha256": "2c16df8c030eafe913d2b769f0eaad6ea77f2d0e87bfedb86f9c7ec1a448e528",
+      "bytes": 581
+    }
+  }
+}
