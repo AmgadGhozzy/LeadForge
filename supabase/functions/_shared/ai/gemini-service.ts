@@ -5,18 +5,18 @@
 import { PromptTemplate, ConsultantAnalysisResult, SalesGenerationResult } from './types.ts';
 import { AiValidator } from './validator.ts';
 import { Logger } from '../observability/logger.ts';
+import { GoogleGenAI, Type } from "npm:@google/genai";
 
-// ─── Trimmed EvidenceItem schema ────────────────────────────────────────────
 // ─── Top-level consultant response schema ────────────────────────────────────
 const consultantResponseSchema = {
-  type: 'OBJECT',
+  type: Type.OBJECT,
   properties: {
-    business_summary:             { type: 'STRING' },
-    business_summary_confidence:  { type: 'NUMBER' },
-    sales_angle:                  { type: 'STRING' },
-    lead_score:                   { type: 'NUMBER' },
-    score_explanation:            { type: 'STRING' },
-    confidence_score:             { type: 'STRING' },
+    business_summary:             { type: Type.STRING },
+    business_summary_confidence:  { type: Type.NUMBER },
+    sales_angle:                  { type: Type.STRING },
+    lead_score:                   { type: Type.NUMBER },
+    score_explanation:            { type: Type.STRING },
+    confidence_score:             { type: Type.STRING },
   },
   required: [
     'business_summary', 'business_summary_confidence',
@@ -25,13 +25,74 @@ const consultantResponseSchema = {
 };
 
 export class GeminiService {
-  private apiKey: string;
-  private baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models';
+  private ai: GoogleGenAI;
 
   constructor(private logger: Logger) {
-    const key = Deno.env.get('GEMINI_API_KEY');
-    if (!key) throw new Error('GEMINI_API_KEY is missing');
-    this.apiKey = key;
+    const config: any = {
+      vertexai: true,
+      project: 'gen-lang-client-0841388254',
+      location: 'us-central1'
+    };
+
+    const gcpServiceAccountKey = Deno.env.get('GCP_SERVICE_ACCOUNT_KEY');
+    
+    if (gcpServiceAccountKey) {
+      try {
+        config.googleAuthOptions = {
+          credentials: JSON.parse(gcpServiceAccountKey)
+        };
+      } catch (err) {
+        this.logger.error("Failed to parse GCP_SERVICE_ACCOUNT_KEY", err as Error);
+      }
+    } else {
+      const apiKeyOverride = Deno.env.get('GEMINI_API_KEY') || Deno.env.get('VERTEX_AI_API_KEY');
+      if (apiKeyOverride) {
+        config.vertexai = false;
+        config.apiKey = apiKeyOverride;
+      } else {
+        throw new Error('Neither GCP_SERVICE_ACCOUNT_KEY nor GEMINI_API_KEY are configured.');
+      }
+    }
+
+    this.ai = new GoogleGenAI(config);
+  }
+
+  private async generateWithRetry(model: string, contents: any[], config: any, timeoutMs: number, maxRetries = 3): Promise<any> {
+    let attempt = 0;
+    while (attempt < maxRetries) {
+      const startTime = performance.now();
+      
+      try {
+        // We use Promise.race to enforce timeout since the SDK might not have a strict timeout property exposed
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('AI_TIMEOUT')), timeoutMs)
+        );
+        
+        const response: any = await Promise.race([
+          this.ai.models.generateContent({
+            model,
+            contents,
+            config
+          }),
+          timeoutPromise
+        ]);
+
+        return response;
+      } catch (error: any) {
+        const isRateLimit = error?.status === 429 || error?.status === 503 || error?.message?.includes('429');
+        const isTimeout = error?.message === 'AI_TIMEOUT' || error?.name === 'AbortError';
+        
+        if ((isRateLimit || isTimeout) && attempt < maxRetries - 1) {
+          attempt++;
+          const backoff = Math.pow(2, attempt) * 1000 + Math.random() * 1000;
+          this.logger.warn(`gemini.retry`, { attempt, isTimeout, isRateLimit, backoff });
+          await new Promise(res => setTimeout(res, backoff));
+          continue;
+        }
+
+        throw error;
+      }
+    }
   }
 
   async analyze(
@@ -40,49 +101,33 @@ export class GeminiService {
     model = 'gemini-2.5-flash',
     context: any = {}
   ): Promise<{ result: ConsultantAnalysisResult; tokens: { input: number; output: number } }> {
-    const url = `${this.baseUrl}/${model}:generateContent?key=${this.apiKey}`;
-
     const sysInstructionString = typeof template.systemInstruction === 'function' 
       ? template.systemInstruction(context) 
       : template.systemInstruction;
 
-    const payload = {
-      system_instruction: { parts: [{ text: sysInstructionString }] },
-      contents: [{ parts: [{ text: userPrompt }] }],
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: consultantResponseSchema,
-        temperature: 0.2,
-      },
-    };
-
     const startTime = performance.now();
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 90_000);
 
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      });
+      const response = await this.generateWithRetry(
+        model,
+        [{ role: 'user', parts: [{ text: userPrompt }] }],
+        {
+          systemInstruction: sysInstructionString,
+          responseMimeType: 'application/json',
+          responseSchema: consultantResponseSchema,
+          temperature: 0.2,
+        },
+        90_000,
+        4
+      );
 
-      clearTimeout(timeout);
-
-      if (!response.ok) {
-        const errBody = await response.text();
-        throw new Error(`Gemini API Error: ${response.status} - ${errBody}`);
-      }
-
-      const data = await response.json();
-      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const rawText = typeof response.text === 'function' ? response.text() : response.text;
       if (!rawText) throw new Error('No content returned from Gemini');
 
       const parsedJson = JSON.parse(rawText);
       const validatedResult = AiValidator.validate(parsedJson);
 
-      const usage = data.usageMetadata || {};
+      const usage = response.usageMetadata || {};
       const tokens = {
         input: usage.promptTokenCount || 0,
         output: usage.candidatesTokenCount || 0,
@@ -96,16 +141,15 @@ export class GeminiService {
       return { result: validatedResult, tokens };
 
     } catch (error: any) {
-      clearTimeout(timeout);
-      if (error.name === 'AbortError') {
-        this.logger.error('gemini.analyze_timeout', new Error('AI_TIMEOUT'), {
+      if (error.message === 'AI_TIMEOUT') {
+        this.logger.error('gemini.analyze_timeout', error, {
           durationMs: Math.round(performance.now() - startTime),
         });
-        throw new Error('AI_TIMEOUT');
+      } else {
+        this.logger.error('gemini.analyze_failed', error, {
+          durationMs: Math.round(performance.now() - startTime),
+        });
       }
-      this.logger.error('gemini.analyze_failed', error, {
-        durationMs: Math.round(performance.now() - startTime),
-      });
       throw error;
     }
   }
@@ -116,35 +160,33 @@ export class GeminiService {
     model = 'gemini-2.5-flash',
     context: any = {}
   ): Promise<{ result: SalesGenerationResult; tokens: { input: number; output: number } }> {
-    const url = `${this.baseUrl}/${model}:generateContent?key=${this.apiKey}`;
-
     const schema = {
-      type: 'OBJECT',
+      type: Type.OBJECT,
       properties: {
-        selected_offer_slug: { type: 'STRING' },
-        selection_reason:    { type: 'STRING' },
-        urgency:             { type: 'STRING' },
-        email_subject:       { type: 'STRING' },
-        email_body:          { type: 'STRING' },
-        whatsapp_message:    { type: 'STRING' },
+        selected_offer_slug: { type: Type.STRING },
+        selection_reason:    { type: Type.STRING },
+        urgency:             { type: Type.STRING },
+        email_subject:       { type: Type.STRING },
+        email_body:          { type: Type.STRING },
+        whatsapp_message:    { type: Type.STRING },
         cold_call_script: {
-          type: 'OBJECT',
+          type: Type.OBJECT,
           properties: {
-            hook:                { type: 'STRING' },
-            pitch:               { type: 'STRING' },
-            objection_handling:  { type: 'STRING' },
+            hook:                { type: Type.STRING },
+            pitch:               { type: Type.STRING },
+            objection_handling:  { type: Type.STRING },
           },
           required: ['hook', 'pitch', 'objection_handling'],
         },
         follow_up_sequence: {
-          type: 'ARRAY',
+          type: Type.ARRAY,
           items: {
-            type: 'OBJECT',
+            type: Type.OBJECT,
             properties: {
-              day:     { type: 'INTEGER' },
-              channel: { type: 'STRING' },
-              goal:    { type: 'STRING' },
-              message: { type: 'STRING' },
+              day:     { type: Type.INTEGER },
+              channel: { type: Type.STRING },
+              goal:    { type: Type.STRING },
+              message: { type: Type.STRING },
             },
             required: ['day', 'channel', 'goal', 'message'],
           },
@@ -161,42 +203,28 @@ export class GeminiService {
       ? template.systemInstruction(context) 
       : template.systemInstruction;
 
-    const payload = {
-      system_instruction: { parts: [{ text: sysInstructionString }] },
-      contents: [{ parts: [{ text: userPrompt }] }],
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: schema,
-        temperature: 0.4,
-      },
-    };
-
     const startTime = performance.now();
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 60_000);
 
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      });
+      const response = await this.generateWithRetry(
+        model,
+        [{ role: 'user', parts: [{ text: userPrompt }] }],
+        {
+          systemInstruction: sysInstructionString,
+          responseMimeType: 'application/json',
+          responseSchema: schema,
+          temperature: 0.4,
+        },
+        60_000,
+        4
+      );
 
-      clearTimeout(timeout);
-
-      if (!response.ok) {
-        const errBody = await response.text();
-        throw new Error(`Gemini API Error: ${response.status} - ${errBody}`);
-      }
-
-      const data = await response.json();
-      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const rawText = typeof response.text === 'function' ? response.text() : response.text;
       if (!rawText) throw new Error('No content returned from Gemini');
 
       const result = JSON.parse(rawText) as SalesGenerationResult;
 
-      const usage = data.usageMetadata || {};
+      const usage = response.usageMetadata || {};
       const tokens = {
         input: usage.promptTokenCount || 0,
         output: usage.candidatesTokenCount || 0,
@@ -211,16 +239,15 @@ export class GeminiService {
       return { result, tokens };
 
     } catch (error: any) {
-      clearTimeout(timeout);
-      if (error.name === 'AbortError') {
-        this.logger.error('gemini.generate_sales_timeout', new Error('AI_TIMEOUT'), {
+      if (error.message === 'AI_TIMEOUT') {
+        this.logger.error('gemini.generate_sales_timeout', error, {
           durationMs: Math.round(performance.now() - startTime),
         });
-        throw new Error('AI_TIMEOUT');
+      } else {
+        this.logger.error('gemini.generate_sales_failed', error, {
+          durationMs: Math.round(performance.now() - startTime),
+        });
       }
-      this.logger.error('gemini.generate_sales_failed', error, {
-        durationMs: Math.round(performance.now() - startTime),
-      });
       throw error;
     }
   }
