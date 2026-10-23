@@ -65,6 +65,7 @@ export class PixelDetector implements Detector {
           source: check.source,
           selector: check.selector,
           value: matchedPattern!,
+          confidence: 100, confidence_source: 'RULE_ENGINE'
         });
       } else {
         negative.push({
@@ -72,6 +73,7 @@ export class PixelDetector implements Detector {
           source: check.source,
           selector: check.selector,
           value: null,
+          confidence: 100, confidence_source: 'RULE_ENGINE'
         });
       }
     }

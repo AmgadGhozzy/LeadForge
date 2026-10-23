@@ -52,6 +52,7 @@ export class SocialDetector implements Detector {
           source: DetectionMethod.DOM,
           selector: check.selector,
           value,
+          confidence: 100, confidence_source: 'RULE_ENGINE'
         });
       } else {
         negative.push({
@@ -59,6 +60,7 @@ export class SocialDetector implements Detector {
           source: DetectionMethod.DOM,
           selector: check.selector,
           value: null,
+          confidence: 100, confidence_source: 'RULE_ENGINE'
         });
       }
     }

@@ -72,14 +72,14 @@ export class ContactDetector implements Detector {
             const v = normalizeEmail(obj.email);
             add(
               { type: 'EMAIL', value: v, source: 'json_ld', confidence: 100 },
-              { type: 'email_json_ld', source: DetectionMethod.JSON_LD, selector: 'application/ld+json[email]', value: v }
+              { type: 'email_json_ld', source: DetectionMethod.JSON_LD, selector: 'application/ld+json[email]', value: v, confidence: 100, confidence_source: 'RULE_ENGINE' }
             );
           }
           if (obj.telephone && typeof obj.telephone === 'string') {
             const v = normalizePhone(obj.telephone);
             add(
               { type: 'PHONE', value: v, source: 'json_ld', confidence: 100 },
-              { type: 'phone_json_ld', source: DetectionMethod.JSON_LD, selector: 'application/ld+json[telephone]', value: v }
+              { type: 'phone_json_ld', source: DetectionMethod.JSON_LD, selector: 'application/ld+json[telephone]', value: v, confidence: 100, confidence_source: 'RULE_ENGINE' }
             );
           }
           Object.values(obj).forEach(traverse);
@@ -95,7 +95,7 @@ export class ContactDetector implements Detector {
       if (v.includes('@') && !isNoiseEmail(v)) {
         add(
           { type: 'EMAIL', value: v, source: 'href_mailto', confidence: 95 },
-          { type: 'email_mailto_href', source: DetectionMethod.DOM, selector: 'a[href^="mailto:"]', value: v }
+          { type: 'email_mailto_href', source: DetectionMethod.DOM, selector: 'a[href^="mailto:"]', value: v, confidence: 100, confidence_source: 'RULE_ENGINE' }
         );
       }
     }
@@ -107,7 +107,7 @@ export class ContactDetector implements Detector {
       if (v.length >= 7) {
         add(
           { type: 'PHONE', value: v, source: 'href_tel', confidence: 95 },
-          { type: 'phone_tel_href', source: DetectionMethod.DOM, selector: 'a[href^="tel:"]', value: v }
+          { type: 'phone_tel_href', source: DetectionMethod.DOM, selector: 'a[href^="tel:"]', value: v, confidence: 100, confidence_source: 'RULE_ENGINE' }
         );
       }
     }
@@ -119,7 +119,7 @@ export class ContactDetector implements Detector {
       if (v.length >= 7) {
         add(
           { type: 'WHATSAPP', value: v, source: 'wa_me_href', confidence: 100 },
-          { type: 'whatsapp_wa_me', source: DetectionMethod.DOM, selector: 'a[href^="https://wa.me/"]', value: v }
+          { type: 'whatsapp_wa_me', source: DetectionMethod.DOM, selector: 'a[href^="https://wa.me/"]', value: v, confidence: 100, confidence_source: 'RULE_ENGINE' }
         );
       }
     }
@@ -137,7 +137,7 @@ export class ContactDetector implements Detector {
       if (v.includes('.') && !isNoiseEmail(v)) {
         add(
           { type: 'EMAIL', value: v, source: 'regex_body', confidence: 70 },
-          { type: 'email_body_text', source: DetectionMethod.REGEX, selector: 'body text', value: v }
+          { type: 'email_body_text', source: DetectionMethod.REGEX, selector: 'body text', value: v, confidence: 100, confidence_source: 'RULE_ENGINE' }
         );
       }
     }
@@ -155,7 +155,7 @@ export class ContactDetector implements Detector {
     ];
     for (const c of checks) {
       if (!foundTypes.has(c.type)) {
-        negative.push({ type: c.type, source: DetectionMethod.HTML_SCAN, selector: c.selector, value: null });
+        negative.push({ type: c.type, source: DetectionMethod.HTML_SCAN, selector: c.selector, value: null, confidence: 100, confidence_source: 'RULE_ENGINE' });
       }
     }
 
