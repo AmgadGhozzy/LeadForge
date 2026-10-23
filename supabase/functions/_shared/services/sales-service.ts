@@ -56,7 +56,7 @@ export class SalesService {
       }
 
       // 3. Build content hash for caching
-      const contentHash = await this.buildHash(analysis.aggregate_hash || '', offers.map(o => o.slug), language);
+      const contentHash = await this.buildHash(analysis.aggregate_hash || analysis.content_hash || '', offers.map(o => o.slug), language);
 
       // 4. Check cache
       const cached = await this.salesRepo.getByHash(contentHash);
@@ -74,6 +74,26 @@ export class SalesService {
       }
 
       // 5. Run Offer Matcher (Top 3)
+      // Pass only authorized deterministic signals (category, capabilities, tech)
+      // and the Gate 5.12.3 OpportunityEvaluationOutput.
+      const capabilities = analysis.capabilities || [];
+      const technologies = analysis.technologies || [];
+      const opportunities = analysis.opportunity_output || []; // The Evidence Snapshot
+
+      const top3 = OfferMatcher.match(offers, {
+        category: analysis.category || null,
+        capabilities,
+        technologies,
+        opportunities
+      });
+
+      this.logger.info('sales.offer_matcher_done', {
+        businessId,
+        candidates: top3.map(c => ({ slug: c.slug, score: c.match_score })),
+      });
+
+      // 6. Build prompt for Gemini
+      // LLM only acts as a copywriter using the analysis facts.
       const analysisResult: ConsultantAnalysisResult = {
         business_summary: analysis.summary || '',
         strengths: analysis.analysis_items?.filter((i: any) => i.type === 'STRENGTH') || [],
@@ -86,25 +106,7 @@ export class SalesService {
         score_explanation: analysis.score_explanation || '',
         confidence_score: (analysis.confidence_score as 'HIGH' | 'MEDIUM' | 'LOW') || 'LOW',
       };
-
-      // We need capabilities and technologies for the matcher
-      // These are fetched by the analysis repo's getFullAnalysis
-      const capabilities = analysis.capabilities || [];
-      const technologies = analysis.technologies || [];
-
-      const top3 = OfferMatcher.match(offers, {
-        category: analysis.category || null,
-        analysis: analysisResult,
-        capabilities,
-        technologies,
-      });
-
-      this.logger.info('sales.offer_matcher_done', {
-        businessId,
-        candidates: top3.map(c => ({ slug: c.slug, score: c.match_score })),
-      });
-
-      // 6. Build prompt for Gemini
+      
       const userPrompt = this.buildSalesPrompt(analysis, analysisResult, top3, language);
       const modelName = 'gemini-2.5-flash';
 
@@ -203,7 +205,7 @@ export class SalesService {
   ): string {
     return JSON.stringify({
       language,
-      business_name: analysis.business_name || 'Unknown Business',
+      business_name: analysis.business_name || analysis.business?.name || 'Unknown Business',
       consultant_analysis: {
         summary: analysisResult.business_summary,
         strengths: analysisResult.strengths,

@@ -25,7 +25,7 @@ serve(async (req) => {
       return error("Method not allowed", "METHOD_NOT_ALLOWED", 405);
     }
 
-    const { business_id, language = 'en' } = await req.json();
+    const { business_id, language = 'ar' } = await req.json();
 
     if (!business_id) {
       return error("business_id is required", "MISSING_FIELD", 400);

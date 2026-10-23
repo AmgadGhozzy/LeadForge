@@ -2,7 +2,7 @@
 // Evaluates raw HTML against the public Evidence contract.
 // Pure deterministic evaluation with strict tri-state semantics and evidence sufficiency guard.
 
-import {
+import type {
   Polarity,
   ClassifiedIntent,
   Level1AtomicExpectations,
@@ -145,12 +145,14 @@ export class GoldenEvidenceEvaluator {
       hasAcquisitionPath = 'UNKNOWN';
     }
 
-    // 2. HAS_SELF_SERVICE_PATH
+    // 2. HAS_SELF_SERVICE_PATH — ADR-006 §3.3 formula:
+    //    DIRECT_CHECKOUT ∨ ONLINE_MEMBERSHIP ∨ APP_BASED_SERVICE.
+    //    SELF_SERVICE_PORTAL is deliberately EXCLUDED: a customer-support
+    //    dashboard/login is not an acquisition path (§1.2 failure mode 4).
     let hasSelfServicePath: Polarity = 'ABSENT';
     if (
       atomic.DIRECT_CHECKOUT === 'PRESENT' ||
       atomic.ONLINE_MEMBERSHIP === 'PRESENT' ||
-      atomic.SELF_SERVICE_PORTAL === 'PRESENT' ||
       atomic.APP_BASED_SERVICE === 'PRESENT'
     ) {
       hasSelfServicePath = 'PRESENT';
@@ -238,11 +240,15 @@ export class GoldenEvidenceEvaluator {
   }
 
   private detectConsultationCta(html: string): boolean {
-    return /book a strategy consultation|book consultation|schedule an executive consultation|schedule consultation|consultation-picker/i.test(html);
+    return /book a strategy consultation|book consultation|schedule an executive consultation|schedule consultation|consultation-picker|احجز\s*استشارتك|طلب\s*استشارة|استشارة\s*مجانية|تحدث\s*مع\s*استشاري/i.test(html);
   }
 
   private detectApplicationCta(html: string): boolean {
-    return /credit application|submit application|apply now/i.test(html);
+    const m = html.match(/credit application|submit application|apply now/i);
+    if (!m) return false;
+    const index = m.index ?? 0;
+    const snippet = html.slice(Math.max(0, index - 400), index + 400);
+    return !/careers?\b|\bjobs?\b|\bhiring\b|\bresume\b|\bcv\b/i.test(snippet);
   }
 
   private detectSupportCta(html: string, context?: Level1AtomicExpectations['CTA_CONTEXT']): Polarity {

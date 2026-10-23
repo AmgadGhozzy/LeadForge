@@ -32,6 +32,7 @@ import {
 } from './types.ts';
 import { ConfidenceCalculator } from './confidence.ts';
 import { DetectionEngine } from '../../detection/DetectionEngine.ts';
+import type { AtomicEvidenceReport } from '../../detection/AtomicEvidenceEvaluator.ts';
 import { CanonicalBusinessProfile } from '../../types/canonical.ts';
 
 export class EvidenceEngine {
@@ -240,7 +241,41 @@ export class EvidenceEngine {
     });
   }
 
-  private async buildEvidence(params: Omit<Evidence, 'id' | 'observed_at' | 'evidence_hash'>): Promise<Evidence> {
+  /**
+   * ADR-006 Gate 3.1 — Level 1 atom extraction for the production pipeline.
+   * Additive method; the frozen legacy extractEvidence() is untouched.
+   * Threads crawl observability into the §6.1 Evidence Sufficiency Guard so
+   * unobserved journey surfaces surface as UNKNOWN, never ABSENT.
+   */
+  public extractAtomicEvidence(
+    profile: CanonicalBusinessProfile,
+    scanId: string
+  ): { report: AtomicEvidenceReport; observability_sufficient: boolean; coverage: { pagesDiscovered: number; pagesScanned: number; crawlCoverage: number } } {
+    if (!scanId) throw new Error("scanId is required for evidence provenance");
+
+    const pages = profile.digitalPresence.pages || [];
+    const pagesDiscovered = profile.digitalPresence.pagesScraped || pages.length;
+    const pagesScanned = pages.length;
+    const crawlCoverage = pagesDiscovered > 0 ? Math.min(1.0, pagesScanned / pagesDiscovered) : 0.0;
+
+    // Same absence-safety thresholds ConfidenceCalculator.determineAbsencePolarity uses.
+    const singlePageUnrendered = pagesDiscovered === 1 && pagesScanned === 1;
+    const observability_sufficient = crawlCoverage >= 0.5 && !singlePageUnrendered;
+
+    const combinedHtml = pages.map(p => `<!-- PAGE: ${p.url} -->\n${p.content}`).join('\n');
+    const allLinks = pages.flatMap(p => p.links || []);
+
+    const report = new DetectionEngine().runAtomicEvidence({
+      html: combinedHtml,
+      links: allLinks,
+      observability_sufficient,
+      pages_observed: pages.map(p => p.url),
+    });
+
+    return { report, observability_sufficient, coverage: { pagesDiscovered, pagesScanned, crawlCoverage } };
+  }
+
+  private async buildEvidence(params: Omit<Evidence, 'id' | 'observed_at' | 'evidence_hash' | 'source_url' | 'evidence_text'> & { source_url?: string | null, evidence_text?: string | null }): Promise<Evidence> {
     // SHA-256 Hash using business, scan_id, type, polarity, value, and detector
     const hashInput = `${params.business_id}:${params.scan_id}:${params.type}:${params.polarity}:${params.value || 'null'}:${params.detector}`;
     
@@ -252,9 +287,9 @@ export class EvidenceEngine {
       id: crypto.randomUUID(),
       observed_at: new Date().toISOString(),
       evidence_hash,
-      source_url: null,
-      evidence_text: null,
-      ...params
+      ...params,
+      source_url: params.source_url ?? null,
+      evidence_text: params.evidence_text ?? null
     };
   }
 }

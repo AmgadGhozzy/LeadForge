@@ -14,7 +14,7 @@ import { GoldenEvidenceEvaluator } from '../../src/domain/evidence/golden-eviden
 const FIXTURES_DIR = path.join(__dirname, '../fixtures/evidence_golden');
 const evaluator = new GoldenEvidenceEvaluator();
 
-describe('ADR-006 Gate 2: Golden Fixtures Benchmark Suite (9/9)', () => {
+describe('ADR-006 Gate 2: Golden Fixtures Benchmark Suite (13/13)', () => {
   GOLDEN_FIXTURES_CONTRACT.forEach((fixture: GoldenFixtureContract) => {
     describe(`Fixture [${fixture.id}]: ${fixture.name}`, () => {
       const htmlPath = path.join(FIXTURES_DIR, fixture.html_file);
@@ -37,19 +37,15 @@ describe('ADR-006 Gate 2: Golden Fixtures Benchmark Suite (9/9)', () => {
         expect(actual.QUOTE_CTA, `${fixture.id} QUOTE_CTA mismatch`).toBe(expected.QUOTE_CTA);
         expect(actual.CONSULTATION_CTA, `${fixture.id} CONSULTATION_CTA mismatch`).toBe(expected.CONSULTATION_CTA);
         expect(actual.APPLICATION_CTA, `${fixture.id} APPLICATION_CTA mismatch`).toBe(expected.APPLICATION_CTA);
-        expect(actual.ACQUISITION_CTA, `${fixture.id} ACQUISITION_CTA mismatch`).toBe(expected.ACQUISITION_CTA);
-        expect(actual.SUPPORT_CTA, `${fixture.id} SUPPORT_CTA mismatch`).toBe(expected.SUPPORT_CTA);
         expect(actual.WHATSAPP, `${fixture.id} WHATSAPP mismatch`).toBe(expected.WHATSAPP);
         expect(actual.SELF_SERVICE_PORTAL, `${fixture.id} SELF_SERVICE_PORTAL mismatch`).toBe(expected.SELF_SERVICE_PORTAL);
         expect(actual.ONLINE_MEMBERSHIP, `${fixture.id} ONLINE_MEMBERSHIP mismatch`).toBe(expected.ONLINE_MEMBERSHIP);
         expect(actual.APP_BASED_SERVICE, `${fixture.id} APP_BASED_SERVICE mismatch`).toBe(expected.APP_BASED_SERVICE);
 
-        // CTA_CONTEXT assertions
+        // CTA_CONTEXT assertions (raw observation only — no classified_intent)
         if (expected.CTA_CONTEXT) {
           expect(actual.CTA_CONTEXT, `${fixture.id} CTA_CONTEXT should be defined`).toBeDefined();
-          expect(actual.CTA_CONTEXT?.classified_intent, `${fixture.id} classified_intent mismatch`)
-            .toBe(expected.CTA_CONTEXT.classified_intent);
-
+          // Note: classified_intent is a Level-2 concern — not asserted here.
           if (expected.CTA_CONTEXT.cta_label_contains) {
             expect(actual.CTA_CONTEXT?.cta_label_contains, `${fixture.id} cta_label should contain expected text`)
               .toContain(expected.CTA_CONTEXT.cta_label_contains);
@@ -99,13 +95,13 @@ describe('ADR-006 Gate 2: Golden Fixtures Benchmark Suite (9/9)', () => {
       expect(ev004.atomic.WHATSAPP).toBe('PRESENT');
       expect(ev005.atomic.WHATSAPP).toBe('PRESENT');
 
-      // Intent differs based on context
-      expect(ev004.atomic.CTA_CONTEXT?.classified_intent).toBe('SUPPORT');
-      expect(ev005.atomic.CTA_CONTEXT?.classified_intent).toBe('ACQUISITION');
+      // GF-005 has an explicit QUOTE_CTA (raw acquisition signal); GF-004 does not.
+      expect(ev004.atomic.QUOTE_CTA).toBe('ABSENT');
+      expect(ev005.atomic.QUOTE_CTA).toBe('PRESENT');
 
-      // GF-004 must NOT have acquisition path
+      // GF-004 must NOT have acquisition path (no acquisition CTAs found).
       expect(ev004.derived.HAS_ACQUISITION_PATH).toBe('ABSENT');
-      // GF-005 MUST have acquisition path
+      // GF-005 MUST have acquisition path (QUOTE_CTA present).
       expect(ev005.derived.HAS_ACQUISITION_PATH).toBe('PRESENT');
     });
   });

@@ -16,8 +16,9 @@ import { RateLimiter } from './rate-limiter.ts';
 import { EnrichmentRepository } from '../repositories/enrichment-repo.ts';
 import { EvidenceRepository } from '../repositories/evidence-repo.ts';
 import { EvidenceEngine } from '../intelligence/evidence/engine.ts';
-import { evaluateOpportunities } from '../intelligence/opportunity/engine.ts';
-
+import { evaluateProductionOpportunities } from '../intelligence/opportunity/engine.ts';
+import { DetectionEngine } from '../detection/DetectionEngine.ts';
+import { writeObservationRecords, extractDomainSafe } from '../telemetry/observation-writer.ts';
 export class AnalysisService {
   constructor(
     private profileBuilder: ProfileBuilder,
@@ -77,10 +78,32 @@ export class AnalysisService {
         this.logger.info('analysis.evidence_persisted', { businessId, evidenceCount: evidenceList.length, runId });
       }
 
-      // 3.5 Evaluate Opportunities (Zero-Rule Baseline)
-      // Gate: No Opportunity → no offer-specific downstream action.
-      // Result is intentionally not persisted until rules exist.
-      const opportunities = evaluateOpportunities(evidenceList as any);
+      // 3.5 Evaluate Opportunities (Gate 5.9 / Gate 5.12.3 Production Boundary)
+      // Extract Level-1 atomic evidence to feed the Opportunity Engine.
+      const combinedHtml = profile.digitalPresence.pages.map(p => `<!-- PAGE: ${p.url} -->\n${p.content}`).join('\n');
+      const allLinks = profile.digitalPresence.pages.flatMap(p => p.links || []);
+      const detector = new DetectionEngine();
+      const atomicReport = detector.runAtomicEvidence({
+        html: combinedHtml,
+        links: allLinks,
+        observability_sufficient: profile.digitalPresence.pages.length > 0,
+        pages_observed: profile.digitalPresence.pages.map(p => p.url)
+      });
+
+      // 1. Single evaluation pass returning both detected and allEvaluations
+      const { detected: opportunities, allEvaluations } = evaluateProductionOpportunities({
+        atoms: atomicReport.atoms,
+        journey: atomicReport.customer_journey_stages || {},
+        // Full atomic input — fixes the contract defect where observability_sufficient was
+        // omitted and DigitalBookingRule.ts:34 forced UNKNOWN on the live path.
+        input: {
+          html: combinedHtml,
+          links: allLinks,
+          observability_sufficient: profile.digitalPresence.pages.length > 0,
+          pages_observed: profile.digitalPresence.pages.map(p => p.url),
+        },
+      });
+      
       this.logger.info('analysis.opportunities_evaluated', { businessId, count: opportunities.length, runId });
 
       // 4. Rate Limit Check
@@ -111,8 +134,40 @@ export class AnalysisService {
         profile.knowledgeScore,
         modelName,
         consultantV2.version,
-        rulesVersion
+        rulesVersion,
+        opportunities // Gate 5.12.3: Persist for SalesService
       );
+
+      // 6.5 Telemetry Writer Call (Gate 5.13-P1-A, Fail-Open with Await) — appends
+      // immutable observation records for every rule evaluation, immediately after
+      // the analysis is persisted, before the run proceeds to priority computation.
+      try {
+        const domain = extractDomainSafe(profile.digitalPresence.domain, profile.digitalPresence.website);
+        const codeSha = Deno.env.get('LEADFORGE_DEPLOYED_SHA') || 'UNTRACKED_DEPLOYMENT';
+
+        await writeObservationRecords({
+          supabase: this.analysisRepo.getSupabaseClient(), // P1-A getter added to AnalysisRepository
+          sourceRunId: analysisId,
+          analysisId: analysisId,
+          businessId: businessId,
+          domain: domain,
+          codeSha: codeSha,
+          batchWindowId: null, // Organic live traffic
+          evaluations: allEvaluations,
+          ruleInputs: {
+            atoms: atomicReport.atoms,
+            journey: atomicReport.customer_journey_stages || {},
+            observability: {
+              observability_sufficient: profile.digitalPresence.pages.length > 0,
+              pages_observed: profile.digitalPresence.pages.map(p => p.url),
+            },
+            external_state: null,
+          },
+          logger: this.logger, // AnalysisService's injected Logger (canonical LoggerContext shape)
+        }, { failClosed: false });
+      } catch (telemetryErr) {
+        this.logger.error('telemetry.alert.live_write_failure', telemetryErr, { businessId, analysisId });
+      }
 
       // 7. Compute & Save Priority
       await this.computeAndSavePriority(businessId, profile, result.lead_score);

@@ -11,6 +11,14 @@ export class AnalysisRepository {
   constructor(private supabase: SupabaseClient) {}
 
   /**
+   * Gate 5.13-P1-A: exposes the one SupabaseClient instance the service already
+   * owns (service-role, Edge-local) so the shared telemetry writer can reuse it.
+   */
+  getSupabaseClient(): SupabaseClient {
+    return this.supabase;
+  }
+
+  /**
    * Check if we already have a recent analysis for this exact data package.
    */
   async getCachedAnalysis(businessId: string, aggregateHash: string): Promise<any | null> {
@@ -61,15 +69,30 @@ export class AnalysisRepository {
   }
   
   async getFullAnalysis(businessId: string): Promise<any | null> {
-    const { data } = await this.supabase
-      .from('website_analyses')
-      .select('*, analysis_items(*)')
-      .eq('business_id', businessId)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
-      
-    return data;
+    const [{ data: analysis }, { data: business }] = await Promise.all([
+      this.supabase
+        .from('website_analyses')
+        .select('*, analysis_items(*)')
+        .eq('business_id', businessId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+      this.supabase
+        .from('businesses')
+        .select('id, name, address, website, rating, reviews, health_score, category_id, categories(name)')
+        .eq('id', businessId)
+        .maybeSingle(),
+    ]);
+
+    if (!analysis) return null;
+
+    return {
+      ...analysis,
+      business_name: business?.name || null,
+      category: (business as any)?.categories?.name || null,
+      business: business || null,
+      aggregate_hash: analysis.content_hash || analysis.aggregate_hash,
+    };
   }
 
   async getActiveOfferTemplates(): Promise<any[]> {
@@ -105,7 +128,8 @@ export class AnalysisRepository {
     knowledgeScore: number,
     modelName?: string,
     promptVersion?: string,
-    rulesVersion?: string
+    rulesVersion?: string,
+    opportunityOutput?: any[] // Gate 5.12.3: Serialized OpportunityEvaluationOutput[]
   ): Promise<string> {
     
     // 1. Prepare analysis_items array with structured evidence columns
@@ -167,6 +191,16 @@ export class AnalysisRepository {
 
     if (rpcErr) throw new Error(`Failed to save analysis via RPC: ${rpcErr.message}`);
 
+    // Gate 5.12.3: Save opportunity_output if provided
+    if (opportunityOutput) {
+      const { error: oppErr } = await this.supabase
+        .from('website_analyses')
+        .update({ opportunity_output: opportunityOutput })
+        .eq('id', analysisId);
+
+      if (oppErr) throw new Error(`Failed to save opportunity_output: ${oppErr.message}`);
+    }
+
     return analysisId;
   }
 
@@ -205,7 +239,7 @@ export class AnalysisRepository {
     if (data) {
       await this.supabase
         .from('website_analyses')
-        .update({ urgency })
+        .update({ urgency_reason: urgency })
         .eq('id', data.id);
     }
   }

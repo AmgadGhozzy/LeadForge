@@ -6,7 +6,8 @@ import { assertEquals, assertExists, assert, assertNotEquals } from "https://den
 import { EvidenceEngine } from "./engine.ts";
 import { ConfidenceCalculator } from "./confidence.ts";
 import { EVIDENCE_ENGINE_VERSION, DETECTOR_VERSIONS } from "./types.ts";
-import type { CanonicalBusinessProfile, ScanCoverage } from "../../types/canonical.ts";
+import type { CanonicalBusinessProfile } from "../../types/canonical.ts";
+import type { ScanCoverage } from "./types.ts";
 
 // ─── Mock Profile Factory ─────────────────────────────────────────────────────
 const SCAN_A = crypto.randomUUID();
