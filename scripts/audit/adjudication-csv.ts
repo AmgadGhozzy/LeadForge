@@ -16,12 +16,13 @@ export const BLINDED_CSV_HEADER =
 const BLINDED_CSV_COLUMNS = BLINDED_CSV_HEADER.split(',');
 
 /** Reviewer must never see any gate state or cohort label. */
-const FORBIDDEN_TOKENS = [
+export const FORBIDDEN_TOKENS = [
   'OPPORTUNITY_DETECTED',
   'NO_GAP',
   'NO_OPPORTUNITY',
   'SUPPRESSED',
   'NOT_APPLICABLE',
+  'UNKNOWN',
   'EVALUATION_SKIPPED',
 ] as const;
 
@@ -105,7 +106,7 @@ export function exportBlindedReviewCsv(
   // owner data, so token checks are strict FIELD EQUALITY, not raw substring
   // scans; reviewer fill-in columns must carry strictly empty strings on export.
   const parsed = parseCsv(csv);
-  if (parsed.length >= 1 && parsed[0].join(',') !== BLINDED_CSV_COLUMNS.join(',')) {
+  if (parsed.length === 0 || parsed[0].join(',') !== BLINDED_CSV_HEADER) {
     throw new Error('CENSORSHIP_VIOLATION: blinded CSV header drifted from the frozen shape.');
   }
   const loweredTokens = FORBIDDEN_TOKENS.map((t) => t.toLowerCase());

@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import {
   runCensusBatch,
   createPgliteWriterSupabaseShim,
+  collectLinks,
 } from '../../scripts/audit/census-runner.js';
 import type { CensusDb, PopulationManifest } from '../../scripts/audit/census-runner.js';
 import {
@@ -19,7 +20,7 @@ import {
 import { adaptProductionObservationRow } from '../../scripts/audit/adapter.js';
 import type { ProductionObservationRow } from '../../scripts/audit/adapter.js';
 import { computeRuleHealth } from '../../scripts/audit/calculator.js';
-import type { AuditRecord } from '../../scripts/audit/types.js';
+import type { AuditRecord, ObservationRecord } from '../../scripts/audit/types.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MIG_5_12_3 = path.join(__dirname, '../../supabase/migrations/20260924000000_gate_5_12_3_opportunity_output.sql');
@@ -332,6 +333,25 @@ describe('census runner', () => {
     expect(orphanRow?.terminal_state).toBe('OBSERVED');
     expect(Number(orphanRow?.attempt_count)).toBe(1);
   });
+
+  it('collectLinks collects pre-parsed links alongside regex hrefs deduplicated in order', () => {
+    const page1: any = {
+      metadata: { url: 'https://example.com/p1' },
+      html: '<a href="https://example.com/contact">Contact</a><a href="https://example.com/book">Book</a>',
+      links: ['https://example.com/about', 'https://example.com/book'],
+    };
+    const page2: any = {
+      metadata: { url: 'https://example.com/p2' },
+      html: '<a href="https://example.com/about">About</a><a href="https://example.com/faq">FAQ</a>',
+    };
+    const links = collectLinks([page1, page2]);
+    expect(links).toEqual([
+      'https://example.com/about',
+      'https://example.com/book',
+      'https://example.com/contact',
+      'https://example.com/faq',
+    ]);
+  });
 });
 
 describe('blinded adjudication CSV', () => {
@@ -498,5 +518,59 @@ describe('blinded adjudication CSV', () => {
         auditorId: 'auditor-manual-01',
       })
     ).rejects.toThrow(/does not exist in observation_records/);
+  });
+
+  it('exportBlindedReviewCsv allows business names containing "Cohort" but forbids gate status tokens', () => {
+    const bizId = crypto.randomUUID();
+    const obsId = crypto.randomUUID();
+    const manifest: PopulationManifest = {
+      window_id: 'window-cohort-test',
+      batch_run_id: 'batch-cohort-test',
+      code_sha: 'test-sha',
+      rubric_version: '1.0.0',
+      businesses: [
+        {
+          id: bizId,
+          domain: 'cohort-clinic.example.com',
+          name: 'The Cohort Dental Clinic',
+          website: 'https://cohort-clinic.example.com',
+          inScope: true,
+        },
+      ],
+    };
+    const records: ObservationRecord[] = [
+      {
+        observation_id: obsId,
+        source_run_id: 'batch-cohort-test',
+        analysis_id: null,
+        business_id: bizId,
+        domain: 'cohort-clinic.example.com',
+        rule_slug: 'digital-booking',
+        rule_output: 'OPPORTUNITY_DETECTED',
+        evidence_snapshot_hash: 'hash-test',
+        rule_inputs: {},
+        evaluated_at: new Date().toISOString(),
+        confidence_signals: [],
+      },
+    ];
+
+    // Export should succeed even though business name contains "Cohort"
+    const exported = exportBlindedReviewCsv(records, manifest);
+    expect(exported.csv).toContain('The Cohort Dental Clinic');
+
+    // But if business name equals a forbidden gate-status token, export throws CENSORSHIP_VIOLATION
+    const forbiddenManifest: PopulationManifest = {
+      ...manifest,
+      businesses: [
+        {
+          id: bizId,
+          domain: 'cohort-clinic.example.com',
+          name: 'UNKNOWN',
+          website: 'https://cohort-clinic.example.com',
+          inScope: true,
+        },
+      ],
+    };
+    expect(() => exportBlindedReviewCsv(records, forbiddenManifest)).toThrow(/CENSORSHIP_VIOLATION/);
   });
 });

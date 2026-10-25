@@ -240,21 +240,19 @@ async function backfillOrphanObservations(db: CensusDb, batchRunId: string): Pro
 // Snapshot pipeline helpers
 // ──────────────────────────────────────────────
 
-function collectLinks(pageResults: readonly ScrapedPageResult[]): string[] {
+export function collectLinks(pageResults: readonly ScrapedPageResult[]): string[] {
   const links: string[] = [];
   const seen = new Set<string>();
   for (const page of pageResults) {
     // Production parity: pages built by profile-builder carry pre-parsed links
     // (analysis-service.ts:81 `p.links || []`). Fresh ScrapedPageResult providers
     // have none yet, so the raw href regex stays as the fallback tier.
-    const candidate = page as { links?: unknown };
+    const candidate = page as any;
     const preParsed = Array.isArray(candidate.links)
-      ? candidate.links.filter((l): l is string => typeof l === 'string')
+      ? (candidate.links as unknown[]).filter((l): l is string => typeof l === 'string')
       : [];
-    for (const link of [
-      ...preParsed,
-      ...[...page.html.matchAll(/href\s*=\s*["']([^"'#]+)["']/g)].map((m) => m[1]),
-    ]) {
+    const hrefMatches = [...page.html.matchAll(/href\s*=\s*["']([^"'#]+)["']/g)].map((m) => m[1]);
+    for (const link of [...preParsed, ...hrefMatches]) {
       if (!seen.has(link)) {
         seen.add(link);
         links.push(link);
