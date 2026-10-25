@@ -2,7 +2,7 @@
   "manifest_version": "1.0.0",
   "window_id": "census-2026-c0",
   "batch_run_id": "census-2026-c0-run1",
-  "code_sha": "29607d43756aee921d091da8a4186c5f8e988d6e",
+  "code_sha": "ffa2461a24808d1c6cc28ad7f881817c44010f41",
   "rubric_version": "1.0.0",
   "created_at": "2026-10-25T00:00:00.000Z",
   "counts": {
