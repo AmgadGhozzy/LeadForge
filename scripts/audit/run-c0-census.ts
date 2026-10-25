@@ -185,11 +185,21 @@ export async function main(options: RunC0CensusOptions = {}) {
     [manifest.batch_run_id]
   );
   const adapted = obsRes.rows.map((r) =>
-    adaptProductionObservationRow(r as ProductionObservationRow)
+    adaptProductionObservationRow({
+      ...(r as ProductionObservationRow),
+      evaluated_at:
+        r.evaluated_at instanceof Date
+          ? r.evaluated_at.toISOString()
+          : String(r.evaluated_at),
+    })
   );
 
-  console.log(`[EXPORT] Exporting blinded review CSV for ${adapted.length} observations...`);
-  const exportResult = exportBlindedReviewCsv(adapted, manifest);
+  const digitalBookingRecords = adapted.filter(
+    (r) => r.rule_slug === 'digital-booking'
+  );
+
+  console.log(`[EXPORT] Exporting blinded review CSV for ${digitalBookingRecords.length} observations...`);
+  const exportResult = exportBlindedReviewCsv(digitalBookingRecords, manifest);
 
   fs.writeFileSync(BLINDED_CSV_PATH, exportResult.csv, 'utf8');
   fs.writeFileSync(
@@ -200,8 +210,8 @@ export async function main(options: RunC0CensusOptions = {}) {
 
   // Compute detected opportunities aggregate count (stopping rule threshold evaluation)
   // NEVER write per-domain outputs to run summary to preserve blinding
-  const detectedCount = adapted.filter(
-    (r) => r.rule_slug === 'digital-booking' && r.rule_output === 'OPPORTUNITY_DETECTED'
+  const detectedCount = digitalBookingRecords.filter(
+    (r) => r.rule_output === 'OPPORTUNITY_DETECTED'
   ).length;
 
   const stoppingTier =

@@ -229,16 +229,23 @@ export async function main(options: ImportC0AdjudicationOptions = {}) {
   const rows = classRes.rows as AdjudicationRow[];
   console.log(`[CLASSIFICATION] Retrieved ${rows.length} active paired records.`);
 
+  // Load manifest for batch_run_id, sensitivity analysis, and stratum breakdowns
+  const manifest = fs.existsSync(manifestPath)
+    ? (JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as PopulationManifest)
+    : null;
+  const batchRunId = manifest?.batch_run_id ?? 'census-2026-c0-run1';
+
   // Evaluate full sample metrics
   const fullMetrics = evaluateMetrics(rows);
 
-  // Measure UNKNOWN rate across all observation records for digital booking
+  // Measure UNKNOWN rate across observation records for digital booking within this batch run
   const obsStats = await db.query(
     `SELECT
        COUNT(*) AS total_obs,
        COUNT(*) FILTER (WHERE rule_output = 'UNKNOWN') AS unknown_obs
      FROM public.observation_records
-     WHERE rule_slug = 'digital_booking_path_gap'`
+     WHERE rule_slug = 'digital_booking_path_gap' AND source_run_id = $1`,
+    [batchRunId]
   );
   const totalObs = Number(obsStats.rows[0]?.total_obs ?? 0);
   const unknownObs = Number(obsStats.rows[0]?.unknown_obs ?? 0);
@@ -252,33 +259,52 @@ export async function main(options: ImportC0AdjudicationOptions = {}) {
   const fpRatePass = fullMetrics.fp_rate !== null && fullMetrics.fp_rate <= FROZEN_THRESHOLDS.max_fp_rollback_rate;
   const unknownRatePass = unknownRate <= FROZEN_THRESHOLDS.max_unknown_rate;
 
-  // Stopping Tier Determination (GATE-005.10 §4 / GATE-005.13 §7)
+  // Exact GATE-005.10-A1-v3 §6 (A1.5) Verdict Tiers
   let stoppingTier: 'FULL_CENSUS' | 'PROVISIONAL_AUDIT' | 'INSUFFICIENT_SAMPLE';
-  let overallVerdict: 'HEALTHY' | 'UNHEALTHY' | 'INSUFFICIENT_SAMPLE';
+  let overallVerdict:
+    | 'PASS'
+    | 'FAIL'
+    | 'PROVISIONAL_PASS'
+    | 'PROVISIONAL_FAIL'
+    | 'PROVISIONAL_INCONCLUSIVE'
+    | 'INSUFFICIENT_SAMPLE';
 
   if (detectedAudited >= 50) {
     stoppingTier = 'FULL_CENSUS';
     overallVerdict =
-      precisionPass && recallPass && fpRatePass && unknownRatePass
-        ? 'HEALTHY'
-        : 'UNHEALTHY';
+      precisionPass && recallPass && unknownRatePass ? 'PASS' : 'FAIL';
   } else if (detectedAudited >= 15) {
     stoppingTier = 'PROVISIONAL_AUDIT';
-    const wilsonLbPass = fullMetrics.wilson_ci_precision.lower >= 0.50;
-    overallVerdict =
-      precisionPass && recallPass && fpRatePass && unknownRatePass && wilsonLbPass
-        ? 'HEALTHY'
-        : 'UNHEALTHY';
+    if (
+      precisionPass &&
+      recallPass &&
+      unknownRatePass &&
+      fullMetrics.wilson_ci_precision.lower >= 0.50
+    ) {
+      overallVerdict = 'PROVISIONAL_PASS';
+    } else if (
+      fullMetrics.wilson_ci_precision.upper < 0.70 ||
+      !recallPass ||
+      !unknownRatePass
+    ) {
+      overallVerdict = 'PROVISIONAL_FAIL';
+    } else {
+      overallVerdict = 'PROVISIONAL_INCONCLUSIVE';
+    }
   } else {
     stoppingTier = 'INSUFFICIENT_SAMPLE';
     overallVerdict = 'INSUFFICIENT_SAMPLE';
   }
 
   // Sensitivity Analysis on 14 Strictly Clean Businesses
-  let clean14Domains = new Set<string>();
-  if (fs.existsSync(manifestPath)) {
-    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as PopulationManifest;
+  const clean14Domains = new Set<string>();
+  const businessByDomain = new Map<string, { sector: string; country: string }>();
+  if (manifest) {
     for (const b of manifest.businesses) {
+      businessByDomain.set(b.domain.toLowerCase(), {
+        sector: b.sector,
+        country: b.country,
+      });
       if (b.strictly_clean_14) {
         clean14Domains.add(b.domain.toLowerCase());
       }
@@ -290,6 +316,38 @@ export async function main(options: ImportC0AdjudicationOptions = {}) {
 
   const metricsExcluding14 = evaluateMetrics(rowsExcluding14);
   const metricsOnly14 = evaluateMetrics(rowsOnly14);
+
+  // Stratum Breakdowns (GATE-005.10-A1-v3 §4)
+  const meCountries = new Set([
+    'Kuwait', 'Saudi Arabia', 'Egypt', 'United Arab Emirates', 'Qatar', 'Bahrain', 'UAE', 'Oman', 'Jordan'
+  ]);
+
+  const regionBreakdownRows = new Map<string, AdjudicationRow[]>();
+  const sectorBreakdownRows = new Map<string, AdjudicationRow[]>();
+
+  for (const r of rows) {
+    const biz = businessByDomain.get(r.domain.toLowerCase());
+    const region = biz && meCountries.has(biz.country)
+      ? 'Middle East & Egypt'
+      : 'English-speaking / International';
+    const sector = biz?.sector ?? 'Unknown';
+
+    if (!regionBreakdownRows.has(region)) regionBreakdownRows.set(region, []);
+    regionBreakdownRows.get(region)!.push(r);
+
+    if (!sectorBreakdownRows.has(sector)) sectorBreakdownRows.set(sector, []);
+    sectorBreakdownRows.get(sector)!.push(r);
+  }
+
+  const byRegion: Record<string, MetricSummary> = {};
+  for (const [reg, regRows] of regionBreakdownRows.entries()) {
+    byRegion[reg] = evaluateMetrics(regRows);
+  }
+
+  const bySector: Record<string, MetricSummary> = {};
+  for (const [sec, secRows] of sectorBreakdownRows.entries()) {
+    bySector[sec] = evaluateMetrics(secRows);
+  }
 
   const report = {
     report_version: '1.0.0',
@@ -313,6 +371,10 @@ export async function main(options: ImportC0AdjudicationOptions = {}) {
         sample_size_pass: sampleSizePass,
         wilson_lb_pass: fullMetrics.wilson_ci_precision.lower >= 0.50,
       },
+    },
+    stratum_breakdowns: {
+      by_region: byRegion,
+      by_sector: bySector,
     },
     sensitivity_analysis_14_clean: {
       clean_businesses_count: clean14Domains.size,
