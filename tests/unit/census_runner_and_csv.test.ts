@@ -658,3 +658,70 @@ describe('blinded adjudication CSV', () => {
     expect(() => exportBlindedReviewCsv(records, forbiddenManifest)).toThrow(/CENSORSHIP_VIOLATION/);
   });
 });
+
+describe('C0 CLI Entrypoints', () => {
+  it('computeWilsonScoreInterval computes correct bounds and handles edge cases', async () => {
+    const { computeWilsonScoreInterval } = await import('../../scripts/audit/import-c0-adjudication.js');
+    const zero = computeWilsonScoreInterval(0, 0);
+    expect(zero.lower).toBe(0);
+    expect(zero.upper).toBe(0);
+
+    const normal = computeWilsonScoreInterval(35, 50);
+    expect(normal.center).toBeGreaterThan(0.65);
+    expect(normal.lower).toBeGreaterThanOrEqual(0.50);
+    expect(normal.upper).toBeLessThanOrEqual(1.0);
+  });
+
+  it('evaluateMetrics computes precision, recall, and Wilson CI accurately', async () => {
+    const { evaluateMetrics } = await import('../../scripts/audit/import-c0-adjudication.js');
+    const sampleRows = [
+      ...Array.from({ length: 40 }, (_, i) => ({
+        observation_id: `obs-tp-${i}`,
+        adjudication_id: `adj-tp-${i}`,
+        domain: `tp-${i}.com`,
+        cohort: 'DETECTED',
+        rule_output: 'OPPORTUNITY_DETECTED',
+        independent_status: 'CONFIRMED',
+        classification: 'TP' as const,
+      })),
+      ...Array.from({ length: 10 }, (_, i) => ({
+        observation_id: `obs-fp-${i}`,
+        adjudication_id: `adj-fp-${i}`,
+        domain: `fp-${i}.com`,
+        cohort: 'DETECTED',
+        rule_output: 'OPPORTUNITY_DETECTED',
+        independent_status: 'NOT_CONFIRMED',
+        classification: 'FP' as const,
+      })),
+      ...Array.from({ length: 10 }, (_, i) => ({
+        observation_id: `obs-fn-${i}`,
+        adjudication_id: `adj-fn-${i}`,
+        domain: `fn-${i}.com`,
+        cohort: 'NON_DETECTED',
+        rule_output: 'NO_GAP',
+        independent_status: 'CONFIRMED',
+        classification: 'FN' as const,
+      })),
+      ...Array.from({ length: 40 }, (_, i) => ({
+        observation_id: `obs-tn-${i}`,
+        adjudication_id: `adj-tn-${i}`,
+        domain: `tn-${i}.com`,
+        cohort: 'NON_DETECTED',
+        rule_output: 'NO_GAP',
+        independent_status: 'NOT_CONFIRMED',
+        classification: 'TN' as const,
+      })),
+    ];
+
+    const metrics = evaluateMetrics(sampleRows);
+    expect(metrics.tp).toBe(40);
+    expect(metrics.fp).toBe(10);
+    expect(metrics.fn).toBe(10);
+    expect(metrics.tn).toBe(40);
+    expect(metrics.precision).toBe(0.8); // 40 / 50
+    expect(metrics.recall).toBe(0.8); // 40 / 50
+    expect(metrics.fp_rate).toBe(0.2); // 10 / 50
+    expect(metrics.wilson_ci_precision.lower).toBeGreaterThan(0.65);
+  });
+});
+
