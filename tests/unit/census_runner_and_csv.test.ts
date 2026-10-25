@@ -1,8 +1,11 @@
 // GATE-005.13 — Census Batch Runner + Blinded Adjudication CSV Tests
 // 100% local: @electric-sql/pglite (in-memory) + scripted mock ScraperProvider.
 // Zero network calls, zero remote Supabase connections.
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { PGlite } from '@electric-sql/pglite';
+import { NativeScraper } from '../../supabase/functions/_shared/scraper/providers/native-scraper.ts';
+import { HtmlParser } from '../../supabase/functions/_shared/scraper/html-parser.ts';
+import { Logger } from '../../supabase/functions/_shared/observability/logger.ts';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
@@ -351,6 +354,87 @@ describe('census runner', () => {
       'https://example.com/contact',
       'https://example.com/faq',
     ]);
+  });
+
+  it('runs NativeScraper and HtmlParser end-to-end under Node with mocked fetch inside runCensusBatch', async () => {
+    // 1. Direct HtmlParser validation in Node runtime
+    const parsedDirect = await HtmlParser.parse(
+      '<html><head><title>Direct Test</title></head><body><script>var x = 1;</script><a href="/book">Link</a><p>Content</p></body></html>',
+      'https://example.com',
+      'HOME',
+      200,
+      'text/html'
+    );
+    expect(parsedDirect.metadata.title).toBe('Direct Test');
+    expect(parsedDirect.metadata.statusCode).toBe(200);
+    expect(parsedDirect.rawText).not.toContain('var x = 1');
+    expect(parsedDirect.rawText).toContain('Content');
+    expect(typeof parsedDirect.metadata.contentHash).toBe('string');
+    expect(parsedDirect.metadata.contentHash?.length).toBe(64); // SHA-256
+
+    // 2. NativeScraper inside runCensusBatch with mocked global fetch
+    const logger = new Logger({ requestId: 'test-native-scraper' });
+    const nativeScraper = new NativeScraper(logger);
+
+    const originalFetch = globalThis.fetch;
+    const testHtml = '<html><head><title>Test Clinic</title></head><body><a href="/booking">Book Now</a><p>Dental consultation and quote intake</p></body></html>';
+
+    globalThis.fetch = vi.fn().mockImplementation(async (url: string) => {
+      return {
+        status: 200,
+        headers: {
+          get: (header: string) => (header.toLowerCase() === 'content-type' ? 'text/html' : null),
+        },
+        text: async () => testHtml,
+      } as any;
+    });
+
+    try {
+      const bizId = crypto.randomUUID();
+      const manifest: PopulationManifest = {
+        window_id: 'window-native-test',
+        batch_run_id: 'batch-native-test',
+        code_sha: 'test-sha',
+        rubric_version: '1.0.0',
+        businesses: [
+          {
+            business_id: bizId,
+            domain: 'native-clinic.example.com',
+            name: 'Native Test Clinic',
+            website: 'https://native-clinic.example.com',
+            sector: 'Dental Clinic',
+            country: 'EG',
+            in_scope: true,
+          },
+        ],
+      };
+
+      const result = await runCensusBatch({
+        db,
+        scraper: nativeScraper,
+        manifest,
+        batchRunId: 'batch-native-test',
+        windowId: 'window-native-test',
+        codeSha: 'test-sha',
+        concurrency: 1,
+      });
+
+      expect(result.observed).toBe(1);
+      expect(result.crawlFailed).toBe(0);
+      expect(result.excluded).toBe(0);
+
+      const obs = (await db.query(
+        `SELECT rule_slug, rule_output FROM public.observation_records WHERE source_run_id = 'batch-native-test'`,
+        []
+      )).rows;
+      expect(obs.length).toBe(2);
+      expect(obs.map(r => r.rule_slug).sort()).toEqual([
+        'digital_booking_path_gap',
+        'quote_consultation_intake_gap',
+      ]);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
   });
 });
 

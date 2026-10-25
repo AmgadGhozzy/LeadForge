@@ -270,12 +270,20 @@ function combineHtml(pageResults: readonly ScrapedPageResult[]): string {
 // §3.1 Execution Loop
 // ──────────────────────────────────────────────
 
+export interface CensusProgressEvent {
+  readonly completed: number;
+  readonly total: number;
+  readonly business: ManifestBusiness;
+  readonly state: 'OBSERVED' | 'CRAWL_FAILED' | 'EXCLUDED';
+}
+
 export interface CensusBatchParams {
   readonly db: CensusDb;
   readonly scraper: ScraperProvider;
   readonly manifest: PopulationManifest;
   readonly maxAttempts?: number; // frozen retry budget: 3
   readonly concurrency?: number; // bounded pool size: 4
+  readonly onProgress?: (event: CensusProgressEvent) => void;
 }
 
 export interface CensusBatchSummary {
@@ -314,6 +322,8 @@ export async function runCensusBatch(params: CensusBatchParams): Promise<CensusB
   for (const row of completed.rows) completedSet.add(String(row.business_id));
 
   // Partition the manifest population.
+  const total = manifest.businesses.length;
+  let doneCount = completedSet.size;
   const pendingInScope: ManifestBusiness[] = [];
   let excluded = 0;
   for (const business of manifest.businesses) {
@@ -326,6 +336,8 @@ export async function runCensusBatch(params: CensusBatchParams): Promise<CensusB
         attemptCount: 1,
       });
       excluded += 1;
+      doneCount += 1;
+      params.onProgress?.({ completed: doneCount, total, business, state: 'EXCLUDED' });
     } else {
       pendingInScope.push(business);
     }
@@ -360,6 +372,8 @@ export async function runCensusBatch(params: CensusBatchParams): Promise<CensusB
         durationMs: Date.now() - startedAt,
       });
       crawlFailed += 1;
+      doneCount += 1;
+      params.onProgress?.({ completed: doneCount, total, business, state: 'CRAWL_FAILED' });
       return;
     }
 

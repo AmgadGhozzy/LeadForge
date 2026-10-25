@@ -1,0 +1,2114 @@
+{
+  "manifest_version": "1.0.0",
+  "window_id": "census-2026-c0",
+  "batch_run_id": "census-2026-c0-run1",
+  "code_sha": "91bb6eb1cbc203581ebf0bdaaa9eff71d932dc96",
+  "rubric_version": "1.0.0",
+  "created_at": "2026-10-25T00:00:00.000Z",
+  "counts": {
+    "total_registered": 280,
+    "dev_set_excluded": 31,
+    "clean_total": 249,
+    "missing_website_excluded": 41,
+    "clean_crawlable": 208,
+    "out_of_scope_sector_excluded": 6,
+    "in_scope_c0": 202,
+    "strictly_clean_14": 14
+  },
+  "businesses": [
+    {
+      "business_id": "01bf64fe-89e1-4295-9ac2-de396492f870",
+      "name": "Amwaaj Dental Center",
+      "domain": "amwaajdental.com",
+      "website": "https://amwaajdental.com/",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "01c77136-6686-4b03-884a-573a3e97776b",
+      "name": "عيادات دنتكس لطب الأسنان",
+      "domain": "dentex.sa",
+      "website": "http://dentex.sa/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "0362c0e6-29ff-4a60-a015-7287271d83bd",
+      "name": "Dental Care Egypt - Dr. Tamer Badr",
+      "domain": "dentalcareegypt.com",
+      "website": "https://dentalcareegypt.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "049f061f-38ea-4cb3-ae3d-8a8c1f52a16c",
+      "name": "Urbanview Family Dental Clinic",
+      "domain": "urbanviewdentaltoronto.com",
+      "website": "https://www.urbanviewdentaltoronto.com/",
+      "sector": "Dental Clinic",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "05251fe4-cb3d-4509-8180-1a763fbeaae4",
+      "name": "Kings - Dental Center Karama Dubai",
+      "domain": "kingsdentalcenter.ae",
+      "website": "http://kingsdentalcenter.ae/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "0637ee04-2676-4e5e-bcbc-f82a2998cdad",
+      "name": "PerioCARE",
+      "domain": "lumino.co.nz",
+      "website": "https://lumino.co.nz/dentists/periocare/?utm_source=google_business_profile&utm_medium=organic",
+      "sector": "Dental Clinic",
+      "country": "New Zealand",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "077fd1b9-e5c1-4530-b43b-7b9d89acd5ab",
+      "name": "Odont Dental Clinic عيادات أودنت لطب الأسنان",
+      "domain": "odont.sa",
+      "website": "http://www.odont.sa/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "08169d7c-6cd9-4674-bc56-d0534750b24b",
+      "name": "GYA dental center",
+      "domain": "gyadentalcenter.com",
+      "website": "https://www.gyadentalcenter.com/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "09fe04c5-583e-4606-94d7-9f6e534a4506",
+      "name": "Barsoum Dental Clinic",
+      "domain": "barsoum.com",
+      "website": "http://www.barsoum.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "0a5b9293-f4a6-4af6-bdd7-28798c137365",
+      "name": "Harbour Dental Centre",
+      "domain": "dentalcentres.com",
+      "website": "https://dentalcentres.com/",
+      "sector": "Dental Clinic",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "0dae8f7b-6484-4040-8131-043ab4a02b24",
+      "name": "Dr.Amira Lashin - Dental Clinic",
+      "domain": "dramiralashin.com",
+      "website": "https://dramiralashin.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "0db026b9-77ae-4cfe-896f-d1750a072223",
+      "name": "My Implant Dentist Melbourne",
+      "domain": "myimplantdentist.com.au",
+      "website": "https://myimplantdentist.com.au/locations/my-implant-dentist-melbourne/",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "0eff2852-3e9b-4c2c-a1a8-9f68c21e741a",
+      "name": "Dr. Michael's Dental Clinic - Umm Suqeim",
+      "domain": "drmichaels.com",
+      "website": "https://www.drmichaels.com/dental-clinic-umm-suqeim?utm_source=google&utm_medium=googlemybusiness&utm_campaign=gmb&utm_content=ummsuqeim",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "0fcc8a88-7901-4b8b-9118-4e72ac222449",
+      "name": "Next Smile Australia – All-on-4® Dental Implants Melbourne",
+      "domain": "nextsmile.com.au",
+      "website": "https://nextsmile.com.au/melbourne/?utm_source=google&utm_medium=organic&utm_campaign=local_seo&utm_term=melbourne",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "134da476-7064-407a-8e42-d3118f25273c",
+      "name": "Academy of Advanced Endodontics",
+      "domain": "endoacademy.org",
+      "website": "http://endoacademy.org/",
+      "sector": "Dentist",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "14d0af9c-b05c-47da-a5c7-3e40fe838580",
+      "name": "Verwijspraktijk-Amsterdam",
+      "domain": "verwijspraktijk-amsterdam.nl",
+      "website": "https://www.verwijspraktijk-amsterdam.nl/",
+      "sector": "Dental Clinic",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "15d086fa-2b80-462b-8042-569dc71673d4",
+      "name": "Yonge Eglinton Periodontics - Dr Andrew Kay",
+      "domain": "yongeperio.com",
+      "website": "https://www.yongeperio.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "16ca606b-1c99-4fcc-9088-9dc2768754fe",
+      "name": "German Dental and Dermatology Centre - Doha Qatar, Dental implants, Invisalign",
+      "domain": "gddc.qa",
+      "website": "https://gddc.qa/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "16f20307-4470-487e-bc8c-6b12e75f16f4",
+      "name": "Vivaldi Smile Artisans",
+      "domain": "vivaldismiles.com.au",
+      "website": "https://vivaldismiles.com.au/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "179236aa-76b9-4129-8138-bbe9f0931f79",
+      "name": "Astradental Services Limited - Westlands",
+      "domain": "astradental.co.ke",
+      "website": "https://astradental.co.ke/",
+      "sector": "Dental Clinic",
+      "country": "Kenya",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "18d07ce6-6035-4f55-975d-a5a34cd05e82",
+      "name": "Al Dana Dental Center Al Sadd",
+      "domain": "aldanadentalcenter.com",
+      "website": "https://aldanadentalcenter.com/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "19703eb5-5388-4793-80af-e123deade8e7",
+      "name": "Al-Alawi Dental Center",
+      "domain": "alawidental.com",
+      "website": "https://www.alawidental.com/",
+      "sector": "Dental Clinic",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "19ca43a1-9b5e-4786-9dc6-035c07d1da54",
+      "name": "Dental Boutique Sydney",
+      "domain": "dentalboutique.com.au",
+      "website": "https://dentalboutique.com.au/sydney/?utm_source=gmb&utm_medium=organic&utm_campaign=google-my-business-profile",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "1a2eb651-336d-4764-88b0-cb0fe7f16651",
+      "name": "فيرتس لطب الأسنان - Virtus Dental",
+      "domain": "virtusdental.com",
+      "website": "http://www.virtusdental.com/",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "1a6a60ad-380a-419d-a990-113251f07143",
+      "name": "UK Smile",
+      "domain": "uksmile.com",
+      "website": "http://www.uksmile.com/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "1b9f910e-aa6a-45e4-a42f-8c07df1d097a",
+      "name": "implantology Amsterdam",
+      "domain": "implantologieamsterdam.nl",
+      "website": "https://www.implantologieamsterdam.nl/?utm_source=local&utm_medium=organic&utm_campaign=gmb-website",
+      "sector": "Dental Clinic",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "1bd98a6e-5602-432d-bb0a-66462335114d",
+      "name": "Furaha Paediatric Dentistry",
+      "domain": "furahapaediatricdentistry.co.ke",
+      "website": "https://furahapaediatricdentistry.co.ke/",
+      "sector": "Dentist",
+      "country": "Kenya",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "1ddaa480-ee64-4a81-a141-73e68c18c3c6",
+      "name": "Dental Smiles, General Dentistry for Kids/ Parents",
+      "domain": "dentalsmiles.co.ke",
+      "website": "http://dentalsmiles.co.ke/",
+      "sector": "Dentist",
+      "country": "Kenya",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "1e61d9b1-799d-4e8e-b86e-88546792897a",
+      "name": "Moustashark Dentist",
+      "domain": "moustashark.com",
+      "website": "http://www.moustashark.com/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "1ed5a505-09f5-4fc1-b62a-010ffcdeecfa",
+      "name": "عيادات طيبة لطب الأسنان فرع العليا - TAIBA DENTAL CLINICS",
+      "domain": "taiba-clinics.com",
+      "website": "https://taiba-clinics.com/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "1ede54d8-be58-4b81-966f-938638732447",
+      "name": "Smile House Dental Center - Dr Moataz Hamada",
+      "domain": "bu.smilehousedentalcenter.com",
+      "website": "https://bu.smilehousedentalcenter.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "217908bc-f97d-45ed-8566-f4675081c4bc",
+      "name": "NOA Dental Clinic",
+      "domain": "noadentalclinic.com",
+      "website": "https://www.noadentalclinic.com/dubai-dentists.html",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "21e6993d-1196-4c7c-909c-b994d989eefc",
+      "name": "Perfect Smile | New Cairo | Dr. Shady Samir",
+      "domain": "perfectsmileegypt.com",
+      "website": "https://perfectsmileegypt.com/?utm_source=local&utm_medium=GBP",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "272ded93-4752-4982-a9e4-3cf3028373af",
+      "name": "Noble Dental Specialists Remuera",
+      "domain": "nobledental.co.nz",
+      "website": "https://www.nobledental.co.nz/remuera/",
+      "sector": "Dentist",
+      "country": "New Zealand",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "27558336-4a3b-496e-97c3-de222ec82cac",
+      "name": "Cityview Family Dental Clinic",
+      "domain": "cityviewdentaltoronto.com",
+      "website": "https://cityviewdentaltoronto.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "2c8eb9a1-d2ca-407a-8d13-130c0f32c982",
+      "name": "OClinic Dr Omar Amer, Madinaty.",
+      "domain": "oclinic.org",
+      "website": "https://oclinic.org/madinaty-dental-clinic/?utm_source=gbp&utm_medium=organic",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "2d1c1925-8332-4d21-868d-09ce8e701cac",
+      "name": "Dr. Elly Tehrani | Bloor West Village Periodontics",
+      "domain": "bwvperio.com",
+      "website": "https://www.bwvperio.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "319dbaf9-44e7-47a4-bb38-3f03b50633e3",
+      "name": "زراعة الاسنان ابتسامة تجميل فينير تبييض الاسنان دكتور محمد الاحمد Dental implants | Veneer | Hollywood smile | Cosmetic",
+      "domain": "mayoclinic.org",
+      "website": "https://www.mayoclinic.org/ar/tests-procedures/dental-implant-surgery/about/pac-20384622",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "31d08ddf-952f-4aa3-8c11-5a301de2c9e1",
+      "name": "The Harley Street Centre for Endodontics",
+      "domain": "roottreatmentuk.com",
+      "website": "http://www.roottreatmentuk.com/?utm_source=gmb&utm_medium=organic",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "34d3fcf4-c3f5-4ef2-af67-a91385d25bc2",
+      "name": "EndoCare Harley Street",
+      "domain": "endocare.co.uk",
+      "website": "http://www.endocare.co.uk/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "35ad50a8-0a78-4065-8b78-9e8e44c38b19",
+      "name": "Asnan Dental KB / Dr.Bakeer",
+      "domain": "asnan-dental.com",
+      "website": "http://www.asnan-dental.com/",
+      "sector": "Dentist",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "3653e007-056c-453a-82a2-cb12430c65c6",
+      "name": "Gentle Smile Dental Studio (Wheelock Orchard)",
+      "domain": "gentlesmiledentalstudio.com.sg",
+      "website": "http://www.gentlesmiledentalstudio.com.sg/",
+      "sector": "Dentist",
+      "country": "Singapore",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "37ea2fab-b6f0-4517-822a-9c4ae3b1b45a",
+      "name": "Salsabeel Dental Center",
+      "domain": "sdcqa.com",
+      "website": "https://www.sdcqa.com/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "382fc69d-2e99-4184-ad76-5410df160a86",
+      "name": "Gulf Dental Center Old Airport",
+      "domain": "gulfdental.org",
+      "website": "http://www.gulfdental.org/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "3a1bcd76-566d-4093-9c1f-e61589a60104",
+      "name": "كراون دنتل Crown Dental Center",
+      "domain": "crowndentalkw.com",
+      "website": "https://crowndentalkw.com/ar/services",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "3c1f5528-3daa-46b9-83db-82463db8aa29",
+      "name": "SN Clinics - Mazaya Clinic V | عيادات سن - برج مزايا 5",
+      "domain": "snclinics.com",
+      "website": "https://snclinics.com/",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "3e262ef4-753d-4e52-a14a-94046be798a6",
+      "name": "Gorgeous Smiles",
+      "domain": "gorgeoussmiles.com.au",
+      "website": "https://www.gorgeoussmiles.com.au/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "406227a6-b5c0-43cb-9f5a-a7f13bb42ebc",
+      "name": "عيادات زيان لطب الأسنان",
+      "domain": "zayanclinic.com",
+      "website": "https://zayanclinic.com/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "40790ef1-3cae-4482-befb-9af87a53ba44",
+      "name": "Dima Dental Center مجمع ديمه لطب الأسنان‎",
+      "domain": "dimadental.com.sa",
+      "website": "https://www.dimadental.com.sa/",
+      "sector": "Dentist",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "416696c2-6b57-498d-b061-8067628d1f8b",
+      "name": "Trio Dental Center",
+      "domain": "triodentalcenter.com",
+      "website": "http://www.triodentalcenter.com/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "427ada74-6510-48c7-a3e3-64c204ba365a",
+      "name": "Dr Mohamed Fahmy Dental Clinics",
+      "domain": "dentistmohamedfahmy.com",
+      "website": "https://dentistmohamedfahmy.com/",
+      "sector": "Dentist",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "42ebe925-8510-4c90-be0b-96dbfb07df28",
+      "name": "Qatar Prime Dental Center",
+      "domain": "qatarprimedental.com",
+      "website": "http://qatarprimedental.com/",
+      "sector": "Medical Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "450ae624-b5a6-4f38-b82d-bcbba5b223be",
+      "name": "Smile by Design - North Sydney",
+      "domain": "smilebydesign.com.au",
+      "website": "https://www.smilebydesign.com.au/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "45385619-bbdd-43fc-8f9c-af10edf3c010",
+      "name": "OrthoCare Orthodontics",
+      "domain": "orthocareorthodontics.com.au",
+      "website": "http://www.orthocareorthodontics.com.au/",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "4abd765a-5253-4e9a-acfe-0772b3c49a05",
+      "name": "Tandartsjordaan.nl B.V.",
+      "domain": "tandartsjordaan.nl",
+      "website": "https://tandartsjordaan.nl/?utm_source=google%20my%20business&utm_medium=organic",
+      "sector": "Dentist",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "4d98bf17-672c-417c-9e17-2ef731ea1df7",
+      "name": "Jibla Dental Center",
+      "domain": "jibladental.com",
+      "website": "http://www.jibladental.com/",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "4de9fd57-3b3c-4f8d-a66c-fbd06d9de69c",
+      "name": "Dr Thomas Dental Clinic",
+      "domain": "drthomasdentalhospital.com",
+      "website": "https://drthomasdentalhospital.com/",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "4e08ba3b-40e9-4a12-9186-5dfee7dec75b",
+      "name": "Tavistock Dental London",
+      "domain": "tavistockdental.co.uk",
+      "website": "http://www.tavistockdental.co.uk/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "4f143d1e-13a0-40e4-b8ce-38e473ad1995",
+      "name": "Aster Medical Centre Bahrain (DM Healthcare)",
+      "domain": "asterbahrain.com",
+      "website": "https://www.asterbahrain.com/",
+      "sector": "Medical Center",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "537f8dfb-4c82-47d3-bde7-089f6aedd917",
+      "name": "Wimpole Street Endodontics",
+      "domain": "wimpolestreetendodontics.co.uk",
+      "website": "http://www.wimpolestreetendodontics.co.uk/",
+      "sector": "Dentist",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "53e9a402-56ea-4826-a845-63deaa607d1a",
+      "name": "Auckland Periodontics and Implants - Takapuna",
+      "domain": "perioodontics.co.nz",
+      "website": "https://www.perioodontics.co.nz/",
+      "sector": "Dentist",
+      "country": "New Zealand",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "581cbded-5b7e-4a09-9597-2598595dc264",
+      "name": "F Dental Center",
+      "domain": "fdentalcenter.net",
+      "website": "https://www.fdentalcenter.net/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "592e4ed0-ed9c-4592-9543-c2bf6215ce56",
+      "name": "Sydney CBD Dentistry | Cosmetique Dental",
+      "domain": "sydneycbddentistry.com.au",
+      "website": "https://www.sydneycbddentistry.com.au/?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "5a0ceba5-d6cb-40ff-b6bb-5372a6d795d6",
+      "name": "The Dental Studio @ Paragon",
+      "domain": "dentalstudio.sg",
+      "website": "https://dentalstudio.sg/?utm_source=google&utm_medium=organic&utm_campaign=gmp_orchard",
+      "sector": "Dental Clinic",
+      "country": "Singapore",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "5a71ef53-ee33-44b5-a0ae-52b9c30d63d4",
+      "name": "Orthodontics Sydney Wide Parramatta",
+      "domain": "oswgroup.com.au",
+      "website": "https://oswgroup.com.au/orthodontist-parramatta/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "5e9a3f1c-2995-47a2-96f8-1b5b31f6589c",
+      "name": "Naseem Dental Centre - Muntazah",
+      "domain": "naseem.qa",
+      "website": "https://naseem.qa/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "63f8b84b-74ec-4251-903b-f93f25d119a8",
+      "name": "Dubai Specialized Dental Center - مركز دبي التخصصي لطب الأسنان",
+      "domain": "ehs.gov.ae",
+      "website": "http://www.ehs.gov.ae/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "6484a354-4cbd-4e81-9db3-a2a8e3ef18d3",
+      "name": "Bayswater Dental Clinic",
+      "domain": "bayswaterdental.co.uk",
+      "website": "http://www.bayswaterdental.co.uk/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "65ad3510-cae7-4e4c-b61d-4a25ac768264",
+      "name": "Australian Dentists Clinic",
+      "domain": "dentistsclinic.com.au",
+      "website": "https://dentistsclinic.com.au/locations/melbourne-cbd/index.html",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "6753a405-2a73-4017-ac50-8cdf021d1002",
+      "name": "Doctor Monther Numan Dental Clinic",
+      "domain": "montherdental.com",
+      "website": "http://montherdental.com/",
+      "sector": "Dental Clinic",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "678640ea-ba5d-4afa-b826-2c287d70c544",
+      "name": "Dental Care Egypt - Dr. Tamer Badr",
+      "domain": "dentalcareegypt.com",
+      "website": "https://www.dentalcareegypt.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "6942dc54-9a87-4e54-ac40-bc8cc9f3ee20",
+      "name": "Dubai Sky Clinic (by Trio Dental Center)",
+      "domain": "dubaiskyclinic.com",
+      "website": "http://www.dubaiskyclinic.com/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "697fbcab-2080-4260-8803-30b1f77895fc",
+      "name": "Paramount Dental Sydney",
+      "domain": "paramountdentalsydney.com.au",
+      "website": "https://www.paramountdentalsydney.com.au/",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "6ba59206-6fc8-45e5-8529-6ed77fc2294c",
+      "name": "Shashlik",
+      "domain": "shahlikeg.com",
+      "website": "http://shahlikeg.com/",
+      "sector": "Turkish Restaurant",
+      "country": "Egypt",
+      "in_scope": false,
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+    },
+    {
+      "business_id": "6ba66d45-ad22-47dd-ae84-7d967ce88bb8",
+      "name": "Dental Studio Dubai Science Park | Dentist in Al Barsha South",
+      "domain": "thedentalstudio.ae",
+      "website": "https://www.thedentalstudio.ae/dentist-in-al-barsha-south/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "6be0c2b8-f017-42b3-a286-cc4f392540fb",
+      "name": "Sydney Cosmetic Dentist",
+      "domain": "sydneycosmeticdentist.com.au",
+      "website": "https://sydneycosmeticdentist.com.au/?utm_source=GMB&utm_medium=organic",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "6ca01300-ba51-4107-b181-ec0161addfd5",
+      "name": "Master Medical Center",
+      "domain": "mastermedicalcenter.com",
+      "website": "https://mastermedicalcenter.com/",
+      "sector": "Medical Center",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "6ea8a66f-bf3f-4f76-905f-030c77dd8be8",
+      "name": "Asnan Tower",
+      "domain": "asnan.com",
+      "website": "https://www.asnan.com/ar",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "71011d12-96b2-4d09-aff2-cacfb1f8278d",
+      "name": "The Australian Centre for AI Orthodontics & Orthopaedics",
+      "domain": "acaoo.com.au",
+      "website": "http://www.acaoo.com.au/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "71606a6b-65fb-48f3-8b3f-4a0806ad5e29",
+      "name": "Cure Dental Clinics, Dr. Khaled Maher - Zamalek Branch",
+      "domain": "curedentalclinics.com",
+      "website": "https://curedentalclinics.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "71c65fc5-2e76-429d-b7a8-cd34d451b050",
+      "name": "Harley Street Dental Studio",
+      "domain": "harleystreetdentalstudio.com",
+      "website": "https://www.harleystreetdentalstudio.com/",
+      "sector": "Dentist",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "71e12035-53dc-4a18-9db8-8db46ca7b438",
+      "name": "Smile Solutions",
+      "domain": "smilesolutions.com.au",
+      "website": "https://www.smilesolutions.com.au/",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "7323d91c-cb7e-45fc-be2f-ede7f11046c5",
+      "name": "Straits Dental Group Orchard",
+      "domain": "straitsdental.com",
+      "website": "http://www.straitsdental.com/",
+      "sector": "Dental Clinic",
+      "country": "Singapore",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "736460d4-1916-43d6-8248-b8419fe64a8c",
+      "name": "Lassus Dentists",
+      "domain": "lassustandartsen.nl",
+      "website": "https://www.lassustandartsen.nl/",
+      "sector": "Dentist",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "756438b6-eaa5-4064-a869-a665b2d8644d",
+      "name": "PurEndo",
+      "domain": "purendo.nl",
+      "website": "http://www.purendo.nl/",
+      "sector": "Dental Clinic",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "78d860dd-3e01-422d-b30a-54b35ab4f394",
+      "name": "Patchi Restaurant & café",
+      "domain": "patchi-cafe.com",
+      "website": "https://patchi-cafe.com/",
+      "sector": "Cafe",
+      "country": "Egypt",
+      "in_scope": false,
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+    },
+    {
+      "business_id": "7f6b5e9d-e5c9-4e17-a455-85a5ff54b683",
+      "name": "ARCENDO",
+      "domain": "endodontics.org.uk",
+      "website": "http://www.endodontics.org.uk/?utm_source=localcity&utm_medium=organic&utm_content=gmbcity",
+      "sector": "Dentist",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "80211319-4277-48f8-a32e-fd5828f3eeb9",
+      "name": "Institute of Dental Implants & Periodontics",
+      "domain": "implantdentist.co.nz",
+      "website": "http://www.implantdentist.co.nz/",
+      "sector": "Medical Center",
+      "country": "New Zealand",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "80270a22-aa96-4faf-9b14-721dbcabe014",
+      "name": "Precision Dental Clinic - Dubai",
+      "domain": "precisiondental.ae",
+      "website": "http://www.precisiondental.ae/",
+      "sector": "Dentist",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "805e4a4d-48b4-4c4c-9f36-e96d20cb2fef",
+      "name": "Cole Nicholas Periodontics & Implants",
+      "domain": "periodontics.co.nz",
+      "website": "https://periodontics.co.nz/",
+      "sector": "Dentist",
+      "country": "New Zealand",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "81b35fc4-ae1e-42c8-bdf4-4f422bc3be3a",
+      "name": "North Sydney Dentistry | Cosmetique Dental",
+      "domain": "northsydneydentistry.com.au",
+      "website": "https://www.northsydneydentistry.com.au/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "836f01a0-4277-4ab6-b118-22bf26eb7b67",
+      "name": "Periodontal Specialists: Dr. Herbert Veisman",
+      "domain": "torontoimplant.com",
+      "website": "https://www.torontoimplant.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "83c55326-ecda-492a-818a-42af6913c92e",
+      "name": "London Root Canal Clinic",
+      "domain": "londonrootcanalclinic.com",
+      "website": "https://www.londonrootcanalclinic.com/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "85781161-a5e2-4246-9635-d7a1a155cda1",
+      "name": "Downtown Dental Centre",
+      "domain": "downtowndental.ca",
+      "website": "http://www.downtowndental.ca/",
+      "sector": "Dental Clinic",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "86c22d7d-da66-4e56-8fd8-74722c281da2",
+      "name": "Maleen Consultant Center",
+      "domain": "maleenclinic.com",
+      "website": "http://www.maleenclinic.com/",
+      "sector": "Medical Center",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "86c9c629-1231-48ce-801a-dda7ea629b9e",
+      "name": "Pitt Street Dental Centre",
+      "domain": "pittstdentalcentre.com.au",
+      "website": "https://pittstdentalcentre.com.au/",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "87a38df1-74de-4919-8192-ad4f00641d05",
+      "name": "الجمعية المصرية لطب أسنان الأطفال وذوي الاحتياجات الخاصة ESPSN",
+      "domain": "espsn.org",
+      "website": "https://www.espsn.org/",
+      "sector": "Association Or Organization",
+      "country": "Egypt",
+      "in_scope": false,
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+    },
+    {
+      "business_id": "8814d0c2-4dc5-44df-9949-2b34f8d649c9",
+      "name": "The Root Canal Specialist",
+      "domain": "therootcanalspecialist.co.uk",
+      "website": "https://www.therootcanalspecialist.co.uk/?utm_source=GMB&utm_medium=Organic&utm_campaign=GMB_Listing",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "88d346ed-1114-46fa-a651-72906360719a",
+      "name": "The Periodontist Dental Centre",
+      "domain": "theperiodontist.co.ke",
+      "website": "http://www.theperiodontist.co.ke/",
+      "sector": "Dental Clinic",
+      "country": "Kenya",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "8a896969-c131-4f01-9233-0c5c23bd0479",
+      "name": "Fixed Teeth Australia Melbourne",
+      "domain": "fixedteethaustralia.com.au",
+      "website": "https://fixedteethaustralia.com.au/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "8b639b67-b40c-439e-9121-8fe7c5095ea3",
+      "name": "Pioneers Dental Center",
+      "domain": "pioneersdentalcenter.com",
+      "website": "https://pioneersdentalcenter.com/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "8c2d9a3b-3c12-4ef8-82c6-8671fce3af54",
+      "name": "Green Health Dental Clinic",
+      "domain": "greenhealthdental.com",
+      "website": "https://greenhealthdental.com/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "8cb014a7-0464-41b4-9e70-048b6ab6a698",
+      "name": "Northmed Dental",
+      "domain": "northmeddental.co.nz",
+      "website": "https://northmeddental.co.nz/?utm_source=gbp&utm_medium=organic",
+      "sector": "Dental Clinic",
+      "country": "New Zealand",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "90ace474-62a2-48f2-a5d6-8b1b775b0302",
+      "name": "National Medical Center – GP | DENTAL | LONGEVITY | DERMA | IV",
+      "domain": "nationalmed.ae",
+      "website": "https://nationalmed.ae/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "916e33e5-27ab-42ed-af7f-454cfaaf184c",
+      "name": "Dental Designs Clinic @ Raffles Place",
+      "domain": "dentaldesigns.com.sg",
+      "website": "https://www.dentaldesigns.com.sg/en-sg",
+      "sector": "Dentist",
+      "country": "Singapore",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "91b9b2c0-95f5-4805-b05a-1f5a989ab0f2",
+      "name": "Studio Dental @ Union Station",
+      "domain": "studiodentalcentres.ca",
+      "website": "https://www.studiodentalcentres.ca/",
+      "sector": "Dental Clinic",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "92f743b1-be26-4efc-82ee-6f9dfcbe0644",
+      "name": "Doctor Smile Dental Center",
+      "domain": "doctorsmilekw.com",
+      "website": "https://www.doctorsmilekw.com/",
+      "sector": "Dentist",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "936692c7-c9e4-4404-8dca-1fdb89ab0221",
+      "name": "Waterview Family Dental Clinic",
+      "domain": "waterviewdentaltoronto.com",
+      "website": "https://www.waterviewdentaltoronto.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "9369e394-f6a1-4144-acf7-516547bac483",
+      "name": "Cumberland Periodontics & Implant Surgery",
+      "domain": "cumberlandperiodontics.com",
+      "website": "http://www.cumberlandperiodontics.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "9571bd72-460d-4700-b06a-ec4b31bd547f",
+      "name": "Brightside Dental",
+      "domain": "brightside.sg",
+      "website": "http://www.brightside.sg/",
+      "sector": "Dental Clinic",
+      "country": "Singapore",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "9669dabd-9c50-4575-845a-58aeab2173a2",
+      "name": "THE CHEF Hassan Elkhalili",
+      "domain": "thechefeg.com",
+      "website": "https://thechefeg.com/",
+      "sector": "Restaurant",
+      "country": "Egypt",
+      "in_scope": false,
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+    },
+    {
+      "business_id": "96712d59-a94f-4b0e-a82c-06943a8ba1f2",
+      "name": "Mehta Orthodontics",
+      "domain": "mehtaorthodontics.com.au",
+      "website": "http://www.mehtaorthodontics.com.au/",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "96bf2d0e-8524-47ff-8673-d0a4fe4f6c39",
+      "name": "American Medical and Dental Center (AMDC)- Dubai Hills Branch",
+      "domain": "americanmdcenter.com",
+      "website": "https://www.americanmdcenter.com/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "97590d9b-bf07-4519-9957-4e503a6a9af4",
+      "name": "Lasting Smile Dental Clinics مجمع البسمة الدائمة لطب الأسنان",
+      "domain": "lastingsmile.com",
+      "website": "http://www.lastingsmile.com/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "98890609-a6a6-4b5f-a62d-2819b51cebb9",
+      "name": "El Mohamady Restaurant",
+      "domain": "elmohamadyegypt.com",
+      "website": "http://www.elmohamadyegypt.com/",
+      "sector": "Restaurant",
+      "country": "Egypt",
+      "in_scope": false,
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+    },
+    {
+      "business_id": "9b0ab4f4-40e5-4c35-bfcb-05532dd5186e",
+      "name": "Dental Care Clinic LLC",
+      "domain": "dentalcareclinic.ae",
+      "website": "https://dentalcareclinic.ae/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "9b399e96-d57c-4313-897c-f7f9a5faa625",
+      "name": "Smilee White Dental Center",
+      "domain": "smileewhite.com",
+      "website": "http://www.smileewhite.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "9bebb85a-257a-4de5-b469-faa34a3ccd42",
+      "name": "Wimpole Street Dental Clinic",
+      "domain": "wimpolestreetdental.clinic",
+      "website": "https://wimpolestreetdental.clinic/",
+      "sector": "Dentist",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "9ead2885-7613-437f-b191-968685702c8b",
+      "name": "Toronto North Periodontics",
+      "domain": "torontonorthperiodontics.ca",
+      "website": "https://torontonorthperiodontics.ca/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "9f16e41f-dafe-4992-9115-6af8b7d184df",
+      "name": "Dr. Ali Mattar Dental Centre",
+      "domain": "draliconsultgrp.com",
+      "website": "http://www.draliconsultgrp.com/",
+      "sector": "Dental Clinic",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "9f4f8b09-c8f5-4fc3-be08-dd5ae6177163",
+      "name": "مركز اكسبرت للاسنان | Expert Dental Center تقويم و تجميل الأسنان Orthodontics Dentist طبيب أسنان",
+      "domain": "expertdental.qa",
+      "website": "https://expertdental.qa/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "a1579988-35f6-4e95-96ac-1a074f98caeb",
+      "name": "Smile Zone Dental Clinic",
+      "domain": "smilezonekenya.com",
+      "website": "http://www.smilezonekenya.com/",
+      "sector": "Dental Clinic",
+      "country": "Kenya",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "a1ab508a-008e-4df7-ba99-77997b7d2a5b",
+      "name": "The Dental Land Clinic دنتال لاند لطب أسنان الأطفال",
+      "domain": "dentallandegypt.com",
+      "website": "http://www.dentallandegypt.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "a3856a2d-5b74-453d-a7a2-af114f9baa5e",
+      "name": "Downtown Dental Clinic",
+      "domain": "downtowndentalclinic.com",
+      "website": "http://www.downtowndentalclinic.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "a43baea3-dcbe-4131-9be0-beec563c9320",
+      "name": "انستا كافيه - Insta cafe",
+      "domain": "instacfe.skynear.net",
+      "website": "https://instacfe.skynear.net/",
+      "sector": "Cafe",
+      "country": "Egypt",
+      "in_scope": false,
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+    },
+    {
+      "business_id": "a65539f6-9eeb-42c6-a3d9-88c7f660eb0a",
+      "name": "Johnstone Periodontics",
+      "domain": "johnstoneperio.com",
+      "website": "https://www.johnstoneperio.com/?utm_source=GMB_Listing&utm_medium=organic&utm_campaign=GMB",
+      "sector": "Dental Clinic",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "a6b0e00f-6fa2-428f-94ba-35d9607d8787",
+      "name": "Helio Dental Heliopolis Dr.A.H.Shousha",
+      "domain": "heliodental.com",
+      "website": "http://www.heliodental.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "a6f68700-ec32-4f16-aae0-f6326281ff4a",
+      "name": "S.P.E Dental Center",
+      "domain": "spe-centers.com",
+      "website": "https://spe-centers.com/",
+      "sector": "Dentist",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "a70e6b86-f278-44aa-b08c-ef14c3a5c367",
+      "name": "0900DENTIST & 0900IMPLANT B.V.",
+      "domain": "0900dentist.com",
+      "website": "https://0900dentist.com/",
+      "sector": "Dental Clinic",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "a92926c1-6644-469c-b97c-6104f27b64f8",
+      "name": "Dental Care Egypt",
+      "domain": "dentalcareclinicegypt.com",
+      "website": "https://dentalcareclinicegypt.com/",
+      "sector": "Dentist",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "aa27fab0-ac22-46f6-a735-2be23632d879",
+      "name": "London City Dentists",
+      "domain": "londoncitydentists.com",
+      "website": "https://www.londoncitydentists.com/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "ab208124-4676-40e3-b41c-16e646da94e8",
+      "name": "London Dental Centre",
+      "domain": "thelondondentalcentre.co.uk",
+      "website": "http://www.thelondondentalcentre.co.uk/",
+      "sector": "Dentist",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "acd0668e-b148-4ccc-9dc2-25caafa5d857",
+      "name": "British International Dental Centre",
+      "domain": "qatardental.net",
+      "website": "http://www.qatardental.net/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "acfe591d-c949-43ee-9b69-855a6e419182",
+      "name": "مركز الدكتور نائل الهزيم لجراحة الوجه والفكين والأسنان - NHC Dr. Nael Al Hazeem Dental Center Kuwait",
+      "domain": "nhcgcc.com",
+      "website": "http://www.nhcgcc.com/",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "ad51ed56-5ca8-4b1b-a58b-9096c60ddc4b",
+      "name": "AL Fawzy Dental Clinic",
+      "domain": "alfawzydental.com",
+      "website": "https://alfawzydental.com/?utm_source=local&utm_medium=gbp",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "af703755-124a-481c-b0ba-665b49c80b9b",
+      "name": "Root Canal London",
+      "domain": "rootcanal-london.co.uk",
+      "website": "https://rootcanal-london.co.uk/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "b0df23b6-3148-42a7-97ae-92f4cb05f814",
+      "name": "Dental Smiles London | Euston Practice",
+      "domain": "dentalsmileslondon.co.uk",
+      "website": "https://www.dentalsmileslondon.co.uk/find-us/euston",
+      "sector": "Dentist",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "b2991008-5ff9-4536-a7f9-0015eb354f89",
+      "name": "مجمع عيادات دنت كير لطب الأسنان | Dent Care Clinic",
+      "domain": "dentcaresaudi.com",
+      "website": "http://dentcaresaudi.com/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "b353f899-2cea-4af1-928a-4c197e9baa61",
+      "name": "Avenues Dental Center",
+      "domain": "avenuesdental.com",
+      "website": "http://avenuesdental.com/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "b55086b4-9ca7-4adf-8372-28b01c0b5c10",
+      "name": "Craft Dental Center - Najma",
+      "domain": "craftdental.qa",
+      "website": "http://www.craftdental.qa/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "b5c1ef7f-5176-41cb-81be-b9fa289be7de",
+      "name": "Specialized Medical & Dental Centre, Dubai, UAE",
+      "domain": "sm-dc.ae",
+      "website": "http://www.sm-dc.ae/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "b6825d13-f1fc-4553-a55d-26f53d2e5bf3",
+      "name": "London Specialist Dentists",
+      "domain": "londonspecialistdentist.co.uk",
+      "website": "https://londonspecialistdentist.co.uk/",
+      "sector": "Dentist",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "b80491b5-4068-4500-8001-9c4dd6b31589",
+      "name": "Go Dental Clinic, Bur Dubai",
+      "domain": "godentalclinic.com",
+      "website": "https://www.godentalclinic.com/?utm_source=GMB&utm_medium=maps&utm_campaign=organic",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "b83d8b24-1ca3-4479-a1cd-eeb8fb821aad",
+      "name": "Crossroads Dental Clinic - Sheikh Zayed Road, Dubai",
+      "domain": "crossroadsdentalclinic.com",
+      "website": "https://crossroadsdentalclinic.com/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "be32af28-71b6-4af7-a6c0-cf420ac33a20",
+      "name": "Dental Implant Professionals",
+      "domain": "dentalimplantmelbourne.com.au",
+      "website": "https://www.dentalimplantmelbourne.com.au/?utm_source=GBP&utm_medium=GBP-Profile&utm_campaign=GBP-Organic",
+      "sector": "Doctor",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c01f93e2-4978-4aa3-9423-8549b4a6a608",
+      "name": "Smile Design Dental Clinics",
+      "domain": "smiledesign.sa",
+      "website": "http://smiledesign.sa/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c0d904a0-64e4-4a10-893a-f62289a4150a",
+      "name": "Fine Orthodontist Sydney",
+      "domain": "fineorthodontics.com.au",
+      "website": "https://www.fineorthodontics.com.au/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c1bcade5-4515-47b8-b233-f2b677a7b8ee",
+      "name": "Orthoworx Zetland",
+      "domain": "orthoworx.com",
+      "website": "https://orthoworx.com/index.php/zetland-office/?utm_source=google&utm_medium=organic&utm_campaign=Google%20My%20Business%20Page",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c288527b-0330-4b20-a269-cf39c8619b8a",
+      "name": "Endo en zo",
+      "domain": "endoenzo.nl",
+      "website": "http://www.endoenzo.nl/",
+      "sector": "Dental Clinic",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c3777444-9833-420b-8fc8-439fc59f8e87",
+      "name": "Dent Xperts",
+      "domain": "dentxperts.nl",
+      "website": "http://www.dentxperts.nl/",
+      "sector": "Dental Clinic",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c3e34364-2f01-4651-ab48-b281c4ab34ba",
+      "name": "Doha Specialized Dental and Dermatology Center Al Muntazah",
+      "domain": "dohadentalcenter.com",
+      "website": "http://www.dohadentalcenter.com/",
+      "sector": "Medical Center",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c3fd7204-579f-4549-9081-44347eb3a7e8",
+      "name": "Dental Essence",
+      "domain": "dentalessence.com.sg",
+      "website": "http://www.dentalessence.com.sg/",
+      "sector": "Dental Clinic",
+      "country": "Singapore",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c41de9cb-796a-40cb-a45a-f0e0fd32be67",
+      "name": "The Dental House Center",
+      "domain": "thedentalhouse.ae",
+      "website": "https://thedentalhouse.ae/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c4ca5f52-510b-45aa-b35e-c683674bc31c",
+      "name": "Arrow Dental Centre",
+      "domain": "arrowdental.co.ke",
+      "website": "http://arrowdental.co.ke/",
+      "sector": "Dental Clinic",
+      "country": "Kenya",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c5375225-f103-4200-9303-f572eb0ff41c",
+      "name": "London Dental Specialists",
+      "domain": "london-dental-specialists.co.uk",
+      "website": "https://london-dental-specialists.co.uk/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c74ef2bc-96ee-40a1-90f9-d232dd926757",
+      "name": "Dr. Tim's Dental Clinic",
+      "domain": "drtimsdental.com",
+      "website": "https://drtimsdental.com/",
+      "sector": "Dentist",
+      "country": "Kenya",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "c9402240-4069-447d-8eaf-7f9bfb3bc4b5",
+      "name": "Bayan Dental Center - Salmiya",
+      "domain": "bayandental.com",
+      "website": "http://www.bayandental.com/",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "ca14c3e7-bd95-4031-b1d9-5cf1ca3ec046",
+      "name": "North Sydney Orthodontics",
+      "domain": "northsydneyorthodontics.com.au",
+      "website": "http://www.northsydneyorthodontics.com.au/",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "caa31cbf-7056-4911-b9d0-3cc0b52fc7fc",
+      "name": "Emergency Dentist - Baker Street Dental",
+      "domain": "24hour-emergencydentist.co.uk",
+      "website": "https://www.24hour-emergencydentist.co.uk/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "cb35eeea-1bc1-404d-8180-f378b209afff",
+      "name": "AucklandPerio",
+      "domain": "aucklandperio.co.nz",
+      "website": "https://www.aucklandperio.co.nz/",
+      "sector": "Dentist",
+      "country": "New Zealand",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "cc424ad1-2b67-4e8f-aec9-f846dc8c2ea7",
+      "name": "Norwest Orthodontics",
+      "domain": "norwestortho.com.au",
+      "website": "https://norwestortho.com.au/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "cca2d116-0c44-4b63-8a50-a029eb4526ca",
+      "name": "Dr Andrew Pitsis - Orthodontist Sydney",
+      "domain": "ajpitsis.com.au",
+      "website": "http://www.ajpitsis.com.au/",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "cd10b948-ca97-414a-828b-0aaae97b9aeb",
+      "name": "The Richmond Dental Centre",
+      "domain": "therichmonddentalcentre.com",
+      "website": "https://www.therichmonddentalcentre.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "cdd452f5-c934-486f-a914-84cb17e0b75e",
+      "name": "عيادة اسنان دكتورة ايمان طنطاوي - المهندسين",
+      "domain": "bestdentistdentalclinic.com",
+      "website": "https://bestdentistdentalclinic.com/",
+      "sector": "Dentist",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "cde2045f-d94a-4d4b-a7db-d0fe4f452fc4",
+      "name": "City Dental on Bay",
+      "domain": "citydentaltoronto.com",
+      "website": "http://citydentaltoronto.com/",
+      "sector": "Dental Clinic",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "cea43438-aff1-467b-8c02-5a85b758e345",
+      "name": "Aline Dental Avenues ألاين للأسنان الأفنيوز",
+      "domain": "alinedental.net",
+      "website": "https://www.alinedental.net/",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "cec41863-8b48-4673-acb6-694747d9a063",
+      "name": "Dental House دينتال هاوس",
+      "domain": "dentalhousebh.com",
+      "website": "https://www.dentalhousebh.com/",
+      "sector": "Dental Clinic",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "cf9604a0-fa1f-4545-aa7c-95baf752ab30",
+      "name": "Alpha Clinic - Dental Services",
+      "domain": "alphadentalcare.co",
+      "website": "http://www.alphadentalcare.co/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "cfb9b384-0a81-4c2e-bbaf-622f2c4fd633",
+      "name": "The London Smile Clinic",
+      "domain": "londonsmile.co.uk",
+      "website": "https://www.londonsmile.co.uk/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "d0b7c46a-dab9-419f-982f-805fda1b3ccd",
+      "name": "Dr. Joy Dental Clinic, Jumeirah Al Wasl Road",
+      "domain": "drjoydentalclinic.com",
+      "website": "https://drjoydentalclinic.com/our-clinics/jumeirah-dental-clinic/?utm_source=GMB-Jumeirah&utm_medium=organic&utm_campaign=GMB-Jumeirah_TOFU",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "d4a6dd7b-086b-4379-b7a2-c98f053ea5b7",
+      "name": "OrthoBoutique",
+      "domain": "orthoboutique.com.au",
+      "website": "http://www.orthoboutique.com.au/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "d770df1a-0af9-4f59-88c7-e3dc2d79cca1",
+      "name": "Madina Dental Center (Al Waab)",
+      "domain": "madinadental.com",
+      "website": "https://madinadental.com/book-appointment",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "d871a0e5-46fc-4fd3-9b39-a02f39ee109c",
+      "name": "Horizon Dental Clinic",
+      "domain": "horizondent.com",
+      "website": "https://www.horizondent.com/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "d9d10544-cf88-4a8d-843a-c2cd24be1d12",
+      "name": "Covent Garden Dental Spa",
+      "domain": "coventgardendentalspa.co.uk",
+      "website": "https://www.coventgardendentalspa.co.uk/",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "da25e73f-580f-41a1-ae56-e16c40baf463",
+      "name": "Zain Dental Center مركز زين للأسنان",
+      "domain": "zaindentalcenter.com",
+      "website": "https://zaindentalcenter.com/",
+      "sector": "Dental Clinic",
+      "country": "Qatar",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "da260899-9859-4f4d-b151-ff6f36715518",
+      "name": "High Dental Implants Melbourne",
+      "domain": "highdentalimplantsmelbourne.com.au",
+      "website": "https://www.highdentalimplantsmelbourne.com.au/",
+      "sector": "Dental Clinic",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "da38eb79-20ff-4684-adaa-e01263b088b5",
+      "name": "Smartsmile Dentalcare Clinics Nairobi, Kenya | Cosmetic Dentistry Nairobi | Dental Implants | Dentists Kenya | Braces Nairobi",
+      "domain": "smartsmiledentalclinics.co.ke",
+      "website": "https://www.smartsmiledentalclinics.co.ke/appointment",
+      "sector": "Dental Clinic",
+      "country": "Kenya",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "dd05bd4f-dee6-4b83-a218-8084c9873639",
+      "name": "Sennaty Dental Clinics",
+      "domain": "sennatydentalclinics.com",
+      "website": "https://www.sennatydentalclinics.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "dd24947f-776e-4138-90f1-b020cd9d3089",
+      "name": "Dental Artistry - Auckland Dentist",
+      "domain": "dentalartistry.co.nz",
+      "website": "https://dentalartistry.co.nz/?utm_campaign=gmb-auckland&utm_source=google&utm_medium=organic&utm_term=website&utm_content=gmb-website",
+      "sector": "Dental Clinic",
+      "country": "New Zealand",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "de132e58-a4e6-413c-b069-13a7196df632",
+      "name": "Bin Arab Dental Centre",
+      "domain": "binarabdentalcentre.com",
+      "website": "http://binarabdentalcentre.com/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "dfd03234-5f44-4f9a-880c-13e1ebd23ac7",
+      "name": "Lenga Perio",
+      "domain": "lengaperio.com",
+      "website": "http://www.lengaperio.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "e0627d85-86f8-452d-a5ba-6d7e2c87a33b",
+      "name": "G E M S DENTAL CENTER",
+      "domain": "gemsdentalcenter.bh",
+      "website": "http://www.gemsdentalcenter.bh/",
+      "sector": "Dental Clinic",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "e0785377-5be7-4c17-bedc-2b41c152953f",
+      "name": "Canadian Specialized Dental Center",
+      "domain": "csdc-dubai.com",
+      "website": "http://csdc-dubai.com/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "e0db39bd-e6d5-49f7-bc35-76531bdb650b",
+      "name": "Dental Clinic van Mill",
+      "domain": "tandarts.healthcenteramsterdamsebos.nl",
+      "website": "https://tandarts.healthcenteramsterdamsebos.nl/?y_source=1_NjA0NjY3My03MTUtbG9jYXRpb24ud2Vic2l0ZQ%3D%3D",
+      "sector": "Dental Clinic",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "e237c950-7c6d-45f9-b734-9be5fa377711",
+      "name": "CMC DENTAL CLINIC Dubai",
+      "domain": "cmcdentalclinic.ae",
+      "website": "http://www.cmcdentalclinic.ae/",
+      "sector": "Dental Clinic",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "e29051dc-b0a5-46e1-86f4-19b545bb6dd4",
+      "name": "AlFardan Medical Center",
+      "domain": "alfardanmedical.com",
+      "website": "https://alfardanmedical.com/",
+      "sector": "Hospital",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "e3fe9982-d0bc-4819-ab86-ca95159fb0e3",
+      "name": "Dermadent Clinic",
+      "domain": "dermadent.sa",
+      "website": "https://www.dermadent.sa/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "e49a92d6-d16c-46f7-b5dc-74550e438bbb",
+      "name": "Ahmed Emad Dental Clinics ( AM Clinics )",
+      "domain": "ahmedemadclinics.com",
+      "website": "https://www.ahmedemadclinics.com/",
+      "sector": "Dentist",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "e51cc74d-7028-47db-a403-4ccafcce4972",
+      "name": "Bow Lane Dental",
+      "domain": "bowlanedental.com",
+      "website": "https://www.bowlanedental.com/?utm_source=gmb&utm_medium=organic",
+      "sector": "Dental Clinic",
+      "country": "United Kingdom",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "e5f033f9-5868-4c01-ad9e-45098dee5995",
+      "name": "Dentist Direct Dubai",
+      "domain": "dentistdirect.ae",
+      "website": "https://www.dentistdirect.ae/",
+      "sector": "Dentist",
+      "country": "United Arab Emirates",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "e99b480d-fee0-4a89-b829-bd9eaf31ef66",
+      "name": "College Street Dental",
+      "domain": "collegestreetdental.ca",
+      "website": "http://www.collegestreetdental.ca/",
+      "sector": "Dental Clinic",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "ec0e8896-6941-4c95-bb5f-04a408d83bf1",
+      "name": "Yorkview Family Dental Clinic",
+      "domain": "yorkviewdentaltoronto.com",
+      "website": "https://www.yorkviewdentaltoronto.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp-listing",
+      "sector": "Dental Clinic",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "ecb95588-83c6-48f0-8d82-67b9fca23ec0",
+      "name": "North York Periodontal Centre",
+      "domain": "northyorkperio.com",
+      "website": "http://www.northyorkperio.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "ed2147c8-ca4e-42d5-bb79-dce3a9b7f58f",
+      "name": "Parkview Family Dental Clinic",
+      "domain": "parkviewdentaltoronto.com",
+      "website": "https://www.parkviewdentaltoronto.com/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "ed54f4a3-f1ad-4493-baea-906db9321cc3",
+      "name": "مجمع نهج الطبي للأسنان والجلدية والتجميل",
+      "domain": "linktr.ee",
+      "website": "https://linktr.ee/nahjclinic",
+      "sector": "Dentist",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "edc3576b-59fd-4216-a37b-843b8a5c56df",
+      "name": "عيادة اسنان د. خالد شرف - Sharaf Dental Clinic",
+      "domain": "sharafclinic.com",
+      "website": "https://www.sharafclinic.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null,
+      "strictly_clean_14": true
+    },
+    {
+      "business_id": "ee088155-e971-479b-b858-8ef64bad4827",
+      "name": "Dental365 - Spoedtandarts Amsterdam",
+      "domain": "dental365.nl",
+      "website": "https://dental365.nl/spoed-tandarts/amsterdam/?utm_source=google&utm_medium=organic&utm_campaign=gbp&utm_content=gbp-website",
+      "sector": "Dental Clinic",
+      "country": "Netherlands",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "eefd4988-958b-4b38-9e91-2398bc5e4077",
+      "name": "Shifa Al Jazeera Hospital",
+      "domain": "shifaaljazeera.com",
+      "website": "https://shifaaljazeera.com/",
+      "sector": "Hospital",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "ef9f4fb8-81a7-4387-914c-1cb104ef6c40",
+      "name": "Nuffield Dental Jewel (Wheelock)",
+      "domain": "jewel.nuffielddental.com.sg",
+      "website": "https://jewel.nuffielddental.com.sg/",
+      "sector": "Dentist",
+      "country": "Singapore",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "f2ab9f70-0c61-457c-b737-09b6fd50ceb0",
+      "name": "Miral Dental Clinics",
+      "domain": "miraldental.com",
+      "website": "http://www.miraldental.com/",
+      "sector": "Dental Clinic",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "f6afc4a3-333b-4cbf-9d52-8cf3eeb52aa1",
+      "name": "City Clinic",
+      "domain": "cityclinickwt.com",
+      "website": "https://cityclinickwt.com/",
+      "sector": "Medical Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "f872d771-612d-47e6-a81b-8ee088167e64",
+      "name": "Dr Helen's Dental & Implant Studio",
+      "domain": "drhelen.com.au",
+      "website": "https://www.drhelen.com.au/",
+      "sector": "Dentist",
+      "country": "Australia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "fae4688c-d8b2-4207-a4fe-1897f209ef08",
+      "name": "Clinica Dental Center",
+      "domain": "clinicakw.com",
+      "website": "http://www.clinicakw.com/",
+      "sector": "Dental Clinic",
+      "country": "Kuwait",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "fb5fe817-6ebc-4cee-9cf8-10b8abfac0e4",
+      "name": "The Best dental center (AL Haddad Plaza)",
+      "domain": "tbbahrain.com",
+      "website": "http://www.tbbahrain.com/",
+      "sector": "Dental Clinic",
+      "country": "Bahrain",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "fbff5104-96f6-4f71-b7f8-08250428c23a",
+      "name": "Cairo Smile Dental Care",
+      "domain": "cairosmile.com",
+      "website": "http://www.cairosmile.com/",
+      "sector": "Dental Clinic",
+      "country": "Egypt",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "fc944c11-d517-4458-95cd-6c7f37c9a664",
+      "name": "Sanaya Dental Clinics",
+      "domain": "sanayaclinics.com",
+      "website": "https://sanayaclinics.com/",
+      "sector": "Dentist",
+      "country": "Saudi Arabia",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "fd6e5e3f-c1df-4cc1-94c7-3ba032fd6882",
+      "name": "Atlas Dental",
+      "domain": "atlasdental.ca",
+      "website": "https://www.atlasdental.ca/",
+      "sector": "Dentist",
+      "country": "Canada",
+      "in_scope": true,
+      "exclusion_reason": null
+    },
+    {
+      "business_id": "feb9eec4-4839-4dfb-8b4d-fd6adf9bd95c",
+      "name": "IVORY DENTAL CARE",
+      "domain": "ivorydentalcare.co.ke",
+      "website": "https://ivorydentalcare.co.ke/",
+      "sector": "Dentist",
+      "country": "Kenya",
+      "in_scope": true,
+      "exclusion_reason": null
+    }
+  ]
+}
