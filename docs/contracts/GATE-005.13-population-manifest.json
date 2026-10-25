@@ -2,7 +2,7 @@
   "manifest_version": "1.0.0",
   "window_id": "census-2026-c0",
   "batch_run_id": "census-2026-c0-run1",
-  "code_sha": "91bb6eb1cbc203581ebf0bdaaa9eff71d932dc96",
+  "code_sha": "29607d43756aee921d091da8a4186c5f8e988d6e",
   "rubric_version": "1.0.0",
   "created_at": "2026-10-25T00:00:00.000Z",
   "counts": {
@@ -24,7 +24,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "01c77136-6686-4b03-884a-573a3e97776b",
@@ -34,7 +35,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "0362c0e6-29ff-4a60-a015-7287271d83bd",
@@ -44,7 +46,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "049f061f-38ea-4cb3-ae3d-8a8c1f52a16c",
@@ -65,7 +68,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "0637ee04-2676-4e5e-bcbc-f82a2998cdad",
@@ -75,7 +79,8 @@
       "sector": "Dental Clinic",
       "country": "New Zealand",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "077fd1b9-e5c1-4530-b43b-7b9d89acd5ab",
@@ -85,7 +90,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "08169d7c-6cd9-4674-bc56-d0534750b24b",
@@ -95,7 +101,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "09fe04c5-583e-4606-94d7-9f6e534a4506",
@@ -105,7 +112,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "0a5b9293-f4a6-4af6-bdd7-28798c137365",
@@ -115,7 +123,8 @@
       "sector": "Dental Clinic",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "0dae8f7b-6484-4040-8131-043ab4a02b24",
@@ -125,7 +134,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "0db026b9-77ae-4cfe-896f-d1750a072223",
@@ -135,7 +145,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "0eff2852-3e9b-4c2c-a1a8-9f68c21e741a",
@@ -145,7 +156,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "0fcc8a88-7901-4b8b-9118-4e72ac222449",
@@ -155,7 +167,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "134da476-7064-407a-8e42-d3118f25273c",
@@ -165,7 +178,8 @@
       "sector": "Dentist",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "14d0af9c-b05c-47da-a5c7-3e40fe838580",
@@ -175,7 +189,8 @@
       "sector": "Dental Clinic",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "15d086fa-2b80-462b-8042-569dc71673d4",
@@ -185,7 +200,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "16ca606b-1c99-4fcc-9088-9dc2768754fe",
@@ -195,7 +211,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "16f20307-4470-487e-bc8c-6b12e75f16f4",
@@ -205,7 +222,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "179236aa-76b9-4129-8138-bbe9f0931f79",
@@ -215,7 +233,8 @@
       "sector": "Dental Clinic",
       "country": "Kenya",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "18d07ce6-6035-4f55-975d-a5a34cd05e82",
@@ -225,7 +244,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "19703eb5-5388-4793-80af-e123deade8e7",
@@ -235,7 +255,8 @@
       "sector": "Dental Clinic",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "19ca43a1-9b5e-4786-9dc6-035c07d1da54",
@@ -245,7 +266,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "1a2eb651-336d-4764-88b0-cb0fe7f16651",
@@ -255,7 +277,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "1a6a60ad-380a-419d-a990-113251f07143",
@@ -265,7 +288,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "1b9f910e-aa6a-45e4-a42f-8c07df1d097a",
@@ -275,7 +299,8 @@
       "sector": "Dental Clinic",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "1bd98a6e-5602-432d-bb0a-66462335114d",
@@ -285,7 +310,8 @@
       "sector": "Dentist",
       "country": "Kenya",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "1ddaa480-ee64-4a81-a141-73e68c18c3c6",
@@ -295,7 +321,8 @@
       "sector": "Dentist",
       "country": "Kenya",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "1e61d9b1-799d-4e8e-b86e-88546792897a",
@@ -305,7 +332,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "1ed5a505-09f5-4fc1-b62a-010ffcdeecfa",
@@ -315,7 +343,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "1ede54d8-be58-4b81-966f-938638732447",
@@ -336,7 +365,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "21e6993d-1196-4c7c-909c-b994d989eefc",
@@ -346,7 +376,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "272ded93-4752-4982-a9e4-3cf3028373af",
@@ -356,7 +387,8 @@
       "sector": "Dentist",
       "country": "New Zealand",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "27558336-4a3b-496e-97c3-de222ec82cac",
@@ -366,7 +398,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "2c8eb9a1-d2ca-407a-8d13-130c0f32c982",
@@ -398,7 +431,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "31d08ddf-952f-4aa3-8c11-5a301de2c9e1",
@@ -408,7 +442,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "34d3fcf4-c3f5-4ef2-af67-a91385d25bc2",
@@ -418,7 +453,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "35ad50a8-0a78-4065-8b78-9e8e44c38b19",
@@ -428,7 +464,8 @@
       "sector": "Dentist",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "3653e007-056c-453a-82a2-cb12430c65c6",
@@ -438,7 +475,8 @@
       "sector": "Dentist",
       "country": "Singapore",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "37ea2fab-b6f0-4517-822a-9c4ae3b1b45a",
@@ -448,7 +486,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "382fc69d-2e99-4184-ad76-5410df160a86",
@@ -469,7 +508,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "3c1f5528-3daa-46b9-83db-82463db8aa29",
@@ -479,7 +519,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "3e262ef4-753d-4e52-a14a-94046be798a6",
@@ -489,7 +530,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "406227a6-b5c0-43cb-9f5a-a7f13bb42ebc",
@@ -499,7 +541,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "40790ef1-3cae-4482-befb-9af87a53ba44",
@@ -509,7 +552,8 @@
       "sector": "Dentist",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "416696c2-6b57-498d-b061-8067628d1f8b",
@@ -530,7 +574,8 @@
       "sector": "Dentist",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "42ebe925-8510-4c90-be0b-96dbfb07df28",
@@ -551,7 +596,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "45385619-bbdd-43fc-8f9c-af10edf3c010",
@@ -561,7 +607,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "4abd765a-5253-4e9a-acfe-0772b3c49a05",
@@ -571,7 +618,8 @@
       "sector": "Dentist",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "4d98bf17-672c-417c-9e17-2ef731ea1df7",
@@ -581,7 +629,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "4de9fd57-3b3c-4f8d-a66c-fbd06d9de69c",
@@ -591,7 +640,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "4e08ba3b-40e9-4a12-9186-5dfee7dec75b",
@@ -601,7 +651,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "4f143d1e-13a0-40e4-b8ce-38e473ad1995",
@@ -611,7 +662,8 @@
       "sector": "Medical Center",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "537f8dfb-4c82-47d3-bde7-089f6aedd917",
@@ -621,7 +673,8 @@
       "sector": "Dentist",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "53e9a402-56ea-4826-a845-63deaa607d1a",
@@ -631,7 +684,8 @@
       "sector": "Dentist",
       "country": "New Zealand",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "581cbded-5b7e-4a09-9597-2598595dc264",
@@ -641,7 +695,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "592e4ed0-ed9c-4592-9543-c2bf6215ce56",
@@ -651,7 +706,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "5a0ceba5-d6cb-40ff-b6bb-5372a6d795d6",
@@ -661,7 +717,8 @@
       "sector": "Dental Clinic",
       "country": "Singapore",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "5a71ef53-ee33-44b5-a0ae-52b9c30d63d4",
@@ -671,7 +728,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "5e9a3f1c-2995-47a2-96f8-1b5b31f6589c",
@@ -681,7 +739,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "63f8b84b-74ec-4251-903b-f93f25d119a8",
@@ -691,7 +750,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "6484a354-4cbd-4e81-9db3-a2a8e3ef18d3",
@@ -701,7 +761,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "65ad3510-cae7-4e4c-b61d-4a25ac768264",
@@ -711,7 +772,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "6753a405-2a73-4017-ac50-8cdf021d1002",
@@ -721,7 +783,8 @@
       "sector": "Dental Clinic",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "678640ea-ba5d-4afa-b826-2c287d70c544",
@@ -731,7 +794,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "6942dc54-9a87-4e54-ac40-bc8cc9f3ee20",
@@ -741,7 +805,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "697fbcab-2080-4260-8803-30b1f77895fc",
@@ -751,7 +816,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "6ba59206-6fc8-45e5-8529-6ed77fc2294c",
@@ -761,7 +827,8 @@
       "sector": "Turkish Restaurant",
       "country": "Egypt",
       "in_scope": false,
-      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR",
+      "strictly_clean_14": false
     },
     {
       "business_id": "6ba66d45-ad22-47dd-ae84-7d967ce88bb8",
@@ -771,7 +838,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "6be0c2b8-f017-42b3-a286-cc4f392540fb",
@@ -781,7 +849,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "6ca01300-ba51-4107-b181-ec0161addfd5",
@@ -791,7 +860,8 @@
       "sector": "Medical Center",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "6ea8a66f-bf3f-4f76-905f-030c77dd8be8",
@@ -801,7 +871,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "71011d12-96b2-4d09-aff2-cacfb1f8278d",
@@ -811,7 +882,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "71606a6b-65fb-48f3-8b3f-4a0806ad5e29",
@@ -821,7 +893,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "71c65fc5-2e76-429d-b7a8-cd34d451b050",
@@ -831,7 +904,8 @@
       "sector": "Dentist",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "71e12035-53dc-4a18-9db8-8db46ca7b438",
@@ -841,7 +915,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "7323d91c-cb7e-45fc-be2f-ede7f11046c5",
@@ -851,7 +926,8 @@
       "sector": "Dental Clinic",
       "country": "Singapore",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "736460d4-1916-43d6-8248-b8419fe64a8c",
@@ -861,7 +937,8 @@
       "sector": "Dentist",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "756438b6-eaa5-4064-a869-a665b2d8644d",
@@ -871,7 +948,8 @@
       "sector": "Dental Clinic",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "78d860dd-3e01-422d-b30a-54b35ab4f394",
@@ -881,7 +959,8 @@
       "sector": "Cafe",
       "country": "Egypt",
       "in_scope": false,
-      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR",
+      "strictly_clean_14": false
     },
     {
       "business_id": "7f6b5e9d-e5c9-4e17-a455-85a5ff54b683",
@@ -891,7 +970,8 @@
       "sector": "Dentist",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "80211319-4277-48f8-a32e-fd5828f3eeb9",
@@ -901,7 +981,8 @@
       "sector": "Medical Center",
       "country": "New Zealand",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "80270a22-aa96-4faf-9b14-721dbcabe014",
@@ -911,7 +992,8 @@
       "sector": "Dentist",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "805e4a4d-48b4-4c4c-9f36-e96d20cb2fef",
@@ -921,7 +1003,8 @@
       "sector": "Dentist",
       "country": "New Zealand",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "81b35fc4-ae1e-42c8-bdf4-4f422bc3be3a",
@@ -942,7 +1025,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "83c55326-ecda-492a-818a-42af6913c92e",
@@ -952,7 +1036,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "85781161-a5e2-4246-9635-d7a1a155cda1",
@@ -962,7 +1047,8 @@
       "sector": "Dental Clinic",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "86c22d7d-da66-4e56-8fd8-74722c281da2",
@@ -972,7 +1058,8 @@
       "sector": "Medical Center",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "86c9c629-1231-48ce-801a-dda7ea629b9e",
@@ -982,7 +1069,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "87a38df1-74de-4919-8192-ad4f00641d05",
@@ -992,7 +1080,8 @@
       "sector": "Association Or Organization",
       "country": "Egypt",
       "in_scope": false,
-      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR",
+      "strictly_clean_14": false
     },
     {
       "business_id": "8814d0c2-4dc5-44df-9949-2b34f8d649c9",
@@ -1002,7 +1091,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "88d346ed-1114-46fa-a651-72906360719a",
@@ -1012,7 +1102,8 @@
       "sector": "Dental Clinic",
       "country": "Kenya",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "8a896969-c131-4f01-9233-0c5c23bd0479",
@@ -1022,7 +1113,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "8b639b67-b40c-439e-9121-8fe7c5095ea3",
@@ -1043,7 +1135,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "8cb014a7-0464-41b4-9e70-048b6ab6a698",
@@ -1053,7 +1146,8 @@
       "sector": "Dental Clinic",
       "country": "New Zealand",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "90ace474-62a2-48f2-a5d6-8b1b775b0302",
@@ -1063,7 +1157,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "916e33e5-27ab-42ed-af7f-454cfaaf184c",
@@ -1073,7 +1168,8 @@
       "sector": "Dentist",
       "country": "Singapore",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "91b9b2c0-95f5-4805-b05a-1f5a989ab0f2",
@@ -1083,7 +1179,8 @@
       "sector": "Dental Clinic",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "92f743b1-be26-4efc-82ee-6f9dfcbe0644",
@@ -1093,7 +1190,8 @@
       "sector": "Dentist",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "936692c7-c9e4-4404-8dca-1fdb89ab0221",
@@ -1103,7 +1201,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "9369e394-f6a1-4144-acf7-516547bac483",
@@ -1113,7 +1212,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "9571bd72-460d-4700-b06a-ec4b31bd547f",
@@ -1123,7 +1223,8 @@
       "sector": "Dental Clinic",
       "country": "Singapore",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "9669dabd-9c50-4575-845a-58aeab2173a2",
@@ -1133,7 +1234,8 @@
       "sector": "Restaurant",
       "country": "Egypt",
       "in_scope": false,
-      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR",
+      "strictly_clean_14": false
     },
     {
       "business_id": "96712d59-a94f-4b0e-a82c-06943a8ba1f2",
@@ -1143,7 +1245,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "96bf2d0e-8524-47ff-8673-d0a4fe4f6c39",
@@ -1153,7 +1256,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "97590d9b-bf07-4519-9957-4e503a6a9af4",
@@ -1163,7 +1267,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "98890609-a6a6-4b5f-a62d-2819b51cebb9",
@@ -1173,7 +1278,8 @@
       "sector": "Restaurant",
       "country": "Egypt",
       "in_scope": false,
-      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR",
+      "strictly_clean_14": false
     },
     {
       "business_id": "9b0ab4f4-40e5-4c35-bfcb-05532dd5186e",
@@ -1183,7 +1289,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "9b399e96-d57c-4313-897c-f7f9a5faa625",
@@ -1193,7 +1300,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "9bebb85a-257a-4de5-b469-faa34a3ccd42",
@@ -1203,7 +1311,8 @@
       "sector": "Dentist",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "9ead2885-7613-437f-b191-968685702c8b",
@@ -1213,7 +1322,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "9f16e41f-dafe-4992-9115-6af8b7d184df",
@@ -1223,7 +1333,8 @@
       "sector": "Dental Clinic",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "9f4f8b09-c8f5-4fc3-be08-dd5ae6177163",
@@ -1233,7 +1344,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "a1579988-35f6-4e95-96ac-1a074f98caeb",
@@ -1243,7 +1355,8 @@
       "sector": "Dental Clinic",
       "country": "Kenya",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "a1ab508a-008e-4df7-ba99-77997b7d2a5b",
@@ -1253,7 +1366,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "a3856a2d-5b74-453d-a7a2-af114f9baa5e",
@@ -1263,7 +1377,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "a43baea3-dcbe-4131-9be0-beec563c9320",
@@ -1273,7 +1388,8 @@
       "sector": "Cafe",
       "country": "Egypt",
       "in_scope": false,
-      "exclusion_reason": "NON_APPOINTMENT_SECTOR"
+      "exclusion_reason": "NON_APPOINTMENT_SECTOR",
+      "strictly_clean_14": false
     },
     {
       "business_id": "a65539f6-9eeb-42c6-a3d9-88c7f660eb0a",
@@ -1283,7 +1399,8 @@
       "sector": "Dental Clinic",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "a6b0e00f-6fa2-428f-94ba-35d9607d8787",
@@ -1293,7 +1410,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "a6f68700-ec32-4f16-aae0-f6326281ff4a",
@@ -1303,7 +1421,8 @@
       "sector": "Dentist",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "a70e6b86-f278-44aa-b08c-ef14c3a5c367",
@@ -1313,7 +1432,8 @@
       "sector": "Dental Clinic",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "a92926c1-6644-469c-b97c-6104f27b64f8",
@@ -1323,7 +1443,8 @@
       "sector": "Dentist",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "aa27fab0-ac22-46f6-a735-2be23632d879",
@@ -1333,7 +1454,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "ab208124-4676-40e3-b41c-16e646da94e8",
@@ -1343,7 +1465,8 @@
       "sector": "Dentist",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "acd0668e-b148-4ccc-9dc2-25caafa5d857",
@@ -1353,7 +1476,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "acfe591d-c949-43ee-9b69-855a6e419182",
@@ -1363,7 +1487,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "ad51ed56-5ca8-4b1b-a58b-9096c60ddc4b",
@@ -1373,7 +1498,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "af703755-124a-481c-b0ba-665b49c80b9b",
@@ -1383,7 +1509,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "b0df23b6-3148-42a7-97ae-92f4cb05f814",
@@ -1393,7 +1520,8 @@
       "sector": "Dentist",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "b2991008-5ff9-4536-a7f9-0015eb354f89",
@@ -1403,7 +1531,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "b353f899-2cea-4af1-928a-4c197e9baa61",
@@ -1413,7 +1542,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "b55086b4-9ca7-4adf-8372-28b01c0b5c10",
@@ -1423,7 +1553,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "b5c1ef7f-5176-41cb-81be-b9fa289be7de",
@@ -1433,7 +1564,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "b6825d13-f1fc-4553-a55d-26f53d2e5bf3",
@@ -1454,7 +1586,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "b83d8b24-1ca3-4479-a1cd-eeb8fb821aad",
@@ -1464,7 +1597,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "be32af28-71b6-4af7-a6c0-cf420ac33a20",
@@ -1474,7 +1608,8 @@
       "sector": "Doctor",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c01f93e2-4978-4aa3-9423-8549b4a6a608",
@@ -1484,7 +1619,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c0d904a0-64e4-4a10-893a-f62289a4150a",
@@ -1494,7 +1630,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c1bcade5-4515-47b8-b233-f2b677a7b8ee",
@@ -1504,7 +1641,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c288527b-0330-4b20-a269-cf39c8619b8a",
@@ -1514,7 +1652,8 @@
       "sector": "Dental Clinic",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c3777444-9833-420b-8fc8-439fc59f8e87",
@@ -1524,7 +1663,8 @@
       "sector": "Dental Clinic",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c3e34364-2f01-4651-ab48-b281c4ab34ba",
@@ -1534,7 +1674,8 @@
       "sector": "Medical Center",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c3fd7204-579f-4549-9081-44347eb3a7e8",
@@ -1544,7 +1685,8 @@
       "sector": "Dental Clinic",
       "country": "Singapore",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c41de9cb-796a-40cb-a45a-f0e0fd32be67",
@@ -1554,7 +1696,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c4ca5f52-510b-45aa-b35e-c683674bc31c",
@@ -1564,7 +1707,8 @@
       "sector": "Dental Clinic",
       "country": "Kenya",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c5375225-f103-4200-9303-f572eb0ff41c",
@@ -1574,7 +1718,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c74ef2bc-96ee-40a1-90f9-d232dd926757",
@@ -1584,7 +1729,8 @@
       "sector": "Dentist",
       "country": "Kenya",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "c9402240-4069-447d-8eaf-7f9bfb3bc4b5",
@@ -1594,7 +1740,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "ca14c3e7-bd95-4031-b1d9-5cf1ca3ec046",
@@ -1604,7 +1751,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "caa31cbf-7056-4911-b9d0-3cc0b52fc7fc",
@@ -1625,7 +1773,8 @@
       "sector": "Dentist",
       "country": "New Zealand",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "cc424ad1-2b67-4e8f-aec9-f846dc8c2ea7",
@@ -1635,7 +1784,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "cca2d116-0c44-4b63-8a50-a029eb4526ca",
@@ -1645,7 +1795,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "cd10b948-ca97-414a-828b-0aaae97b9aeb",
@@ -1655,7 +1806,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "cdd452f5-c934-486f-a914-84cb17e0b75e",
@@ -1665,7 +1817,8 @@
       "sector": "Dentist",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "cde2045f-d94a-4d4b-a7db-d0fe4f452fc4",
@@ -1675,7 +1828,8 @@
       "sector": "Dental Clinic",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "cea43438-aff1-467b-8c02-5a85b758e345",
@@ -1685,7 +1839,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "cec41863-8b48-4673-acb6-694747d9a063",
@@ -1695,7 +1850,8 @@
       "sector": "Dental Clinic",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "cf9604a0-fa1f-4545-aa7c-95baf752ab30",
@@ -1705,7 +1861,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "cfb9b384-0a81-4c2e-bbaf-622f2c4fd633",
@@ -1715,7 +1872,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "d0b7c46a-dab9-419f-982f-805fda1b3ccd",
@@ -1725,7 +1883,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "d4a6dd7b-086b-4379-b7a2-c98f053ea5b7",
@@ -1735,7 +1894,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "d770df1a-0af9-4f59-88c7-e3dc2d79cca1",
@@ -1745,7 +1905,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "d871a0e5-46fc-4fd3-9b39-a02f39ee109c",
@@ -1755,7 +1916,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "d9d10544-cf88-4a8d-843a-c2cd24be1d12",
@@ -1765,7 +1927,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "da25e73f-580f-41a1-ae56-e16c40baf463",
@@ -1775,7 +1938,8 @@
       "sector": "Dental Clinic",
       "country": "Qatar",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "da260899-9859-4f4d-b151-ff6f36715518",
@@ -1785,7 +1949,8 @@
       "sector": "Dental Clinic",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "da38eb79-20ff-4684-adaa-e01263b088b5",
@@ -1795,7 +1960,8 @@
       "sector": "Dental Clinic",
       "country": "Kenya",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "dd05bd4f-dee6-4b83-a218-8084c9873639",
@@ -1805,7 +1971,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "dd24947f-776e-4138-90f1-b020cd9d3089",
@@ -1815,7 +1982,8 @@
       "sector": "Dental Clinic",
       "country": "New Zealand",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "de132e58-a4e6-413c-b069-13a7196df632",
@@ -1825,7 +1993,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "dfd03234-5f44-4f9a-880c-13e1ebd23ac7",
@@ -1835,7 +2004,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "e0627d85-86f8-452d-a5ba-6d7e2c87a33b",
@@ -1845,7 +2015,8 @@
       "sector": "Dental Clinic",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "e0785377-5be7-4c17-bedc-2b41c152953f",
@@ -1855,7 +2026,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "e0db39bd-e6d5-49f7-bc35-76531bdb650b",
@@ -1865,7 +2037,8 @@
       "sector": "Dental Clinic",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "e237c950-7c6d-45f9-b734-9be5fa377711",
@@ -1875,7 +2048,8 @@
       "sector": "Dental Clinic",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "e29051dc-b0a5-46e1-86f4-19b545bb6dd4",
@@ -1885,7 +2059,8 @@
       "sector": "Hospital",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "e3fe9982-d0bc-4819-ab86-ca95159fb0e3",
@@ -1895,7 +2070,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "e49a92d6-d16c-46f7-b5dc-74550e438bbb",
@@ -1916,7 +2092,8 @@
       "sector": "Dental Clinic",
       "country": "United Kingdom",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "e5f033f9-5868-4c01-ad9e-45098dee5995",
@@ -1926,7 +2103,8 @@
       "sector": "Dentist",
       "country": "United Arab Emirates",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "e99b480d-fee0-4a89-b829-bd9eaf31ef66",
@@ -1936,7 +2114,8 @@
       "sector": "Dental Clinic",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "ec0e8896-6941-4c95-bb5f-04a408d83bf1",
@@ -1946,7 +2125,8 @@
       "sector": "Dental Clinic",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "ecb95588-83c6-48f0-8d82-67b9fca23ec0",
@@ -1956,7 +2136,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "ed2147c8-ca4e-42d5-bb79-dce3a9b7f58f",
@@ -1966,7 +2147,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "ed54f4a3-f1ad-4493-baea-906db9321cc3",
@@ -1998,7 +2180,8 @@
       "sector": "Dental Clinic",
       "country": "Netherlands",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "eefd4988-958b-4b38-9e91-2398bc5e4077",
@@ -2008,7 +2191,8 @@
       "sector": "Hospital",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "ef9f4fb8-81a7-4387-914c-1cb104ef6c40",
@@ -2018,7 +2202,8 @@
       "sector": "Dentist",
       "country": "Singapore",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "f2ab9f70-0c61-457c-b737-09b6fd50ceb0",
@@ -2028,7 +2213,8 @@
       "sector": "Dental Clinic",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "f6afc4a3-333b-4cbf-9d52-8cf3eeb52aa1",
@@ -2038,7 +2224,8 @@
       "sector": "Medical Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "f872d771-612d-47e6-a81b-8ee088167e64",
@@ -2048,7 +2235,8 @@
       "sector": "Dentist",
       "country": "Australia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "fae4688c-d8b2-4207-a4fe-1897f209ef08",
@@ -2058,7 +2246,8 @@
       "sector": "Dental Clinic",
       "country": "Kuwait",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "fb5fe817-6ebc-4cee-9cf8-10b8abfac0e4",
@@ -2068,7 +2257,8 @@
       "sector": "Dental Clinic",
       "country": "Bahrain",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "fbff5104-96f6-4f71-b7f8-08250428c23a",
@@ -2078,7 +2268,8 @@
       "sector": "Dental Clinic",
       "country": "Egypt",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "fc944c11-d517-4458-95cd-6c7f37c9a664",
@@ -2088,7 +2279,8 @@
       "sector": "Dentist",
       "country": "Saudi Arabia",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "fd6e5e3f-c1df-4cc1-94c7-3ba032fd6882",
@@ -2098,7 +2290,8 @@
       "sector": "Dentist",
       "country": "Canada",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     },
     {
       "business_id": "feb9eec4-4839-4dfb-8b4d-fd6adf9bd95c",
@@ -2108,7 +2301,8 @@
       "sector": "Dentist",
       "country": "Kenya",
       "in_scope": true,
-      "exclusion_reason": null
+      "exclusion_reason": null,
+      "strictly_clean_14": false
     }
   ]
 }
