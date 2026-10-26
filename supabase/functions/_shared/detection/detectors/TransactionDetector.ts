@@ -23,7 +23,7 @@ const DIRECT_CHECKOUT_PATTERNS: Pattern[] = [
   { name: 'stripe elements', re: /stripe-elements|js\.stripe\.com/i },
   { name: 'shopify checkout', re: /checkout\.shopify\.com|shopify\.com\/checkout/i },
   { name: 'payment form action', re: /<form[^>]+action=["'][^"']*(?:\/pay|\/checkout)\b[^"']*["'][^>]*>/i },
-  { name: 'cart-to-checkout widget', re: /add-to-cart|add to cart/i },
+  { name: 'cart-to-checkout widget', re: /<(?:button|a)\b[^>]*class=["'][^"']*\b(?:single_add_to_cart_button|add_to_cart_button)\b[^>]*>|<button\b[^>]*>[^<]*\badd to cart\b|<form\b[^>]*class=["'][^"']*\bcart\b[^>]*action=["'][^"']*(?:cart|checkout)/i },
 ];
 
 // ONLINE_MEMBERSHIP ground truth (§3.1): recurring-plan checkout — Join Now,

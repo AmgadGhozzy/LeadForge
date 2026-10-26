@@ -78,7 +78,7 @@ export class AtomicEvidenceEvaluator {
     const provenance = {} as AtomicProvenanceRecord;
 
     const tx = this.transaction.detect(html);
-    const ctx = this.ctaContext.detect(html, input.links);
+    const ctx = this.ctaContext.detect(html, input.links, input.pages_observed);
     const portal = this.selfService.detect(html);
     const ctaContext = this.ctaContext.extractContactContext(html);
 

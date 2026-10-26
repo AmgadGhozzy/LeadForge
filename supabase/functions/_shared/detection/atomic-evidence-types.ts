@@ -88,7 +88,7 @@ export interface AtomResult {
 export type AtomResults = Partial<Record<AtomicEvidenceKey, AtomResult>>;
 
 export interface AtomDetector {
-  detect(html: string, links?: string[]): AtomResults;
+  detect(html: string, links?: string[], pagesObserved?: string[]): AtomResults;
 }
 
 /** ADR-006 §3.3 item 4 — explicitly declared pipeline stages. */
