@@ -77,3 +77,8 @@ test-projection-size.ts
 
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/
+
+# Local audit cache and DB
+.cache/
+.playwright-mcp/
+artifacts/census_db/

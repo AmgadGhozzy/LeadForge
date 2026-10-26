@@ -12,7 +12,7 @@
  *   ✓ html excerpt deterministic
  *   ✓ projection sha256 deterministic (same input → same hash)
  */
-import { test, describe } from "node:test";
+import { it as test, describe } from "vitest";
 import assert from "node:assert/strict";
 import { buildSnapshotProjection } from "./whatsapp-llm-extractor.js";
 

@@ -1,10 +1,10 @@
-import { test } from 'node:test';
+import { it as test } from 'vitest';
 import * as assert from 'node:assert';
 import * as fs from 'fs';
 import * as path from 'path';
-import { EvidenceEngine } from '../../../../supabase/functions/_shared/intelligence/evidence/engine.js';
-import { CanonicalBusinessProfile } from '../../../../supabase/functions/_shared/types/canonical.js';
-import { Evidence } from '../../../../supabase/functions/_shared/intelligence/evidence/types.js';
+import { EvidenceEngine } from '../../../../supabase/functions/_shared/intelligence/evidence/engine.ts';
+import { CanonicalBusinessProfile } from '../../../../supabase/functions/_shared/types/canonical.ts';
+import { Evidence } from '../../../../supabase/functions/_shared/intelligence/evidence/types.ts';
 
 const DATASET_DIR = path.resolve(process.cwd(), 'scripts/validate/datasets/phase-8b-v2');
 

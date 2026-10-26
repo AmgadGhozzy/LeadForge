@@ -2,8 +2,17 @@
 // Phase 8A — Lifecycle + Coverage Tests (8A.5)
 // ──────────────────────────────────────────────
 
-import { assertEquals, assertExists, assert, assertNotEquals } from "https://deno.land/std@0.177.0/testing/asserts.ts";
+import { test, expect } from "vitest";
 import { EvidenceEngine } from "./engine.ts";
+
+const assertEquals = (a: any, b: any) => expect(a).toEqual(b);
+const assertNotEquals = (a: any, b: any) => expect(a).not.toEqual(b);
+const assert = (a: any) => expect(a).toBeTruthy();
+const assertExists = (a: any) => expect(a).toBeDefined();
+
+const Deno = {
+  test: (name: string, fn: () => void | Promise<void>) => test(name, fn),
+};
 import { ConfidenceCalculator } from "./confidence.ts";
 import { EVIDENCE_ENGINE_VERSION, DETECTOR_VERSIONS } from "./types.ts";
 import type { CanonicalBusinessProfile } from "../../types/canonical.ts";

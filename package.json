@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "test": "vitest run",
     "collect:validation-leads": "tsx scripts/validate/collect-leads.ts",
     "generate-reference": "tsx scripts/validate/crawler.ts && tsx scripts/validate/reference-extractor.ts",
     "select-leads": "tsx scripts/validate/select-leads.ts",

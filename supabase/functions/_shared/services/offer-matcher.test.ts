@@ -5,8 +5,13 @@
 // structurally robust against LLM inference bypass.
 // ──────────────────────────────────────────────
 
-import { assertEquals } from "https://deno.land/std@0.177.0/testing/asserts.ts";
+import { test, expect } from "vitest";
 import { OfferMatcher, OfferMatchingInput } from "./offer-matcher.ts";
+
+const assertEquals = (a: any, b: any) => expect(a).toEqual(b);
+const Deno = {
+  test: (name: string, fn: () => void | Promise<void>) => test(name, fn),
+};
 import type { OfferTemplate } from "../repositories/offer-template-repo.ts";
 import type { OpportunityEvaluationOutput } from "../intelligence/opportunity/types.ts";
 

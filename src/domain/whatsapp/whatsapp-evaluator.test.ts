@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { it as test, describe } from "vitest";
 import assert from "node:assert/strict";
 import { evaluateWhatsappContract } from "./whatsapp-evaluator.js";
 import type { WhatsappEvidence } from "./whatsapp-evidence.js";

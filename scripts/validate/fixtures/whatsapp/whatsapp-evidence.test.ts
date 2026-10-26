@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+import { it as test } from 'vitest';
 import * as assert from 'node:assert/strict';
 import { EvidenceEngine } from '../../../../supabase/functions/_shared/intelligence/evidence/engine.ts';
 import { CanonicalBusinessProfile } from '../../../../supabase/functions/_shared/types/canonical.ts';

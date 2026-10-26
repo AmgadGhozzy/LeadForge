@@ -150,6 +150,7 @@ export class WhatsAppDetector implements Detector {
       method:   DetectionMethod.DOM,
       metadata: {
         detector_version:         'v2.1',
+        incidental_keyword_found: incidentalKeywordFound,
       },
     };
   }

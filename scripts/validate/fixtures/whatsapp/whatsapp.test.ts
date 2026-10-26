@@ -13,7 +13,7 @@
  *              bot guards, image filenames, raw keyword, query-param wa.me
  */
 
-import { test } from 'node:test';
+import { it as test } from 'vitest';
 import * as assert from 'node:assert/strict';
 import { WhatsAppDetector } from '../../../../supabase/functions/_shared/detection/detectors/WhatsAppDetector.ts';
 
