@@ -82,3 +82,4 @@ test-projection-size.ts
 .cache/
 .playwright-mcp/
 artifacts/census_db/
+deno.lock

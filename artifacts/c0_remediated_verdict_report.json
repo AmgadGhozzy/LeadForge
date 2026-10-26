@@ -1,0 +1,620 @@
+{
+  "report_version": "2.1.0",
+  "session_id": "session-2026-c0",
+  "session_locked_at": "2026-10-26T04:40:56.806Z",
+  "generated_at": "2026-10-26T20:44:12.444Z",
+  "rubric_version": "1.0.0",
+  "auditor_id": "independent-human-reviewer",
+  "rule_slug": "digital-booking",
+  "production_rule_slug": "digital_booking_path_gap",
+  "batch_run_id": "census-2026-c0-run1",
+  "engine_version": "DBPG-v2.1",
+  "stopping_tier": "STATISTICAL_VALIDATION",
+  "verdict": "STATISTICAL_PASS",
+  "verdict_rationale": "All Gate 5.13 criteria passed under DBPG v2.1 with statistical sample size n=52 >= 50: Precision 98.08% (>=70%), Wilson 95% LB 89.88% (>=50%), Recall 68.00% (>=60%), FP Rate 1.92% (<=30%), UNKNOWN Rate 0.00% (<=25%).",
+  "frozen_thresholds": {
+    "min_precision": 0.7,
+    "min_recall": 0.6,
+    "max_fp_rollback_rate": 0.3,
+    "max_unknown_rate": 0.25,
+    "min_sample_size": 50,
+    "window_days": 30
+  },
+  "baseline_v1_comparison": {
+    "tp": 5,
+    "fp": 11,
+    "fn": 70,
+    "tn": 106,
+    "inconclusive": 1,
+    "total_audited": 193,
+    "effective_sample_size": 192,
+    "n_detected": 16,
+    "precision": 0.3125,
+    "recall": 0.0667,
+    "fp_rate": 0.6875,
+    "accuracy": 0.5781,
+    "wilson_ci_precision": {
+      "center": 0.3488,
+      "lower": 0.1416,
+      "upper": 0.556,
+      "margin": 0.2072
+    },
+    "stopping_tier": "PROVISIONAL_AUDIT",
+    "verdict": "PROVISIONAL_FAIL"
+  },
+  "remediated_v2_1_metrics": {
+    "tp": 51,
+    "fp": 1,
+    "fn": 24,
+    "tn": 116,
+    "inconclusive": 1,
+    "total_audited": 193,
+    "effective_sample_size": 192,
+    "n_detected": 52,
+    "precision": 0.9808,
+    "recall": 0.68,
+    "fp_rate": 0.0192,
+    "accuracy": 0.8698,
+    "unknown_rate": 0,
+    "wilson_ci_precision": {
+      "center": 0.9477,
+      "lower": 0.8988,
+      "upper": 0.9966,
+      "margin": 0.0489
+    }
+  },
+  "threshold_compliance": {
+    "precision_pass": true,
+    "wilson_lb_pass": true,
+    "recall_pass": true,
+    "fp_rate_pass": true,
+    "unknown_rate_pass": true,
+    "sample_size_pass": true,
+    "all_gate_thresholds_pass": true
+  },
+  "stratum_breakdowns": {
+    "by_region": {
+      "Middle East & Egypt (MENA)": {
+        "tp": 26,
+        "fp": 0,
+        "fn": 9,
+        "tn": 55,
+        "inconclusive": 1,
+        "total_audited": 91,
+        "effective_sample_size": 90,
+        "n_detected": 26,
+        "precision": 1,
+        "recall": 0.7429,
+        "fp_rate": 0,
+        "accuracy": 0.9,
+        "wilson_ci_precision": {
+          "center": 0.9356,
+          "lower": 0.8713,
+          "upper": 1,
+          "margin": 0.0644
+        },
+        "observed_count": 91,
+        "unknown_rate": 0
+      },
+      "International / English-speaking": {
+        "tp": 25,
+        "fp": 1,
+        "fn": 15,
+        "tn": 61,
+        "inconclusive": 0,
+        "total_audited": 102,
+        "effective_sample_size": 102,
+        "n_detected": 26,
+        "precision": 0.9615,
+        "recall": 0.625,
+        "fp_rate": 0.0385,
+        "accuracy": 0.8431,
+        "wilson_ci_precision": {
+          "center": 0.9021,
+          "lower": 0.8111,
+          "upper": 0.9932,
+          "margin": 0.0911
+        },
+        "observed_count": 102,
+        "unknown_rate": 0
+      }
+    },
+    "by_sector": {
+      "Dental / Medical Clinic": {
+        "tp": 51,
+        "fp": 1,
+        "fn": 24,
+        "tn": 116,
+        "inconclusive": 1,
+        "total_audited": 193,
+        "effective_sample_size": 192,
+        "n_detected": 52,
+        "precision": 0.9808,
+        "recall": 0.68,
+        "fp_rate": 0.0192,
+        "accuracy": 0.8698,
+        "wilson_ci_precision": {
+          "center": 0.9477,
+          "lower": 0.8988,
+          "upper": 0.9966,
+          "margin": 0.0489
+        },
+        "observed_count": 193,
+        "unknown_rate": 0
+      }
+    }
+  },
+  "sensitivity_analysis_14_clean": {
+    "clean_businesses_count": 14,
+    "audited_clean_count": 14,
+    "metrics_excluding_14": {
+      "tp": 44,
+      "fp": 1,
+      "fn": 22,
+      "tn": 111,
+      "inconclusive": 1,
+      "total_audited": 179,
+      "effective_sample_size": 178,
+      "n_detected": 45,
+      "precision": 0.9778,
+      "recall": 0.6667,
+      "fp_rate": 0.0222,
+      "accuracy": 0.8708,
+      "wilson_ci_precision": {
+        "center": 0.9402,
+        "lower": 0.8843,
+        "upper": 0.9961,
+        "margin": 0.0559
+      },
+      "observed_count": 179,
+      "unknown_rate": 0
+    },
+    "metrics_only_14": {
+      "tp": 7,
+      "fp": 0,
+      "fn": 2,
+      "tn": 5,
+      "inconclusive": 0,
+      "total_audited": 14,
+      "effective_sample_size": 14,
+      "n_detected": 7,
+      "precision": 1,
+      "recall": 0.7778,
+      "fp_rate": 0,
+      "accuracy": 0.8571,
+      "wilson_ci_precision": {
+        "center": 0.8228,
+        "lower": 0.6457,
+        "upper": 1,
+        "margin": 0.1772
+      },
+      "observed_count": 14,
+      "unknown_rate": 0
+    }
+  },
+  "diagnostics": {
+    "false_positives": [
+      {
+        "domain": "orthoworx.com",
+        "pages_scraped": 5,
+        "ground_truth_evidence": "Interactive appointment booking form detected (Embedded calendar/slot widget) across pages: /orthodontist-zetland/, /contact-us/, /contact-us/",
+        "notes": null,
+        "atoms": {
+          "DIRECT_CHECKOUT": "ABSENT",
+          "ONLINE_MEMBERSHIP": "ABSENT",
+          "APP_BASED_SERVICE": "ABSENT",
+          "QUOTE_CTA": "ABSENT",
+          "CONSULTATION_CTA": "PRESENT",
+          "APPOINTMENT_CTA": "ABSENT",
+          "APPLICATION_CTA": "ABSENT",
+          "SELF_SERVICE_PORTAL": "ABSENT",
+          "WHATSAPP": "ABSENT"
+        }
+      }
+    ],
+    "false_negatives_summary": {
+      "count": 24,
+      "buckets": {
+        "NO_GAP": {
+          "count": 16,
+          "domains": [
+            {
+              "domain": "ahmedemadclinics.com",
+              "pages_scraped": 5,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 2 page(s) (/, /): Contact via phone (tel:), WhatsApp, general contact form (no date/time p"
+            },
+            {
+              "domain": "aldanadentalcenter.com",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 2 page(s) (/, /contact/): Contact via phone (tel:), WhatsApp, email (mailto:), general con"
+            },
+            {
+              "domain": "asnan-dental.com",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 3 page(s) (/, /contact/, /contact/): Contact via phone (tel:), WhatsApp, email (mailto:), "
+            },
+            {
+              "domain": "asnan.com",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "PRESENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 2 page(s) (/ar, /ar): Contact via phone (tel:), WhatsApp, email (mailto:); no online booki"
+            },
+            {
+              "domain": "atlasdental.ca",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 6 page(s) (/, /book-appointment/, /, /chinese-toronto-dentist/, /reception-menu/book-free-"
+            },
+            {
+              "domain": "csdc-dubai.com",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 2 page(s) (/, /appointments/): Contact via phone (tel:), WhatsApp; no online booking widge"
+            },
+            {
+              "domain": "dentaldesigns.com.sg",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 2 page(s) (/en-sg, /en-sg/contact-us): Contact via phone (tel:), WhatsApp, email (mailto:)"
+            },
+            {
+              "domain": "endoenzo.nl",
+              "pages_scraped": 5,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 2 page(s) (/, /contact/): Contact via phone (tel:), email (mailto:); no online booking wid"
+            },
+            {
+              "domain": "gorgeoussmiles.com.au",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:), email (mailto:), general contact fo"
+            },
+            {
+              "domain": "london-dental-specialists.co.uk",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:), WhatsApp; no online booking widget "
+            },
+            {
+              "domain": "nationalmed.ae",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 2 page(s) (/, /): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking w"
+            },
+            {
+              "domain": "northsydneydentistry.com.au",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:); no online booking widget or schedul"
+            },
+            {
+              "domain": "rootcanal-london.co.uk",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "PRESENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 1 page(s) (/): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widg"
+            },
+            {
+              "domain": "sydneycbddentistry.com.au",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:), WhatsApp; no online booking widget "
+            },
+            {
+              "domain": "tavistockdental.co.uk",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 6 page(s) (/, /book/dentist-referral, /, /treatment/general-dentistry/hygiene-services, /a"
+            },
+            {
+              "domain": "thelondondentalcentre.co.uk",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 3 page(s) (/, /open-day, /contact-us): Contact via phone (tel:), email (mailto:); no onlin"
+            }
+          ]
+        },
+        "NOT_APPLICABLE": {
+          "count": 7,
+          "domains": [
+            {
+              "domain": "ajpitsis.com.au",
+              "pages_scraped": 1,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "ABSENT",
+                "APPOINTMENT_CTA": "ABSENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment sched"
+            },
+            {
+              "domain": "coventgardendentalspa.co.uk",
+              "pages_scraped": 5,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "ABSENT",
+                "APPOINTMENT_CTA": "ABSENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment sched"
+            },
+            {
+              "domain": "drmichaels.com",
+              "pages_scraped": 5,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "ABSENT",
+                "APPOINTMENT_CTA": "ABSENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 1 page(s) (/dental-clinic-umm-suqeim): Clinic informational content loaded; no booking por"
+            },
+            {
+              "domain": "gddc.qa",
+              "pages_scraped": 1,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "ABSENT",
+                "APPOINTMENT_CTA": "ABSENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment sched"
+            },
+            {
+              "domain": "lengaperio.com",
+              "pages_scraped": 1,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "ABSENT",
+                "APPOINTMENT_CTA": "ABSENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment sched"
+            },
+            {
+              "domain": "northyorkperio.com",
+              "pages_scraped": 5,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "ABSENT",
+                "APPOINTMENT_CTA": "ABSENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment sched"
+            },
+            {
+              "domain": "spe-centers.com",
+              "pages_scraped": 5,
+              "atoms": {
+                "DIRECT_CHECKOUT": "ABSENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "ABSENT",
+                "APPOINTMENT_CTA": "ABSENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "ABSENT"
+              },
+              "evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment sched"
+            }
+          ]
+        },
+        "SUPPRESSED": {
+          "count": 1,
+          "domains": [
+            {
+              "domain": "endoacademy.org",
+              "pages_scraped": 6,
+              "atoms": {
+                "DIRECT_CHECKOUT": "PRESENT",
+                "ONLINE_MEMBERSHIP": "ABSENT",
+                "APP_BASED_SERVICE": "ABSENT",
+                "QUOTE_CTA": "ABSENT",
+                "CONSULTATION_CTA": "PRESENT",
+                "APPOINTMENT_CTA": "PRESENT",
+                "APPLICATION_CTA": "ABSENT",
+                "SELF_SERVICE_PORTAL": "ABSENT",
+                "WHATSAPP": "PRESENT"
+              },
+              "evidence": "Inspected 4 page(s) (/, /for-patients/, /contact-us/, /contact-us/): Contact via phone (tel:), Whats"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

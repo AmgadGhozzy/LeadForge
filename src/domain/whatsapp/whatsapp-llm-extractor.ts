@@ -163,9 +163,11 @@ export function buildSnapshotProjection(snapshot: any): SnapshotProjection {
 }
 
 export class ReferenceExtractionError extends Error {
-  constructor(message: string, public readonly originalError?: any) {
+  public readonly originalError?: any;
+  constructor(message: string, originalError?: any) {
     super(message);
     this.name = "ReferenceExtractionError";
+    this.originalError = originalError;
   }
 }
 
@@ -291,11 +293,11 @@ export async function extractWhatsappSignals(
   if (KEY_FILE && fs.existsSync(KEY_FILE)) {
     const keyData = JSON.parse(fs.readFileSync(KEY_FILE, 'utf8'));
     ai = new GoogleGenAI({
-      vertexai: {
+      vertexAI: {
         project: keyData.project_id,
         location: process.env.VALIDATION_VERTEX_LOCATION || 'us-central1'
       }
-    });
+    } as any);
     process.env.GOOGLE_APPLICATION_CREDENTIALS = KEY_FILE;
   } else if (API_KEY) {
     ai = new GoogleGenAI({ apiKey: API_KEY });

@@ -4,7 +4,6 @@
 
 import type {
   Polarity,
-  ClassifiedIntent,
   Level1AtomicExpectations,
   Level2DerivedExpectations,
 } from '../../../tests/fixtures/evidence_golden/contract_expectations';
@@ -48,8 +47,6 @@ export class GoldenEvidenceEvaluator {
         QUOTE_CTA: 'UNKNOWN',
         CONSULTATION_CTA: 'UNKNOWN',
         APPLICATION_CTA: 'UNKNOWN',
-        ACQUISITION_CTA: 'UNKNOWN',
-        SUPPORT_CTA: 'UNKNOWN',
         WHATSAPP: this.detectWhatsApp(html) ? 'PRESENT' : 'ABSENT',
         SELF_SERVICE_PORTAL: 'UNKNOWN',
         ONLINE_MEMBERSHIP: 'UNKNOWN',
@@ -77,17 +74,6 @@ export class GoldenEvidenceEvaluator {
     // 5. Application CTA
     const hasApplicationCta = this.detectApplicationCta(html);
 
-    // 6. Support CTA
-    const hasSupportCta = this.detectSupportCta(html, ctaContext);
-
-    // 7. Acquisition CTA
-    const hasAcquisitionCta = this.detectAcquisitionCta(
-      hasQuoteCta,
-      hasConsultationCta,
-      hasApplicationCta,
-      ctaContext
-    );
-
     // 8. Self-Service Portal
     const hasPortal = this.detectSelfServicePortal(html);
 
@@ -105,8 +91,6 @@ export class GoldenEvidenceEvaluator {
       QUOTE_CTA: hasQuoteCta ? 'PRESENT' : 'ABSENT',
       CONSULTATION_CTA: hasConsultationCta ? 'PRESENT' : 'ABSENT',
       APPLICATION_CTA: hasApplicationCta ? 'PRESENT' : 'ABSENT',
-      ACQUISITION_CTA: hasAcquisitionCta,
-      SUPPORT_CTA: hasSupportCta,
       WHATSAPP: hasWhatsApp ? 'PRESENT' : 'ABSENT',
       SELF_SERVICE_PORTAL: hasPortal ? 'PRESENT' : 'ABSENT',
       ONLINE_MEMBERSHIP: hasMembership ? 'PRESENT' : 'ABSENT',
@@ -134,14 +118,20 @@ export class GoldenEvidenceEvaluator {
 
     // 1. HAS_ACQUISITION_PATH
     let hasAcquisitionPath: Polarity = 'ABSENT';
+    const isAmbiguousContact = atomic.WHATSAPP === 'PRESENT' && !atomic.CTA_CONTEXT?.cta_label_contains;
+
     if (
       atomic.QUOTE_CTA === 'PRESENT' ||
       atomic.CONSULTATION_CTA === 'PRESENT' ||
-      atomic.APPLICATION_CTA === 'PRESENT' ||
-      atomic.ACQUISITION_CTA === 'PRESENT'
+      atomic.APPLICATION_CTA === 'PRESENT'
     ) {
       hasAcquisitionPath = 'PRESENT';
-    } else if (atomic.ACQUISITION_CTA === 'UNKNOWN') {
+    } else if (
+      atomic.QUOTE_CTA === 'UNKNOWN' ||
+      atomic.CONSULTATION_CTA === 'UNKNOWN' ||
+      atomic.APPLICATION_CTA === 'UNKNOWN' ||
+      isAmbiguousContact
+    ) {
       hasAcquisitionPath = 'UNKNOWN';
     }
 
@@ -168,7 +158,8 @@ export class GoldenEvidenceEvaluator {
     } else if (
       atomic.DIRECT_CHECKOUT === 'UNKNOWN' ||
       atomic.QUOTE_CTA === 'UNKNOWN' ||
-      atomic.ACQUISITION_CTA === 'UNKNOWN'
+      atomic.CONSULTATION_CTA === 'UNKNOWN' ||
+      isAmbiguousContact
     ) {
       requiresHumanInteraction = 'UNKNOWN';
     }
@@ -199,29 +190,8 @@ export class GoldenEvidenceEvaluator {
     const waMatch = html.match(/<a[^>]*href=["'][^"']*(?:wa\.me|whatsapp\.com)[^"']*["'][^>]*>([\s\S]*?)<\/a>/i);
     const innerText = waMatch ? waMatch[1].replace(/<[^>]+>/g, '').trim() : '';
 
-    // Check surrounding context (parent container text)
-    const contextMatch = html.match(/(?:<div[^>]*>|<section[^>]*>)([\s\S]*?wa\.me[\s\S]*?)(?:<\/div>|<\/section>)/i);
-    const surroundingText = contextMatch ? contextMatch[1].replace(/<[^>]+>/g, '').toLowerCase() : innerText.toLowerCase();
-
-    let classified_intent: ClassifiedIntent = 'UNKNOWN';
-
-    const isSupport = /support|help desk|troubleshoot|technical assistance|existing order|customer care/i.test(innerText) ||
-                      /customer care team is available|troubleshooting and order inquiries/i.test(surroundingText);
-
-    const isAcquisition = /quote|estimate|pricing|proposal|start your custom project/i.test(innerText) ||
-                          /start your custom project|get a quote within/i.test(surroundingText);
-
-    if (isSupport && !isAcquisition) {
-      classified_intent = 'SUPPORT';
-    } else if (isAcquisition && !isSupport) {
-      classified_intent = 'ACQUISITION';
-    } else if (innerText.length === 0 || innerText.toLowerCase().includes('whatsapp') && innerText.length < 15) {
-      classified_intent = 'UNKNOWN';
-    }
-
     return {
       channel: 'WHATSAPP',
-      classified_intent,
       cta_label_contains: innerText || undefined,
     };
   }
@@ -249,28 +219,6 @@ export class GoldenEvidenceEvaluator {
     const index = m.index ?? 0;
     const snippet = html.slice(Math.max(0, index - 400), index + 400);
     return !/careers?\b|\bjobs?\b|\bhiring\b|\bresume\b|\bcv\b/i.test(snippet);
-  }
-
-  private detectSupportCta(html: string, context?: Level1AtomicExpectations['CTA_CONTEXT']): Polarity {
-    if (context?.classified_intent === 'SUPPORT') return 'PRESENT';
-    if (context?.classified_intent === 'UNKNOWN') return 'UNKNOWN';
-    const isSupport = /help & support|customer support|help desk|ticket tracking/i.test(html) && !/quote|proposal/i.test(html);
-    return isSupport ? 'PRESENT' : 'ABSENT';
-  }
-
-  private detectAcquisitionCta(
-    hasQuote: boolean,
-    hasConsultation: boolean,
-    hasApplication: boolean,
-    context?: Level1AtomicExpectations['CTA_CONTEXT']
-  ): Polarity {
-    if (hasQuote || hasConsultation || hasApplication || context?.classified_intent === 'ACQUISITION') {
-      return 'PRESENT';
-    }
-    if (context?.classified_intent === 'UNKNOWN') {
-      return 'UNKNOWN';
-    }
-    return 'ABSENT';
   }
 
   private detectSelfServicePortal(html: string): boolean {
