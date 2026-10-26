@@ -1,0 +1,15 @@
+{
+  "batch_run_id": "census-2026-c0-run1",
+  "window_id": "census-2026-c0",
+  "code_sha": "ffa2461a24808d1c6cc28ad7f881817c44010f41",
+  "completed_at": "2026-10-25T02:31:06.855Z",
+  "businesses_total": 208,
+  "recovered": 0,
+  "skipped": 0,
+  "observed": 194,
+  "crawl_failed": 8,
+  "excluded": 6,
+  "reconciliation_passed": true,
+  "detected_count": 16,
+  "stopping_tier": "PROVISIONAL_AUDIT"
+}

@@ -1,0 +1,1007 @@
+{
+  "report_version": "1.1.0",
+  "session_id": "session-2026-c0",
+  "rubric_version": "1.0.0",
+  "auditor_id": "independent-human-reviewer",
+  "session_locked_at": "2026-10-26T04:40:56.806Z",
+  "generated_at": "2026-10-26T06:40:56.863Z",
+  "rule_slug": "digital-booking",
+  "production_rule_slug": "digital_booking_path_gap",
+  "batch_run_id": "census-2026-c0-run1",
+  "stopping_tier": "PROVISIONAL_AUDIT",
+  "verdict": "PROVISIONAL_FAIL",
+  "verdict_rationale": "Provisional audit failed: Wilson upper bound < 70% or point estimates failed recall/unknown thresholds.",
+  "frozen_thresholds": {
+    "min_precision": 0.7,
+    "min_recall": 0.6,
+    "max_fp_rollback_rate": 0.3,
+    "max_unknown_rate": 0.25,
+    "min_sample_size": 50,
+    "window_days": 30
+  },
+  "population_summary": {
+    "total_observed": 194,
+    "rule_output_breakdown": {
+      "NOT_APPLICABLE": 131,
+      "NO_GAP": 38,
+      "OPPORTUNITY_DETECTED": 16,
+      "SUPPRESSED": 9
+    },
+    "unknown_rate": 0
+  },
+  "full_sample": {
+    "metrics": {
+      "tp": 5,
+      "fp": 11,
+      "fn": 70,
+      "tn": 106,
+      "inconclusive": 1,
+      "total_audited": 193,
+      "effective_sample_size": 192,
+      "n_detected": 16,
+      "precision": 0.3125,
+      "recall": 0.0667,
+      "fp_rate": 0.6875,
+      "accuracy": 0.5781,
+      "wilson_ci_precision": {
+        "center": 0.3488,
+        "lower": 0.1416,
+        "upper": 0.556,
+        "margin": 0.2072
+      }
+    },
+    "unknown_rate": 0,
+    "threshold_compliance": {
+      "precision_pass": false,
+      "recall_pass": false,
+      "fp_rate_pass": false,
+      "unknown_rate_pass": true,
+      "sample_size_pass": true,
+      "wilson_lb_pass": false
+    }
+  },
+  "stratum_breakdowns": {
+    "by_region": {
+      "Middle East & Egypt (MENA)": {
+        "tp": 1,
+        "fp": 6,
+        "fn": 34,
+        "tn": 49,
+        "inconclusive": 1,
+        "total_audited": 91,
+        "effective_sample_size": 90,
+        "n_detected": 7,
+        "precision": 0.1429,
+        "recall": 0.0286,
+        "fp_rate": 0.8571,
+        "accuracy": 0.5556,
+        "wilson_ci_precision": {
+          "center": 0.2694,
+          "lower": 0.0257,
+          "upper": 0.5131,
+          "margin": 0.2437
+        },
+        "observed_count": 91
+      },
+      "International / English-speaking": {
+        "tp": 4,
+        "fp": 5,
+        "fn": 36,
+        "tn": 57,
+        "inconclusive": 0,
+        "total_audited": 102,
+        "effective_sample_size": 102,
+        "n_detected": 9,
+        "precision": 0.4444,
+        "recall": 0.1,
+        "fp_rate": 0.5556,
+        "accuracy": 0.598,
+        "wilson_ci_precision": {
+          "center": 0.4611,
+          "lower": 0.1888,
+          "upper": 0.7333,
+          "margin": 0.2723
+        },
+        "observed_count": 102
+      }
+    },
+    "by_sector": {
+      "Dental / Medical Clinic": {
+        "tp": 5,
+        "fp": 11,
+        "fn": 70,
+        "tn": 106,
+        "inconclusive": 1,
+        "total_audited": 193,
+        "effective_sample_size": 192,
+        "n_detected": 16,
+        "precision": 0.3125,
+        "recall": 0.0667,
+        "fp_rate": 0.6875,
+        "accuracy": 0.5781,
+        "wilson_ci_precision": {
+          "center": 0.3488,
+          "lower": 0.1416,
+          "upper": 0.556,
+          "margin": 0.2072
+        },
+        "observed_count": 193
+      }
+    }
+  },
+  "sensitivity_analysis_14_clean": {
+    "clean_businesses_count": 14,
+    "audited_clean_count": 14,
+    "metrics_excluding_14": {
+      "tp": 5,
+      "fp": 11,
+      "fn": 61,
+      "tn": 101,
+      "inconclusive": 1,
+      "total_audited": 179,
+      "effective_sample_size": 178,
+      "n_detected": 16,
+      "precision": 0.3125,
+      "recall": 0.0758,
+      "fp_rate": 0.6875,
+      "accuracy": 0.5955,
+      "wilson_ci_precision": {
+        "center": 0.3488,
+        "lower": 0.1416,
+        "upper": 0.556,
+        "margin": 0.2072
+      },
+      "observed_count": 179,
+      "unknown_rate": 0
+    },
+    "metrics_only_14": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 9,
+      "tn": 5,
+      "inconclusive": 0,
+      "total_audited": 14,
+      "effective_sample_size": 14,
+      "n_detected": 0,
+      "precision": null,
+      "recall": 0,
+      "fp_rate": null,
+      "accuracy": 0.3571,
+      "wilson_ci_precision": {
+        "center": 0,
+        "lower": 0,
+        "upper": 0,
+        "margin": 0
+      },
+      "observed_count": 14,
+      "unknown_rate": 0
+    },
+    "impact_delta": {
+      "precision_delta": 0,
+      "recall_delta": -0.0091
+    }
+  },
+  "diagnostics_post_lock": {
+    "false_positives_count": 11,
+    "false_positives": [
+      {
+        "domain": "harleystreetdentalstudio.com",
+        "observation_id": "11a1eca0-0468-4c04-8540-3125c4825475",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Calendar/datepicker field) across pages: /, /contact/, /",
+        "notes": null
+      },
+      {
+        "domain": "bestdentistdentalclinic.com",
+        "observation_id": "1458c0c0-c2d2-4075-9baa-cf6de4f3c47e",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Calendar/datepicker field) across pages: /, /%d8%aa%d9%88%d8%a7%d8%b5%d9%84-%d9%85%d8%b9%d9%86%d8%a7/",
+        "notes": null
+      },
+      {
+        "domain": "mastermedicalcenter.com",
+        "observation_id": "3790cafd-2b59-414e-91e4-3851f9096a93",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Calendar/datepicker field) across pages: /, /%d8%aa%d9%88%d8%a7%d8%b5%d9%84-%d9%85%d8%b9%d9%86%d8%a7/, /consultation/",
+        "notes": null
+      },
+      {
+        "domain": "londonsmile.co.uk",
+        "observation_id": "3884e5b5-4482-454a-b298-a0642d0f88d1",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Embedded calendar/slot widget) across pages: /, /contact/, /",
+        "notes": null
+      },
+      {
+        "domain": "sanayaclinics.com",
+        "observation_id": "3f9ff5be-cf41-4bc1-9a8b-7a2798f32355",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Calendar/datepicker field) across pages: /, /",
+        "notes": null
+      },
+      {
+        "domain": "horizondent.com",
+        "observation_id": "5bfbc6fc-b19f-48e8-b02b-b0e4c7bdd586",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Calendar/datepicker field) across pages: /, /contact/, /booking/",
+        "notes": null
+      },
+      {
+        "domain": "dentex.sa",
+        "observation_id": "6c68b3a6-f5c0-49fc-bfa9-dc4ff5631cfd",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Calendar/datepicker field) across pages: /, /book/, /contact/",
+        "notes": null
+      },
+      {
+        "domain": "fineorthodontics.com.au",
+        "observation_id": "8e397c99-fe2e-45d5-80fd-041aabf05a98",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Embedded calendar/slot widget) across pages: /, /book-your-appointment/, /about-us/contact-us/",
+        "notes": null
+      },
+      {
+        "domain": "nobledental.co.nz",
+        "observation_id": "9470a838-9253-4e22-a25d-76685203f311",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Embedded calendar/slot widget) across pages: /remuera/, /contact-form, /contact-us",
+        "notes": null
+      },
+      {
+        "domain": "zaindentalcenter.com",
+        "observation_id": "b498ecb7-b3f4-4a0c-99af-43d5f351a0c2",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (Embedded calendar/slot widget) across pages: /, /, /contact/",
+        "notes": null
+      },
+      {
+        "domain": "pittstdentalcentre.com.au",
+        "observation_id": "c08cf5b3-4f30-486b-b8b0-bd3725df90d9",
+        "machine_rule_output": "OPPORTUNITY_DETECTED",
+        "ground_truth_status": "NOT_CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "TRUE",
+        "business_state_evidence": "Interactive appointment booking form detected (HTML date input, HTML time input, Calendar/datepicker field) across pages: /, /, /contact-us/",
+        "notes": null
+      }
+    ],
+    "false_negatives_count": 70,
+    "false_negatives_summary_by_rule_output": {
+      "NOT_APPLICABLE": 59,
+      "NO_GAP": 10,
+      "SUPPRESSED": 1
+    },
+    "false_negatives": [
+      {
+        "domain": "nhcgcc.com",
+        "observation_id": "019a5dc9-4584-4f77-8253-91d54f0052c7",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 5 page(s) (/, /nhc-contact-us/, /nhc-contact-us/, /doctor/dr-reem-alshatti/, /doctor/dr-mohammad-almazedi-2/): Contact via WhatsApp, general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "furahapaediatricdentistry.co.ke",
+        "observation_id": "060b1c08-7bd5-4854-b1aa-c90acc696f25",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "nationalmed.ae",
+        "observation_id": "0a398ab8-1689-42c0-b63f-674aa5c28492",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "qatarprimedental.com",
+        "observation_id": "0e1f4dc1-bc48-40a2-827d-081e58656296",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 3 page(s) (/, /location, /book-appointment): Contact via WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "sydneycbddentistry.com.au",
+        "observation_id": "0f916aec-aa6b-4f57-b183-dc9b2f0b63d3",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:), WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "montherdental.com",
+        "observation_id": "12f5c08b-c136-46ef-a75a-46b070690a3d",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 3 page(s) (/en/, /en/contact-us/, /en/contact-us): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "thedentalhouse.ae",
+        "observation_id": "18051806-c72f-4b59-8e31-5d29d0d220bf",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 3 page(s) (/, /contact-us/, /walk-in-appointments/): Contact via phone (tel:), WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "noadentalclinic.com",
+        "observation_id": "18a04e5e-0bf2-4324-bba9-32920fd098a7",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 3 page(s) (/dubai-dentists/, /contact/, /contact-jlt/): Contact via phone (tel:), WhatsApp, email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "sdcqa.com",
+        "observation_id": "26802ae4-d96e-4985-8138-615596d62621",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Minimal content (895b); no booking path detected but requires manual visual verification.",
+        "notes": null
+      },
+      {
+        "domain": "northyorkperio.com",
+        "observation_id": "2ad9d09a-e35c-46a2-a59d-22045a6c4103",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "alinedental.net",
+        "observation_id": "2fe132d4-06fe-4dd5-b6fb-d3da617bd70e",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 6 page(s) (/, /book-an-appointment/orthodontics/V0pkaGFKSWFlSWppQWpGaDFiUVAzZz09, /book-an-appointment/maxillofacial-surgery/Q3N0Y3kyektTeWJUcW9KY2Q0REp2QT09, /book-an-appointment/dental-implants-and-cosmetic-dentistry/RHAwTHB6R0dxRXVZQUc2TVFKYlE5dz09, /book-an-appointment/root-canal-treatment/RzlvQno5bDJ6aGFYZFNlVkQzbzY3dz09, /book-an-appointment/gum-health-and-dental-implantation/TXdlN1d5dFJKSittL0RxM2t3cnpyUT09): Contact via phone (tel:), WhatsApp, email (mailto:), general contact f",
+        "notes": null
+      },
+      {
+        "domain": "aldanadentalcenter.com",
+        "observation_id": "319268c9-04ad-409d-8a3b-ea2aa548b60b",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact/): Contact via phone (tel:), WhatsApp, email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "gddc.qa",
+        "observation_id": "357f6116-f041-4e65-8f62-34bf745f04e3",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "barsoum.com",
+        "observation_id": "37136f25-264d-4b5d-af28-919a845d2388",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /appointments/): Contact via email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "torontonorthperiodontics.ca",
+        "observation_id": "3ce66237-3169-44c2-83bb-cc70513196d0",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 4 page(s) (/, /contact/, /book-an-appointment-today/, /contact/): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "torontoimplant.com",
+        "observation_id": "3d8e69b0-504e-4638-9932-9e36a571a252",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "dentaldesigns.com.sg",
+        "observation_id": "3ea662c2-7033-4fa9-a21d-1df51e333ebd",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/en-sg, /en-sg/contact-us): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "endoenzo.nl",
+        "observation_id": "3f86e744-2904-4a67-b542-f044dd7e3139",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact/): Contact via phone (tel:), email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "bwvperio.com",
+        "observation_id": "4705cedb-28fe-49bc-b842-cc135b7784b6",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 5 page(s) (/, /Dental-Implants/Bone-Grafting-for-Dental-Implants/Ridge-Preservation, /Contact/Appointments, /Contact/Map-and-Directions, /Contact/Map-and-Directions): Contact via phone (tel:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "thelondondentalcentre.co.uk",
+        "observation_id": "47d8417a-3186-406d-b26b-7efe7cf9a6f2",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 3 page(s) (/, /open-day, /contact-us): Contact via phone (tel:), email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "lassustandartsen.nl",
+        "observation_id": "4a850269-e9ac-4bc8-8be9-15f3209b21b6",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 4 page(s) (/, /nieuwe-client/, /contact/, /): Contact via phone (tel:), email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "draliconsultgrp.com",
+        "observation_id": "4f23d6f7-0716-4aac-9fcb-0410bea48173",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Minimal content (1666b); no booking path detected but requires manual visual verification.",
+        "notes": null
+      },
+      {
+        "domain": "endoacademy.org",
+        "observation_id": "4f39d835-d3e1-4d35-a8f9-1b35e81af770",
+        "machine_rule_output": "SUPPRESSED",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 4 page(s) (/, /for-patients/, /contact-us/, /contact-us/): Contact via phone (tel:), WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "asnan-dental.com",
+        "observation_id": "54318cd4-7b64-4748-9e4f-f79bbb353e52",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 3 page(s) (/, /contact/, /contact/): Contact via phone (tel:), WhatsApp, email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "craftdental.qa",
+        "observation_id": "552d4b5b-8eed-4373-b9dd-ea8fc0979247",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 4 page(s) (/, /contact-us/, /appointment.html, /appointment/): Contact via phone (tel:), WhatsApp, general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "roottreatmentuk.com",
+        "observation_id": "55326157-8058-4a7c-8fd4-83cf57e4f3b8",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:), WhatsApp, email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "northmeddental.co.nz",
+        "observation_id": "5b43af59-66c4-4758-8a59-1a8326fd4c20",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "bu.smilehousedentalcenter.com",
+        "observation_id": "5d782da7-8530-4eb1-b778-a65412ddffd8",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "vivaldismiles.com.au",
+        "observation_id": "5f02321c-0bbc-416b-8fe2-80780255ffb9",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 4 page(s) (/, /contact/, /book/, /book/): Contact via phone (tel:), WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "alawidental.com",
+        "observation_id": "60794276-75dc-4e3c-8eca-947852629376",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "ajpitsis.com.au",
+        "observation_id": "6535126b-9b7e-4d0a-bcf8-0c834c595451",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "ahmedemadclinics.com",
+        "observation_id": "673a2f00-fd0b-4623-84e3-b3291dc6efb1",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /): Contact via phone (tel:), WhatsApp, general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "tavistockdental.co.uk",
+        "observation_id": "6ccc8176-67f1-4a3d-b42e-0b9a4e2747d1",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 6 page(s) (/, /book/dentist-referral, /, /treatment/general-dentistry/hygiene-services, /about-us/contact-us, /book/consultation): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "dentalcentres.com",
+        "observation_id": "6ea9edea-17a4-4159-bd22-09b8cb21b8f9",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 3 page(s) (/, /make-appointment/, /make-appointment/): Contact via email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "bayandental.com",
+        "observation_id": "783b3e82-b5a6-4e11-b7ee-7d1f7272f46f",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "dentalessence.com.sg",
+        "observation_id": "7a9c65cb-30ec-4545-833f-8e166511b933",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:), WhatsApp, email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "tandarts.healthcenteramsterdamsebos.nl",
+        "observation_id": "7aefef8b-2907-460a-8f61-c06345cb9a96",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "downtowndentalclinic.com",
+        "observation_id": "7c63fd7a-5c7c-49cd-8ce1-0491a57c1aec",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "24hour-emergencydentist.co.uk",
+        "observation_id": "904aa5da-5c8f-4880-9194-45ac8c4e4061",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "northsydneydentistry.com.au",
+        "observation_id": "94559a7a-c2f1-46ca-837a-e95e5dd61895",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "drthomasdentalhospital.com",
+        "observation_id": "948bbfa1-008a-4ddd-bd0d-5441ba98414e",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-dental-clinic-kuwait.php): Contact via phone (tel:), WhatsApp, general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "londonspecialistdentist.co.uk",
+        "observation_id": "983ff218-dfd6-4eb7-86ed-b3cf48e9dfcc",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 4 page(s) (/, /appointments/, /treatments/socket-preservation/, /contact-us/): Contact via phone (tel:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "london-dental-specialists.co.uk",
+        "observation_id": "a24c20e7-b2a0-4663-81e0-4cc261b77bf5",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:), WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "rootcanal-london.co.uk",
+        "observation_id": "a3b29a0f-9cfb-412c-8ec1-8f708a384bbf",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "jibladental.com",
+        "observation_id": "a5da567b-0fb7-4550-bdcf-f76d3886ae22",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 4 page(s) (/en, /en/team/dr-hamad-alqadhi, /en, /en/contact): Contact via phone (tel:), WhatsApp, email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "tandartsjordaan.nl",
+        "observation_id": "a9979816-ae0f-4621-a62b-eedaa260ac43",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 6 page(s) (/, /intake-afspraak/inschrijven/, /over-tandarts-jordaan/contact/, /intake-afspraak/, /en/intake/, /afspraak-annuleren/): Contact via phone (tel:), email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "atlasdental.ca",
+        "observation_id": "ae3a2b5f-13af-4e6e-a977-88c20a7e5e11",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 6 page(s) (/, /book-appointment/, /, /chinese-toronto-dentist/, /reception-menu/book-free-phone-consultation-with-dentist/, /reception-menu/book-new-patient-exam/): Contact via phone (tel:), WhatsApp, general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "avenuesdental.com",
+        "observation_id": "ae613040-32bb-4ff4-929a-22b6d25b5060",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 3 page(s) (/, /contact, /booking): Contact via phone (tel:), email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "asterbahrain.com",
+        "observation_id": "b24fdec7-5477-4800-a947-90838b6a6860",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Contact via phone (tel:), email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "gorgeoussmiles.com.au",
+        "observation_id": "b42f450b-4fa8-42b3-bf88-3d0d420a832e",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-us/): Contact via phone (tel:), email (mailto:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "dimadental.com.sa",
+        "observation_id": "bdcca9cc-8307-42f8-ba33-2b6d6df48fd0",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Minimal content (672b); no booking path detected but requires manual visual verification.",
+        "notes": null
+      },
+      {
+        "domain": "asnan.com",
+        "observation_id": "bea54070-a247-4635-a875-e7a6fbb242be",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/ar, /ar): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "linktr.ee",
+        "observation_id": "bf4ef9c7-53ad-4579-8dd6-ecd7dcf5dae2",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 6 page(s) (/nahjclinic, /features/social-planner, /features/social-planner/facebook, /features/contact-forms, /features/audience-management, /features/email-integrations): Contact via WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "aucklandperio.co.nz",
+        "observation_id": "c3806c9e-2bd3-4613-b9e5-372250117dd1",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact): Contact via phone (tel:), general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "heliodental.com",
+        "observation_id": "c6efbfd6-b9f2-4b5e-b7dd-7c3dd3a942ab",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "lengaperio.com",
+        "observation_id": "c76b9399-6a66-427e-a40b-c51fd0bae9d1",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "wimpolestreetendodontics.co.uk",
+        "observation_id": "d0cfed44-aad2-4a82-905a-0cd78024df22",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-dr-daiva-pitkauskiene): Contact via phone (tel:), email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "jewel.nuffielddental.com.sg",
+        "observation_id": "d83cf154-685f-4f44-9d21-b49f4fcef746",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact-us): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "oclinic.org",
+        "observation_id": "d90a0102-91d6-4fc8-852b-7b76c0269f9d",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/madinaty-dental-clinic/, /contact/): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "snclinics.com",
+        "observation_id": "db2b49d6-4ba9-4a73-8846-039beddba18a",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 5 page(s) (/, /contact-us/, /dr-yousef-almuffarej/, /dr-abdullah-alkandari/, /services/root-canal-treatment/): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "spe-centers.com",
+        "observation_id": "dc239e98-985d-4628-b5b2-44c1a3ca853c",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "uksmile.com",
+        "observation_id": "e4aee5ea-38b9-43e3-9669-25860105b031",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /pages/contact): Contact via phone (tel:), WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "0900dentist.com",
+        "observation_id": "e4bac2d7-1ac6-4f2a-b816-606e342311f5",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /): Contact via phone (tel:), WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "coventgardendentalspa.co.uk",
+        "observation_id": "e5a885c5-fe38-4952-9d3b-82aa0eb1d379",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "csdc-dubai.com",
+        "observation_id": "e60ef2d3-a700-4de3-907c-2989e3f2a44f",
+        "machine_rule_output": "NO_GAP",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /appointments/): Contact via phone (tel:), WhatsApp; no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "tbbahrain.com",
+        "observation_id": "ea773c4c-485d-495d-b6e5-c8467db7cfc3",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 2 page(s) (/, /contact/): Contact via phone (tel:), WhatsApp, general contact form (no date/time picker); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      },
+      {
+        "domain": "drmichaels.com",
+        "observation_id": "ec288d4b-d779-4fda-8d05-e849c4e9e493",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/dental-clinic-umm-suqeim): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "dubaiskyclinic.com",
+        "observation_id": "f28b8702-7f5f-4a86-a9a2-9f513aa2dfaf",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Clinic informational content loaded; no booking portal or appointment scheduling form found.",
+        "notes": null
+      },
+      {
+        "domain": "qatardental.net",
+        "observation_id": "fb13c360-98e7-40b8-8f52-bde57b802a91",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 1 page(s) (/): Minimal content (1233b); no booking path detected but requires manual visual verification.",
+        "notes": null
+      },
+      {
+        "domain": "mehtaorthodontics.com.au",
+        "observation_id": "fc599ddd-7e16-413c-afb3-6079070e09a3",
+        "machine_rule_output": "NOT_APPLICABLE",
+        "ground_truth_status": "CONFIRMED",
+        "is_appointment_based": "TRUE",
+        "digital_booking_path_present": "FALSE",
+        "business_state_evidence": "Inspected 4 page(s) (/, /contact-us/, /our-practice-videos/invisalign-appointment/, /our-practice-videos/lightforce-appointment/): Contact via phone (tel:), WhatsApp, email (mailto:); no online booking widget or scheduling date/time form present.",
+        "notes": null
+      }
+    ]
+  }
+}
