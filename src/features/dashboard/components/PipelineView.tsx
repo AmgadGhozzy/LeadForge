@@ -85,7 +85,7 @@ export function PipelineView({ businesses, isLoading }: PipelineViewProps) {
   };
 
   const handleGenerateSales = (businessId: string) => {
-    salesMutation.mutate({ businessId, language: 'en' });
+    salesMutation.mutate({ businessId, language: 'ar' });
   };
 
   if (isLoading) {

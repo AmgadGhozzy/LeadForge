@@ -21,7 +21,7 @@ export const dashboardApi = {
   analyzeBusiness: (businessId: string) =>
     api.post<{ success: boolean; message: string }>('analyze-business', { business_id: businessId }),
 
-  generateSales: (businessId: string, language = 'en') =>
+  generateSales: (businessId: string, language = 'ar') =>
     api.post<{ success: boolean; cached: boolean; message: string; data: GeneratedMessage }>(
       'generate-sales', { business_id: businessId, language }
     ),

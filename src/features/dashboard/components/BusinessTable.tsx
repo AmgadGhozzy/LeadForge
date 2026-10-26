@@ -288,7 +288,7 @@ export function BusinessTable({ businesses, isLoading }: BusinessTableProps) {
                             {business.status === 'ANALYZED' && (
                               <Button
                                 variant="outline" size="sm"
-                                onClick={() => salesMutation.mutate({ businessId: business.id, language: 'en' })}
+                                onClick={() => salesMutation.mutate({ businessId: business.id, language: 'ar' })}
                                 disabled={salesMutation.isPending && salesMutation.variables?.businessId === business.id}
                                 className="h-8 px-2 text-xs gap-1 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10"
                               >

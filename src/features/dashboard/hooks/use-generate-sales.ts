@@ -6,7 +6,7 @@ export function useGenerateSales() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ businessId, language }: { businessId: string; language: string }) => {
+    mutationFn: async ({ businessId, language = 'ar' }: { businessId: string; language?: string }) => {
       const result = await dashboardApi.generateSales(businessId, language);
       if ((result as any).error) throw (result as any).error;
       return result;
@@ -39,7 +39,7 @@ export function useGenerateSales() {
           toast.error('Session expired. Please sign in again.');
           break;
         default:
-          toast.error('Sales generation failed. Please try again.');
+          toast.error(error?.message || 'Sales generation failed. Please try again.');
       }
     },
   });

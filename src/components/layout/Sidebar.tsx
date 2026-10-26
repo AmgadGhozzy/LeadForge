@@ -17,6 +17,7 @@ import {
   AlertCircle,
   ListTodo,
   TrendingUp,
+  MessageSquare,
 } from 'lucide-react';
 
 export function Sidebar() {
@@ -27,6 +28,7 @@ export function Sidebar() {
   const mainNavItems = [
     { to: '', icon: LayoutDashboard, label: 'Command Center', end: true },
     { to: 'pipeline', icon: KanbanSquare, label: 'Pipeline' },
+    { to: 'messages', icon: MessageSquare, label: 'Messages Hub' },
     { to: 'search', icon: Search, label: 'Search Sessions' },
     { to: 'knowledge', icon: BookOpen, label: 'Knowledge' },
     { to: 'reports', icon: LineChart, label: 'Reports' },

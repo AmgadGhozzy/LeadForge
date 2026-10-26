@@ -46,7 +46,7 @@ export function LeadWorkspacePage() {
             projectId={projectId!}
             profile={profile}
             onAnalyze={() => analyzeMutation.mutate(businessId!)}
-            onGenerateSales={() => salesMutation.mutate({ businessId: businessId!, language: 'en' })}
+            onGenerateSales={() => salesMutation.mutate({ businessId: businessId!, language: 'ar' })}
             isAnalyzing={analyzeMutation.isPending}
             isGenerating={salesMutation.isPending}
           />
