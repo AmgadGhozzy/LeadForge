@@ -3,8 +3,9 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { ExternalLink, Mail, Phone, RefreshCw, Smartphone, Calendar, MessageCircle, Globe, Sparkles, Eye, ChevronDown, ChevronRight } from 'lucide-react';
+import { ExternalLink, Mail, Phone, RefreshCw, Smartphone, Calendar, MessageCircle, Globe, Sparkles, Eye, ChevronDown, ChevronRight, Copy, Check, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import { useEnrichBusiness } from '../hooks/use-enrich-business';
 import { useAnalyzeBusiness } from '../hooks/use-analyze-business';
 import { useGenerateSales } from '../hooks/use-generate-sales';
@@ -14,6 +15,7 @@ import { SalesAssetsModal } from './SalesAssetsModal';
 import { AnalysisDetailsModal } from './AnalysisDetailsModal';
 import { ExportButton } from './ExportButton';
 import { BusinessSnapshot } from './BusinessSnapshot';
+import { extractDbpgEvidence, hasArabicCharacters } from '../utils/dbpg-Shared';
 import { cn } from '@/lib/utils';
 
 interface BusinessTableProps {
@@ -31,10 +33,61 @@ export function BusinessTable({ businesses, isLoading }: BusinessTableProps) {
   const [analysisModalOpen, setAnalysisModalOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [copiedWaId, setCopiedWaId] = useState<string | null>(null);
   const bulkAnalyze = useBulkAnalyze();
 
+  const copyWaMessage = async (msg: string, id: string) => {
+    await navigator.clipboard.writeText(msg);
+    setCopiedWaId(id);
+    toast.success('WhatsApp outreach copied to clipboard');
+    setTimeout(() => setCopiedWaId(null), 2000);
+  };
+
   if (isLoading) {
-    return <div className="text-center py-10 text-muted-foreground">Loading businesses...</div>;
+    return (
+      <Card className="border-border/50">
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-8"></TableHead>
+                  <TableHead className="w-8"></TableHead>
+                  <TableHead>Business Name</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>DBPG Status</TableHead>
+                  <TableHead>Priority</TableHead>
+                  <TableHead>Lead Score</TableHead>
+                  <TableHead>Readiness</TableHead>
+                  <TableHead>Next Action</TableHead>
+                  <TableHead>Capabilities</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <TableRow key={i} className="animate-pulse">
+                    <TableCell><div className="h-4 w-4 bg-muted rounded" /></TableCell>
+                    <TableCell><div className="h-4 w-4 bg-muted rounded" /></TableCell>
+                    <TableCell><div className="h-4 w-32 bg-muted rounded" /></TableCell>
+                    <TableCell><div className="h-4 w-20 bg-muted rounded" /></TableCell>
+                    <TableCell><div className="h-5 w-28 bg-muted rounded-full" /></TableCell>
+                    <TableCell><div className="h-5 w-16 bg-muted rounded-full" /></TableCell>
+                    <TableCell><div className="h-5 w-10 bg-muted rounded-full" /></TableCell>
+                    <TableCell><div className="h-4 w-16 bg-muted rounded" /></TableCell>
+                    <TableCell><div className="h-5 w-16 bg-muted rounded-full" /></TableCell>
+                    <TableCell><div className="h-4 w-20 bg-muted rounded" /></TableCell>
+                    <TableCell><div className="h-5 w-20 bg-muted rounded-full" /></TableCell>
+                    <TableCell><div className="h-8 w-24 bg-muted rounded ml-auto" /></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    );
   }
 
   if (businesses.length === 0) {
@@ -152,6 +205,7 @@ export function BusinessTable({ businesses, isLoading }: BusinessTableProps) {
                   </TableHead>
                   <TableHead>Business Name</TableHead>
                   <TableHead>Category</TableHead>
+                  <TableHead>DBPG Status</TableHead>
                   <TableHead>Priority</TableHead>
                   <TableHead>Lead Score</TableHead>
                   <TableHead>Readiness</TableHead>
@@ -192,6 +246,7 @@ export function BusinessTable({ businesses, isLoading }: BusinessTableProps) {
                           <div className="flex items-center gap-2">
                             <button
                               className="font-medium text-left hover:text-purple-400 hover:underline underline-offset-2 transition-colors cursor-pointer"
+                              dir="auto"
                               onClick={() => {
                                 setAnalysisModalBusiness(business);
                                 setAnalysisModalOpen(true);
@@ -206,7 +261,30 @@ export function BusinessTable({ businesses, isLoading }: BusinessTableProps) {
                             )}
                           </div>
                         </TableCell>
-                        <TableCell className="text-sm">{business.categories?.name || 'Uncategorized'}</TableCell>
+                        <TableCell className="text-sm" dir="auto">{business.categories?.name || 'Uncategorized'}</TableCell>
+                        <TableCell>
+                          {(() => {
+                            const dbpg = extractDbpgEvidence(business);
+                            return (
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <Badge variant={dbpg.badgeVariant} className={cn("text-[10px] px-2 py-0.5 whitespace-nowrap", dbpg.badgeStyle)}>
+                                      {dbpg.statusLabel}
+                                    </Badge>
+                                  </TooltipTrigger>
+                                  <TooltipContent className="text-xs max-w-xs">
+                                    <p className="font-semibold mb-1">{dbpg.engineVersion} • {dbpg.ruleSlug}</p>
+                                    <p>{dbpg.auditTrail}</p>
+                                    {dbpg.verificationLabel && (
+                                      <p className="mt-1 text-emerald-400 font-medium">Strength: {dbpg.verificationLabel}</p>
+                                    )}
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            );
+                          })()}
+                        </TableCell>
                         <TableCell>{getTierBadge(analysis?.priority_tier)}</TableCell>
                         <TableCell>
                           {analysis?.lead_score != null ? (
@@ -298,12 +376,56 @@ export function BusinessTable({ businesses, isLoading }: BusinessTableProps) {
                             )}
 
                             {hasMessages && (
-                              <Button
-                                variant="ghost" size="sm" className="h-8 w-8 p-0"
-                                onClick={() => { setSelectedBusiness(business); setModalOpen(true); }}
-                              >
-                                <Eye className="h-4 w-4" />
-                              </Button>
+                              <>
+                                {business.generated_messages?.[0]?.whatsapp && (
+                                  <>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="h-8 px-2 text-xs gap-1 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10"
+                                      onClick={() => copyWaMessage(business.generated_messages[0].whatsapp, business.id)}
+                                      title="1-Click Copy WhatsApp Outreach"
+                                    >
+                                      {copiedWaId === business.id ? (
+                                        <Check className="h-3.5 w-3.5 text-emerald-400" />
+                                      ) : (
+                                        <Copy className="h-3.5 w-3.5" />
+                                      )}
+                                      WA
+                                    </Button>
+
+                                    {(() => {
+                                      const rawPhone = business.contacts?.find((c: any) => c.type === 'WHATSAPP' || c.type === 'PHONE')?.value;
+                                      if (!rawPhone) return null;
+                                      const cleanPhone = rawPhone.replace(/[^0-9+]/g, '');
+                                      const waPhone = cleanPhone.startsWith('+') ? cleanPhone.slice(1) : cleanPhone;
+                                      return (
+                                        <Button
+                                          variant="default"
+                                          size="sm"
+                                          className="h-8 px-2 text-xs gap-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                                          onClick={() =>
+                                            window.open(
+                                              `https://wa.me/${waPhone}?text=${encodeURIComponent(business.generated_messages[0].whatsapp)}`,
+                                              '_blank'
+                                            )
+                                          }
+                                          title="1-Click Send via WhatsApp"
+                                        >
+                                          <Send className="h-3 w-3" />
+                                        </Button>
+                                      );
+                                    })()}
+                                  </>
+                                )}
+                                <Button
+                                  variant="ghost" size="sm" className="h-8 w-8 p-0"
+                                  onClick={() => { setSelectedBusiness(business); setModalOpen(true); }}
+                                  title="View Generated Sales Assets"
+                                >
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                              </>
                             )}
                           </div>
                         </TableCell>
@@ -311,7 +433,7 @@ export function BusinessTable({ businesses, isLoading }: BusinessTableProps) {
                       
                       {isExpanded && (
                         <TableRow className="bg-muted/30 hover:bg-muted/30">
-                          <TableCell colSpan={11} className="p-4 border-b border-border">
+                          <TableCell colSpan={12} className="p-4 border-b border-border">
                             <BusinessSnapshot business={business} analysis={analysis} />
                           </TableCell>
                         </TableRow>
@@ -329,9 +451,11 @@ export function BusinessTable({ businesses, isLoading }: BusinessTableProps) {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         businessName={selectedBusiness?.name || ''}
+        businessId={selectedBusiness?.id}
         priorityTier={selectedBusiness?.website_analyses?.[0]?.priority_tier}
         nextAction={selectedBusiness?.website_analyses?.[0]?.next_action}
         salesAssets={selectedBusiness?.generated_messages?.[0] || null}
+        contacts={selectedBusiness?.contacts}
       />
 
       <AnalysisDetailsModal

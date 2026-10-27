@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Sparkles, Mail, Phone, MessageCircle, MapPin, Globe, Maximize2, ExternalLink, Star } from 'lucide-react';
+import { Sparkles, Mail, Phone, MessageCircle, MapPin, Globe, Maximize2, ExternalLink, Star, Copy, Check, Send } from 'lucide-react';
+import { toast } from 'sonner';
 import { BusinessSnapshot } from './BusinessSnapshot';
+import { extractDbpgEvidence } from '../utils/dbpg-Shared';
+import { cn } from '@/lib/utils';
 
 interface PipelineCardProps {
   business: any;
@@ -23,12 +27,26 @@ export function PipelineCard({
   isAnalyzing,
   isGenerating,
 }: PipelineCardProps) {
+  const [copiedWa, setCopiedWa] = useState(false);
   const analysis = business.website_analyses?.[0];
   const hasMessages = business.generated_messages?.length > 0;
+  const dbpg = extractDbpgEvidence(business);
+  const waMessage = business.generated_messages?.[0]?.whatsapp;
   
   // Contacts
   const phoneContact = business.contacts?.find((c: any) => c.type === 'PHONE');
   const whatsappContact = business.contacts?.find((c: any) => c.type === 'WHATSAPP');
+  const primaryPhone = whatsappContact?.value || phoneContact?.value;
+  const cleanPhone = primaryPhone ? primaryPhone.replace(/[^0-9+]/g, '') : null;
+  const waPhone = cleanPhone ? (cleanPhone.startsWith('+') ? cleanPhone.slice(1) : cleanPhone) : null;
+
+  const handleCopyWa = async () => {
+    if (!waMessage) return;
+    await navigator.clipboard.writeText(waMessage);
+    setCopiedWa(true);
+    toast.success('WhatsApp outreach copied to clipboard');
+    setTimeout(() => setCopiedWa(false), 2000);
+  };
 
   const mapsUrl = business.place_id 
     ? `https://www.google.com/maps/place/?q=place_id:${business.place_id}` 
@@ -45,24 +63,30 @@ export function PipelineCard({
 
   return (
     <Card className="flex flex-col overflow-hidden hover:shadow-md transition-shadow group">
-      <CardHeader className="p-4 pb-0 space-y-1">
+      <CardHeader className="p-4 pb-0 space-y-2">
         <div className="flex justify-between items-start gap-2">
           <button
             onClick={() => onViewAnalysis(business)}
             className="font-semibold text-lg text-left hover:text-primary transition-colors line-clamp-1"
             title={business.name}
+            dir="auto"
           >
             {business.name}
           </button>
-          {analysis?.priority_tier && (
-            <Badge variant="outline" className={`shrink-0 ${getPriorityColor(analysis.priority_tier)}`}>
-              {analysis.priority_tier}
+          <div className="flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
+            <Badge variant={dbpg.badgeVariant} className={cn("text-[9px] px-1.5 py-0", dbpg.badgeStyle)} title={dbpg.auditTrail}>
+              {dbpg.statusLabel}
             </Badge>
-          )}
+            {analysis?.priority_tier && (
+              <Badge variant="outline" className={`text-[10px] ${getPriorityColor(analysis.priority_tier)}`}>
+                {analysis.priority_tier}
+              </Badge>
+            )}
+          </div>
         </div>
         
         <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
-          <span className="font-medium text-foreground">{business.categories?.name || 'Uncategorized'}</span>
+          <span className="font-medium text-foreground" dir="auto">{business.categories?.name || 'Uncategorized'}</span>
           <span>•</span>
           <span className="flex items-center gap-1">
             <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
@@ -140,6 +164,32 @@ export function PipelineCard({
             Expand
           </Button>
         </div>
+
+        {waMessage && (
+          <div className="flex gap-1.5 w-full bg-emerald-500/5 border border-emerald-500/20 p-1.5 rounded-lg mt-1">
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 px-2 text-xs flex-1 gap-1 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10"
+              onClick={handleCopyWa}
+              title="1-Click Copy WhatsApp Outreach"
+            >
+              {copiedWa ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+              {copiedWa ? 'Copied' : 'Copy WA'}
+            </Button>
+            {waPhone && (
+              <Button
+                variant="default"
+                size="sm"
+                className="h-7 px-2.5 text-xs gap-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                onClick={() => window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(waMessage)}`, '_blank')}
+                title={`1-Click Send to ${waPhone}`}
+              >
+                <Send className="h-3 w-3" /> Send
+              </Button>
+            )}
+          </div>
+        )}
 
         <div className="flex gap-1 w-full justify-between mt-1">
           <Button variant="outline" size="sm" className="h-7 px-2 text-xs flex-1" asChild disabled={!business.website}>

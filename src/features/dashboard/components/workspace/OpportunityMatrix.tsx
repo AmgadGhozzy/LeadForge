@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import {
   AlertCircle,
@@ -15,6 +15,8 @@ import {
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { extractDbpgEvidence, type DbpgEvidence, type Level1Atoms } from '../../utils/dbpg-Shared';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -202,12 +204,12 @@ function InsightCard({ item, index }: { item: Insight; index: number }) {
               )}
             </div>
 
-            <p className="text-sm font-semibold leading-snug text-foreground">{label}</p>
+            <p className="text-sm font-semibold leading-snug text-foreground" dir="auto">{label}</p>
 
             {offer && (
               <div className="flex items-center gap-1.5 text-[12px] font-medium text-purple-400">
                 <Sparkles className="h-3 w-3 shrink-0" />
-                <span className="truncate">{offer}</span>
+                <span className="truncate" dir="auto">{offer}</span>
               </div>
             )}
           </div>
@@ -229,7 +231,7 @@ function InsightCard({ item, index }: { item: Insight; index: number }) {
         {hasFix && expanded && (
           <div className="mt-3 ml-7 flex items-start gap-2 rounded-lg bg-background/60 border border-border/60 px-3 py-2.5">
             <ArrowRight className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
-            <p className="text-xs text-muted-foreground font-mono leading-relaxed">
+            <p className="text-xs text-muted-foreground font-mono leading-relaxed" dir="auto">
               {item.technical_fix}
             </p>
           </div>
@@ -288,8 +290,93 @@ function EmptyState() {
   );
 }
 
-export function OpportunityMatrix({ insights }: { insights: Insight[] }) {
-  if (!insights || insights.length === 0) return <EmptyState />;
+function AtomicSignalsStrip({ dbpg }: { dbpg: DbpgEvidence }) {
+  const signalKeys: (keyof Level1Atoms)[] = [
+    'CONSULTATION_CTA',
+    'APPOINTMENT_CTA',
+    'WHATSAPP',
+    'DIRECT_CHECKOUT',
+    'SELF_SERVICE_PORTAL',
+  ];
+
+  return (
+    <div className="rounded-xl border bg-card/60 p-4 space-y-3">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div className="flex items-center gap-2">
+          <Badge variant={dbpg.badgeVariant} className={cn("text-xs font-semibold px-2 py-0.5", dbpg.badgeStyle)}>
+            {dbpg.statusLabel}
+          </Badge>
+          <span className="text-xs text-muted-foreground font-mono">
+            {dbpg.engineVersion} • {dbpg.ruleSlug}
+          </span>
+        </div>
+        {dbpg.verificationLabel && (
+          <Badge variant="outline" className="text-[10px] bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
+            {dbpg.verificationLabel}
+          </Badge>
+        )}
+      </div>
+
+      {/* Atomic Signals Pills */}
+      <div>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
+          Level 1 Atomic Evidence Signals
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {signalKeys.map((sig) => {
+            const state = dbpg.atoms[sig];
+            const isPresent = state === 'PRESENT';
+            const isAbsent = state === 'ABSENT';
+            return (
+              <div
+                key={sig}
+                className={cn(
+                  "flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-xs font-mono font-medium transition-colors",
+                  isPresent
+                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                    : isAbsent
+                    ? "bg-zinc-500/10 text-zinc-400 border-zinc-500/20"
+                    : "bg-muted/40 text-muted-foreground border-border"
+                )}
+              >
+                <span className={cn("h-1.5 w-1.5 rounded-full", isPresent ? "bg-emerald-400" : isAbsent ? "bg-zinc-400" : "bg-muted-foreground")} />
+                <span>{sig}</span>
+                <span className="text-[10px] opacity-75 uppercase">[{state}]</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Audit Trail */}
+      <div className="rounded-lg bg-muted/30 border border-border/50 p-2.5 text-xs text-muted-foreground leading-relaxed" dir="auto">
+        <span className="font-semibold text-foreground mr-1.5">Rule Audit:</span>
+        {dbpg.auditTrail}
+      </div>
+    </div>
+  );
+}
+
+export function OpportunityMatrix({ insights, profile }: { insights: Insight[]; profile?: any }) {
+  const dbpg = profile
+    ? extractDbpgEvidence({
+        ...profile,
+        website: profile.digitalPresence?.website,
+        website_analyses: profile.analysis ? [profile.analysis] : [],
+        business_capabilities: profile.capabilities,
+        business_technologies: profile.technologies,
+        contacts: profile.contacts,
+      })
+    : null;
+
+  if (!insights || insights.length === 0) {
+    return (
+      <div className="space-y-4">
+        {dbpg && <AtomicSignalsStrip dbpg={dbpg} />}
+        <EmptyState />
+      </div>
+    );
+  }
 
   const actionable = insights
     .filter((i) => i.type !== 'STRENGTH')
@@ -301,22 +388,29 @@ export function OpportunityMatrix({ insights }: { insights: Insight[] }) {
       );
     });
 
-  if (actionable.length === 0) return <EmptyState />;
-
   return (
-    <div className="space-y-3">
-      <SummaryStrip actionable={actionable} />
+    <div className="space-y-4">
+      {/* Atomic Signals Strip */}
+      {dbpg && <AtomicSignalsStrip dbpg={dbpg} />}
 
-      <div className="space-y-2">
-        {actionable.map((item, i) => (
-          <InsightCard key={i} item={item} index={i} />
-        ))}
-      </div>
+      {actionable.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <div className="space-y-3">
+          <SummaryStrip actionable={actionable} />
 
-      {actionable.some((i) => i.technical_fix) && (
-        <p className="text-[11px] text-muted-foreground/50 text-center pt-1 flex items-center justify-center gap-1">
-          Tap <ChevronDown className="inline h-3 w-3" /> on a card to reveal the technical fix
-        </p>
+          <div className="space-y-2">
+            {actionable.map((item, i) => (
+              <InsightCard key={i} item={item} index={i} />
+            ))}
+          </div>
+
+          {actionable.some((i) => i.technical_fix) && (
+            <p className="text-[11px] text-muted-foreground/50 text-center pt-1 flex items-center justify-center gap-1">
+              Tap <ChevronDown className="inline h-3 w-3" /> on a card to reveal the technical fix
+            </p>
+          )}
+        </div>
       )}
     </div>
   );

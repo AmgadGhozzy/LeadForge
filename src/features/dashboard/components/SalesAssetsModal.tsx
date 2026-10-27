@@ -4,32 +4,52 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Copy, Check, Mail, MessageCircle, Phone, RotateCw, AlertTriangle, Sparkles } from 'lucide-react';
+import { Copy, Check, Mail, MessageCircle, Phone, RotateCw, AlertTriangle, Sparkles, ExternalLink } from 'lucide-react';
 import type { GeneratedMessage, FollowUpStep } from '@/types/database';
+import { useGenerateSales } from '../hooks/use-generate-sales';
 
 interface SalesAssetsModalProps {
   open: boolean;
   onClose: () => void;
   businessName: string;
+  businessId?: string;
   priorityTier?: string | null;
   nextAction?: string | null;
   salesAssets: GeneratedMessage | null;
+  contacts?: any[];
 }
 
 export function SalesAssetsModal({
   open,
   onClose,
   businessName,
+  businessId,
   priorityTier,
   nextAction,
   salesAssets,
+  contacts,
 }: SalesAssetsModalProps) {
   const [copiedTab, setCopiedTab] = useState<string | null>(null);
+  const salesMutation = useGenerateSales();
+  const [currentLanguage, setCurrentLanguage] = useState<'ar' | 'en'>(
+    salesAssets?.language?.toLowerCase() === 'en' ? 'en' : 'ar'
+  );
+
+  const phoneContact = contacts?.find((c: any) => c.type === 'WHATSAPP' || c.type === 'PHONE')?.value;
+  const cleanPhone = phoneContact ? phoneContact.replace(/[^0-9+]/g, '') : null;
+  const waPhone = cleanPhone ? (cleanPhone.startsWith('+') ? cleanPhone.slice(1) : cleanPhone) : null;
 
   const copyToClipboard = async (text: string, tab: string) => {
     await navigator.clipboard.writeText(text);
     setCopiedTab(tab);
     setTimeout(() => setCopiedTab(null), 2000);
+  };
+
+  const handleLanguageToggle = (lang: 'ar' | 'en') => {
+    setCurrentLanguage(lang);
+    if (businessId) {
+      salesMutation.mutate({ businessId, language: lang });
+    }
   };
 
   const getTierStyle = (tier: string | null | undefined) => {
@@ -91,25 +111,50 @@ export function SalesAssetsModal({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <div className="flex items-center gap-3 flex-wrap">
-            <DialogTitle className="text-xl">{businessName}</DialogTitle>
-            {priorityTier && (
-              <Badge variant="outline" className={getTierStyle(priorityTier)}>
-                {priorityTier === 'IMMEDIATE' && '🔥'}{priorityTier === 'HIGH' && '⭐'}
-                {priorityTier === 'MEDIUM' && '🟡'}{priorityTier === 'LOW' && '⚪'}
-                {' '}{priorityTier}
-              </Badge>
-            )}
-            {nextAction && nextAction !== 'IGNORE' && (
-              <Badge variant="secondary" className="gap-1">
-                {getActionIcon(nextAction)} {nextAction}
-              </Badge>
-            )}
-            {salesAssets?.language && (
-              <Badge variant="outline" className="text-xs uppercase">
-                {salesAssets.language}
-              </Badge>
-            )}
+          <div className="flex items-center justify-between gap-3 flex-wrap border-b pb-3">
+            <div className="flex items-center gap-2 flex-wrap">
+              <DialogTitle className="text-xl" dir="auto">{businessName}</DialogTitle>
+              {priorityTier && (
+                <Badge variant="outline" className={getTierStyle(priorityTier)}>
+                  {priorityTier === 'IMMEDIATE' && '🔥'}{priorityTier === 'HIGH' && '⭐'}
+                  {priorityTier === 'MEDIUM' && '🟡'}{priorityTier === 'LOW' && '⚪'}
+                  {' '}{priorityTier}
+                </Badge>
+              )}
+              {nextAction && nextAction !== 'IGNORE' && (
+                <Badge variant="secondary" className="gap-1">
+                  {getActionIcon(nextAction)} {nextAction}
+                </Badge>
+              )}
+            </div>
+
+            {/* Language Switcher */}
+            <div className="flex items-center gap-1 bg-muted/60 p-1 rounded-lg border">
+              <Button
+                variant={currentLanguage === 'ar' ? 'secondary' : 'ghost'}
+                size="sm"
+                className="h-7 text-xs px-2.5 font-medium"
+                disabled={salesMutation.isPending}
+                onClick={() => handleLanguageToggle('ar')}
+              >
+                {salesMutation.isPending && currentLanguage === 'ar' ? (
+                  <Sparkles className="h-3 w-3 animate-spin mr-1 text-emerald-400" />
+                ) : null}
+                العربية (AR)
+              </Button>
+              <Button
+                variant={currentLanguage === 'en' ? 'secondary' : 'ghost'}
+                size="sm"
+                className="h-7 text-xs px-2.5 font-medium"
+                disabled={salesMutation.isPending}
+                onClick={() => handleLanguageToggle('en')}
+              >
+                {salesMutation.isPending && currentLanguage === 'en' ? (
+                  <Sparkles className="h-3 w-3 animate-spin mr-1 text-emerald-400" />
+                ) : null}
+                English (EN)
+              </Button>
+            </div>
           </div>
         </DialogHeader>
 
@@ -117,7 +162,19 @@ export function SalesAssetsModal({
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <Sparkles className="h-10 w-10 text-purple-400/60 mb-4" />
             <p className="text-muted-foreground">No sales assets generated yet.</p>
-            <p className="text-sm text-muted-foreground mt-1">Click "Generate Sales" to create personalized outreach.</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              Click "Generate Sales" or choose a language above to create outreach.
+            </p>
+            {businessId && (
+              <Button
+                className="mt-4 gap-2 bg-purple-600 hover:bg-purple-700 text-white"
+                onClick={() => handleLanguageToggle(currentLanguage)}
+                disabled={salesMutation.isPending}
+              >
+                <Sparkles className="h-4 w-4" />
+                Generate Assets in {currentLanguage === 'ar' ? 'Arabic' : 'English'}
+              </Button>
+            )}
           </div>
         ) : (
           <div className="space-y-4 mt-2">
@@ -130,7 +187,7 @@ export function SalesAssetsModal({
                       <Sparkles className="h-4 w-4 text-purple-400 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-xs font-medium text-purple-400 mb-1">Why this offer?</p>
-                        <p className="text-sm">{salesAssets.selection_reason}</p>
+                        <p className="text-sm" dir="auto">{salesAssets.selection_reason}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -143,7 +200,7 @@ export function SalesAssetsModal({
                       <AlertTriangle className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-xs font-medium text-amber-400 mb-1">Why NOW?</p>
-                        <p className="text-sm">{salesAssets.proposal}</p>
+                        <p className="text-sm" dir="auto">{salesAssets.proposal}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -151,14 +208,14 @@ export function SalesAssetsModal({
               )}
             </div>
 
-            {/* Tabbed Content */}
-            <Tabs defaultValue="email" className="w-full">
+            {/* Tabbed Content - Default to WhatsApp */}
+            <Tabs defaultValue="whatsapp" className="w-full">
               <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="email" className="gap-1.5 text-xs">
-                  <Mail className="h-3.5 w-3.5" /> Email
-                </TabsTrigger>
                 <TabsTrigger value="whatsapp" className="gap-1.5 text-xs">
                   <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
+                </TabsTrigger>
+                <TabsTrigger value="email" className="gap-1.5 text-xs">
+                  <Mail className="h-3.5 w-3.5" /> Email
                 </TabsTrigger>
                 <TabsTrigger value="call" className="gap-1.5 text-xs">
                   <Phone className="h-3.5 w-3.5" /> Call
@@ -168,23 +225,46 @@ export function SalesAssetsModal({
                 </TabsTrigger>
               </TabsList>
 
-              {/* Email Tab */}
-              <TabsContent value="email" className="space-y-3 mt-3">
-                <div className="flex justify-end">
-                  <CopyButton text={salesAssets.email || ''} tab="email" />
+              {/* WhatsApp Tab */}
+              <TabsContent value="whatsapp" className="space-y-3 mt-3">
+                <div className="flex justify-end gap-2">
+                  <CopyButton text={salesAssets.whatsapp || ''} tab="whatsapp" />
+                  {salesAssets.whatsapp && (
+                    <Button
+                      variant="default"
+                      size="sm"
+                      className="gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white"
+                      onClick={() => {
+                        const targetUrl = waPhone
+                          ? `https://wa.me/${waPhone}?text=${encodeURIComponent(salesAssets.whatsapp || '')}`
+                          : `https://wa.me/?text=${encodeURIComponent(salesAssets.whatsapp || '')}`;
+                        window.open(targetUrl, '_blank');
+                      }}
+                      title={waPhone ? `Send to ${waPhone}` : 'Open in WhatsApp'}
+                    >
+                      <MessageCircle className="h-3.5 w-3.5" />
+                      Open in WhatsApp
+                    </Button>
+                  )}
                 </div>
-                <div className="rounded-lg border bg-card p-4 text-sm whitespace-pre-wrap leading-relaxed">
-                  {salesAssets.email || 'No email generated.'}
+                <div
+                  className="rounded-lg border bg-card p-4 text-sm whitespace-pre-wrap leading-relaxed shadow-sm font-sans"
+                  dir="auto"
+                >
+                  {salesAssets.whatsapp || 'No WhatsApp message generated.'}
                 </div>
               </TabsContent>
 
-              {/* WhatsApp Tab */}
-              <TabsContent value="whatsapp" className="space-y-3 mt-3">
-                <div className="flex justify-end">
-                  <CopyButton text={salesAssets.whatsapp || ''} tab="whatsapp" />
+              {/* Email Tab */}
+              <TabsContent value="email" className="space-y-3 mt-3">
+                <div className="flex justify-end gap-2">
+                  <CopyButton text={salesAssets.email || ''} tab="email" />
                 </div>
-                <div className="rounded-lg border bg-card p-4 text-sm whitespace-pre-wrap leading-relaxed">
-                  {salesAssets.whatsapp || 'No WhatsApp message generated.'}
+                <div
+                  className="rounded-lg border bg-card p-4 text-sm whitespace-pre-wrap leading-relaxed shadow-sm font-sans"
+                  dir="auto"
+                >
+                  {salesAssets.email || 'No email generated.'}
                 </div>
               </TabsContent>
 
@@ -199,15 +279,15 @@ export function SalesAssetsModal({
                 <div className="space-y-3">
                   <div className="rounded-lg border bg-card p-4">
                     <p className="text-xs font-semibold text-emerald-400 mb-2">🎯 Hook (10 seconds)</p>
-                    <p className="text-sm">{coldCallScript.hook}</p>
+                    <p className="text-sm" dir="auto">{coldCallScript.hook}</p>
                   </div>
                   <div className="rounded-lg border bg-card p-4">
                     <p className="text-xs font-semibold text-blue-400 mb-2">💡 Pitch (30 seconds)</p>
-                    <p className="text-sm">{coldCallScript.pitch}</p>
+                    <p className="text-sm" dir="auto">{coldCallScript.pitch}</p>
                   </div>
                   <div className="rounded-lg border bg-card p-4">
                     <p className="text-xs font-semibold text-amber-400 mb-2">🛡️ Objection Handling</p>
-                    <p className="text-sm whitespace-pre-wrap">{coldCallScript.objection_handling}</p>
+                    <p className="text-sm whitespace-pre-wrap" dir="auto">{coldCallScript.objection_handling}</p>
                   </div>
                 </div>
               </TabsContent>
@@ -236,9 +316,24 @@ export function SalesAssetsModal({
                               {step.goal}
                             </Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground">{step.message}</p>
-                          <div className="flex justify-end mt-2">
+                          <p className="text-sm text-muted-foreground" dir="auto">{step.message}</p>
+                          <div className="flex justify-end gap-2 mt-2">
                             <CopyButton text={step.message} tab={`followup-${idx}`} />
+                            {step.channel === 'whatsapp' && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-8 px-2 text-xs gap-1 border-emerald-500/30 text-emerald-400"
+                                onClick={() => {
+                                  const targetUrl = waPhone
+                                    ? `https://wa.me/${waPhone}?text=${encodeURIComponent(step.message)}`
+                                    : `https://wa.me/?text=${encodeURIComponent(step.message)}`;
+                                  window.open(targetUrl, '_blank');
+                                }}
+                              >
+                                <MessageCircle className="h-3 w-3" /> WA
+                              </Button>
+                            )}
                           </div>
                         </div>
                       </div>

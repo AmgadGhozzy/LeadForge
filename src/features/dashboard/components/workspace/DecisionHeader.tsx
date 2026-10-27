@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Phone, MessageCircle, MapPin, Globe, ArrowLeft, Star, ExternalLink, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { extractDbpgEvidence, hasArabicCharacters } from '../../utils/dbpg-Shared';
 
 interface DecisionHeaderProps {
   projectId: string;
@@ -15,9 +16,17 @@ interface DecisionHeaderProps {
 
 export function DecisionHeader({ projectId, profile, onAnalyze, onGenerateSales, isAnalyzing, isGenerating }: DecisionHeaderProps) {
   const { identity, reputation, scores, analysis, contacts } = profile;
+  const dbpg = extractDbpgEvidence({
+    ...profile,
+    website: profile.digitalPresence?.website,
+    website_analyses: profile.analysis ? [profile.analysis] : [],
+    business_capabilities: profile.capabilities,
+    business_technologies: profile.technologies,
+    contacts: profile.contacts,
+  });
 
-  const phone = contacts.find((c: any) => c.type === 'PHONE');
-  const whatsapp = contacts.find((c: any) => c.type === 'WHATSAPP');
+  const phone = contacts?.find((c: any) => c.type === 'PHONE');
+  const whatsapp = contacts?.find((c: any) => c.type === 'WHATSAPP');
 
   const getPriorityStyle = (priority: string) => {
     switch (priority) {
@@ -27,6 +36,8 @@ export function DecisionHeader({ projectId, profile, onAnalyze, onGenerateSales,
       default: return 'text-muted-foreground bg-muted border-border';
     }
   };
+
+  const isArabic = hasArabicCharacters(identity.name);
 
   const topOffer = analysis?.recommended_offer;
 
@@ -44,8 +55,10 @@ export function DecisionHeader({ projectId, profile, onAnalyze, onGenerateSales,
             </Link>
           </Button>
           <div>
-            <div className="flex items-center gap-3 mb-1">
-              <h1 className="text-3xl font-bold tracking-tight uppercase">{identity.name}</h1>
+            <div className="flex items-center gap-3 mb-1 flex-wrap">
+              <h1 className={cn("text-3xl font-bold tracking-tight", !isArabic && "uppercase")} dir="auto">
+                {identity.name}
+              </h1>
               {scores.priority !== 'UNRATED' && (
                 <Badge variant="outline" className={cn("uppercase text-[10px] tracking-wider font-bold", getPriorityStyle(scores.priority))}>
                   {scores.priority}
@@ -53,10 +66,10 @@ export function DecisionHeader({ projectId, profile, onAnalyze, onGenerateSales,
               )}
             </div>
             
-            <div className="flex items-center gap-2 text-sm text-muted-foreground uppercase tracking-wide font-medium">
-              <span>{identity.category || 'Uncategorized'}</span>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground tracking-wide font-medium flex-wrap">
+              <span dir="auto">{identity.category || 'Uncategorized'}</span>
               <span>•</span>
-              <span className="truncate max-w-[200px]" title={identity.address}>{identity.address || 'Unknown Location'}</span>
+              <span className="truncate max-w-[200px]" title={identity.address} dir="auto">{identity.address || 'Unknown Location'}</span>
               <span>•</span>
               <span className="flex items-center gap-1">
                 <Star className="h-3.5 w-3.5 text-amber-400 fill-amber-400" />
@@ -66,10 +79,27 @@ export function DecisionHeader({ projectId, profile, onAnalyze, onGenerateSales,
           </div>
         </div>
 
-        <div className="flex flex-col items-end gap-2 shrink-0">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col items-end gap-3 shrink-0">
+          <div className="flex items-center gap-3 flex-wrap justify-end">
+            {/* DBPG v2.1 Evidence Badges */}
+            <div className="flex flex-col items-end mr-1 text-right">
+              <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                <Badge variant={dbpg.badgeVariant} className={cn("text-xs px-2.5 py-0.5", dbpg.badgeStyle)} title={dbpg.auditTrail}>
+                  {dbpg.statusLabel}
+                </Badge>
+                {dbpg.verificationLabel && (
+                  <Badge variant="outline" className="text-[10px] border-emerald-500/30 text-emerald-400 bg-emerald-500/5">
+                    {dbpg.verificationLabel}
+                  </Badge>
+                )}
+              </div>
+              <span className="text-[10px] text-muted-foreground font-mono mt-0.5">
+                {dbpg.engineVersion} • {dbpg.ruleSlug}
+              </span>
+            </div>
+
             {analysis && (
-              <div className="text-right mr-2">
+              <div className="text-right border-l pl-3 border-border/60">
                 <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Lead Score</p>
                 <p className="text-3xl font-black text-primary leading-none">{scores.leadScore}</p>
               </div>

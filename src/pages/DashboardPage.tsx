@@ -71,6 +71,46 @@ export function DashboardPage() {
     return { callNow, sendAudit, followUp, blocked, websiteOpportunity, automationOpportunity };
   }, [businesses]);
 
+  if (isLoading) {
+    return (
+      <div className="space-y-8 animate-fade-in max-w-5xl mx-auto pb-10">
+        <div>
+          <div className="h-9 w-60 bg-muted/60 rounded animate-pulse" />
+          <div className="h-4 w-80 bg-muted/40 rounded mt-2 animate-pulse" />
+        </div>
+
+        <div className="space-y-4">
+          <div className="h-6 w-36 bg-muted/50 rounded animate-pulse" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i} className="p-4 flex flex-col items-center justify-center text-center gap-2 animate-pulse">
+                <div className="h-5 w-5 bg-muted/50 rounded-full" />
+                <div className="h-8 w-12 bg-muted/60 rounded mt-1" />
+                <div className="h-3 w-16 bg-muted/40 rounded mt-1" />
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-4 pt-6">
+          <div className="h-6 w-44 bg-muted/50 rounded animate-pulse" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[1, 2].map((i) => (
+              <Card key={i} className="p-6 flex items-start gap-4 animate-pulse">
+                <div className="h-10 w-10 rounded-lg bg-muted/50 shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-5 w-48 bg-muted/60 rounded" />
+                  <div className="h-4 w-full bg-muted/40 rounded" />
+                  <div className="h-8 w-full bg-muted/30 rounded mt-2" />
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 animate-fade-in max-w-5xl mx-auto pb-10">
       <div>

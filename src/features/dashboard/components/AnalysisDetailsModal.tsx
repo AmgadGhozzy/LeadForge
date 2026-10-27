@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { BusinessSnapshot } from './BusinessSnapshot';
+import { extractDbpgEvidence, type Level1Atoms } from '../utils/dbpg-Shared';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 
@@ -80,7 +81,7 @@ function EvidenceCard({ item, type }: { item: any; type: 'strength' | 'weakness'
       <div className="flex items-start gap-2">
         <div className="mt-0.5">{getIcon()}</div>
         <div className="flex-1">
-          <p className="text-sm font-medium text-foreground">{primaryText}</p>
+          <p className="text-sm font-medium text-foreground" dir="auto">{primaryText}</p>
           <div className="flex items-center gap-2 mt-1.5 flex-wrap">
             {item.severity && (
               <Badge variant="outline" className={cn("text-[10px] h-5 px-1.5", getSeverityStyle(item.severity))}>
@@ -252,24 +253,75 @@ export function AnalysisDetailsModal({ open, onClose, business }: AnalysisDetail
 
   const hasAnalysis = !!analysis;
 
+  const dbpg = extractDbpgEvidence(business);
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <div className="flex items-center gap-3 flex-wrap">
-            <DialogTitle className="text-xl">{business.name}</DialogTitle>
-            {business.website && (
-              <a
-                href={business.website}
-                target="_blank"
-                rel="noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <ExternalLink className="h-4 w-4" />
-              </a>
-            )}
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-center gap-2">
+              <DialogTitle className="text-xl" dir="auto">{business.name}</DialogTitle>
+              {business.website && (
+                <a
+                  href={business.website}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              )}
+            </div>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <Badge variant={dbpg.badgeVariant} className={cn("text-xs px-2.5 py-0.5", dbpg.badgeStyle)} title={dbpg.auditTrail}>
+                {dbpg.statusLabel}
+              </Badge>
+              {dbpg.verificationLabel && (
+                <Badge variant="outline" className="text-[10px] text-emerald-400 border-emerald-500/30 bg-emerald-500/5">
+                  {dbpg.verificationLabel}
+                </Badge>
+              )}
+            </div>
           </div>
         </DialogHeader>
+
+        {/* DBPG v2.1 Atomic Evidence & Rule Audit Card */}
+        <div className="rounded-xl border bg-card/60 p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-mono text-muted-foreground">{dbpg.engineVersion} • {dbpg.ruleSlug}</span>
+            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider">Level 1 Atomic Observations</span>
+          </div>
+
+          <div className="flex flex-wrap gap-1.5">
+            {(['CONSULTATION_CTA', 'APPOINTMENT_CTA', 'WHATSAPP', 'DIRECT_CHECKOUT', 'SELF_SERVICE_PORTAL'] as (keyof Level1Atoms)[]).map((sig) => {
+              const state = dbpg.atoms[sig];
+              const isPresent = state === 'PRESENT';
+              const isAbsent = state === 'ABSENT';
+              return (
+                <div
+                  key={sig}
+                  className={cn(
+                    "flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-mono",
+                    isPresent
+                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-medium"
+                      : isAbsent
+                      ? "bg-muted/40 text-muted-foreground border border-border"
+                      : "bg-zinc-500/10 text-zinc-400 border border-zinc-500/20"
+                  )}
+                >
+                  <span className={cn("h-1.5 w-1.5 rounded-full", isPresent ? "bg-emerald-400" : isAbsent ? "bg-muted-foreground" : "bg-zinc-400")} />
+                  {sig}: <span className="uppercase font-bold">{state}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="rounded bg-muted/30 p-2.5 text-xs text-muted-foreground leading-relaxed border border-border/40" dir="auto">
+            <span className="font-semibold text-foreground mr-1">Rule Audit Trail:</span>
+            {dbpg.auditTrail}
+          </div>
+        </div>
 
         <BusinessSnapshot business={business} analysis={analysis} />
 

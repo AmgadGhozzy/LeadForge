@@ -10,6 +10,7 @@ import { useAnalyzeBusiness } from '@/features/dashboard/hooks/use-analyze-busin
 import { useGenerateSales } from '@/features/dashboard/hooks/use-generate-sales';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Globe, MapPin, Phone, Mail, MessageCircle, ExternalLink, Sparkles, AlertTriangle, ArrowRight } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -20,11 +21,34 @@ export function LeadWorkspacePage() {
   const salesMutation = useGenerateSales();
 
   if (isLoading) {
-    return <div className="text-center py-20 text-muted-foreground animate-pulse">Loading execution workspace...</div>;
+    return (
+      <div className="flex flex-col h-full bg-background/50 p-6 max-w-6xl mx-auto space-y-8 animate-pulse w-full">
+        <div className="h-28 bg-card rounded-xl border p-6 space-y-3">
+          <div className="h-6 w-48 bg-muted rounded" />
+          <div className="h-4 w-72 bg-muted rounded" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="h-32 bg-card rounded-xl border p-4 bg-muted/20" />
+          <div className="h-32 bg-card rounded-xl border p-4 bg-muted/20" />
+          <div className="h-32 bg-card rounded-xl border p-4 bg-muted/20" />
+        </div>
+        <div className="h-44 bg-card rounded-xl border p-6 space-y-3 bg-muted/20">
+          <div className="h-5 w-36 bg-muted rounded" />
+          <div className="h-4 w-full bg-muted rounded" />
+          <div className="h-4 w-3/4 bg-muted rounded" />
+        </div>
+      </div>
+    );
   }
 
   if (error || !profile) {
-    return <div className="text-center py-20 text-destructive">Failed to load business profile.</div>;
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
+        <AlertTriangle className="h-10 w-10 text-destructive mb-2" />
+        <p className="text-destructive font-medium">Failed to load business profile.</p>
+        <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+      </div>
+    );
   }
 
   const { identity, reputation, digitalPresence, contacts, technologies, analysis, insights, scores } = profile;
@@ -128,18 +152,18 @@ export function LeadWorkspacePage() {
                       <Sparkles className="h-4 w-4" /> Top AI Insight
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold">{topInsight.insight || topInsight.finding}</h3>
-                      <p className="text-muted-foreground mt-2 text-sm">{analysis.summary}</p>
+                      <h3 className="text-xl font-bold" dir="auto">{topInsight.insight || topInsight.finding}</h3>
+                      <p className="text-muted-foreground mt-2 text-sm" dir="auto">{analysis.summary}</p>
                     </div>
                   </div>
                   <div className="w-full md:w-64 shrink-0 flex flex-col gap-3">
                     <div className="bg-background/80 rounded-lg p-3 border">
                       <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Suggested Offer</span>
-                      <p className="font-semibold text-purple-400 mt-1 truncate">{analysis.recommended_offer || 'Unknown'}</p>
+                      <p className="font-semibold text-purple-400 mt-1 truncate" dir="auto">{analysis.recommended_offer || 'Unknown'}</p>
                     </div>
                     <div className="bg-background/80 rounded-lg p-3 border">
                       <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Sales Hook</span>
-                      <p className="font-medium text-sm mt-1 line-clamp-3">{analysis.sales_angle}</p>
+                      <p className="font-medium text-sm mt-1 line-clamp-3" dir="auto">{analysis.sales_angle}</p>
                     </div>
                   </div>
                 </div>
@@ -151,7 +175,7 @@ export function LeadWorkspacePage() {
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-4">
               <h2 className="text-lg font-semibold tracking-tight">Opportunity Matrix</h2>
-              <OpportunityMatrix insights={insights} />
+              <OpportunityMatrix insights={insights} profile={profile} />
             </div>
             <div className="space-y-4">
               <h2 className="text-lg font-semibold tracking-tight">Timeline</h2>

@@ -8,6 +8,7 @@ import { ExportButton } from './ExportButton';
 import { useAnalyzeBusiness } from '../hooks/use-analyze-business';
 import { useGenerateSales } from '../hooks/use-generate-sales';
 import { useNavigate } from 'react-router-dom';
+import { extractDbpgEvidence } from '../utils/dbpg-Shared';
 
 interface PipelineViewProps {
   businesses: any[];
@@ -25,6 +26,7 @@ export function PipelineView({ businesses, isLoading }: PipelineViewProps) {
   const tabGroups = useMemo(() => {
     const groups: Record<string, any[]> = {
       OVERVIEW: [...businesses],
+      BOOKING_GAP: [],
       NOT_ANALYZED: [],
       READY_FOR_ANALYSIS: [],
       ANALYZED: [],
@@ -37,6 +39,11 @@ export function PipelineView({ businesses, isLoading }: PipelineViewProps) {
     };
 
     for (const business of businesses) {
+      const dbpg = extractDbpgEvidence(business);
+      if (dbpg.status === 'OPPORTUNITY_DETECTED') {
+        groups['BOOKING_GAP'].push(business);
+      }
+
       if (business.status === 'NEW' || business.status === 'NOT_ANALYZED') {
         groups['NOT_ANALYZED'].push(business);
       }
@@ -89,7 +96,24 @@ export function PipelineView({ businesses, isLoading }: PipelineViewProps) {
   };
 
   if (isLoading) {
-    return <div className="text-center py-10 text-muted-foreground">Loading pipeline...</div>;
+    return (
+      <div className="space-y-4 w-full">
+        <div className="h-10 w-full bg-muted/40 rounded-lg animate-pulse" />
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Card key={i} className="animate-pulse p-4 space-y-4 border-border/50">
+              <div className="flex justify-between items-center">
+                <div className="h-5 w-36 bg-muted rounded" />
+                <div className="h-5 w-20 bg-muted rounded-full" />
+              </div>
+              <div className="h-4 w-24 bg-muted rounded" />
+              <div className="h-12 w-full bg-muted/40 rounded" />
+              <div className="h-8 w-full bg-muted rounded mt-2" />
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (businesses.length === 0) {
@@ -104,6 +128,7 @@ export function PipelineView({ businesses, isLoading }: PipelineViewProps) {
 
   const tabs = [
     { value: 'OVERVIEW', label: 'Overview' },
+    { value: 'BOOKING_GAP', label: 'Booking Gap (DBPG)', color: 'text-emerald-400 font-semibold' },
     { value: 'NOT_ANALYZED', label: 'Not Analyzed' },
     { value: 'READY_FOR_ANALYSIS', label: 'Ready' },
     { value: 'ANALYZED', label: 'Analyzed' },
@@ -135,7 +160,7 @@ export function PipelineView({ businesses, isLoading }: PipelineViewProps) {
         </div>
 
         {tabs.map((tab) => (
-          <TabsContent key={tab.value} value={tab.value} className="mt-4 outline-none">
+          <TabsContent key={tab.value} value={tab.value} className="mt-4">
             {tabGroups[tab.value]?.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-16 text-muted-foreground">
@@ -167,9 +192,11 @@ export function PipelineView({ businesses, isLoading }: PipelineViewProps) {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         businessName={selectedBusiness?.name || ''}
+        businessId={selectedBusiness?.id}
         priorityTier={selectedBusiness?.website_analyses?.[0]?.priority_tier}
         nextAction={selectedBusiness?.website_analyses?.[0]?.next_action}
         salesAssets={selectedBusiness?.generated_messages?.[0] || null}
+        contacts={selectedBusiness?.contacts}
       />
     </div>
   );

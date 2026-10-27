@@ -18,6 +18,7 @@ import {
   ListTodo,
   TrendingUp,
   MessageSquare,
+  Target,
 } from 'lucide-react';
 
 export function Sidebar() {
@@ -36,6 +37,7 @@ export function Sidebar() {
   ];
 
   const savedViews = [
+    { to: 'pipeline?view=booking_gap', icon: Target, label: 'Booking Gap (DBPG)' },
     { to: 'pipeline?view=today', icon: Phone, label: "Today's Calls" },
     { to: 'pipeline?view=immediate', icon: AlertCircle, label: 'Immediate' },
     { to: 'pipeline?view=needs_analysis', icon: ListTodo, label: 'Needs Analysis' },

@@ -38,7 +38,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', 'IBM Plex Sans Arabic', 'Cairo', system-ui, -apple-system, sans-serif;
 
   --animate-fade-in: fade-in 0.3s ease-out;
   --animate-slide-up: slide-up 0.3s ease-out;
@@ -113,10 +113,23 @@
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', 'IBM Plex Sans Arabic', 'Cairo', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ─── BiDi / Arabic Typography Support ──────────────────────── */
+[dir="auto"] {
+  text-align: start;
+  unicode-bidi: plaintext;
+}
+
+[dir="rtl"], .rtl {
+  direction: rtl;
+  text-align: right;
+  font-family: 'IBM Plex Sans Arabic', 'Cairo', 'Inter', system-ui, sans-serif;
+}
+
 
 /* ─── Custom Scrollbars ──────────────────────── */
 ::-webkit-scrollbar {
